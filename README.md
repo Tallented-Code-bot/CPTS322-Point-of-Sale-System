@@ -42,3 +42,9 @@ cargo run # the application should now work.
 ```
 
 Now open <http://127.0.0.1:8000> in your browser to view the app.
+
+
+### Report
+To view the report, install the [tectonic
+compiler](https://tectonic-typesetting.github.io/book/latest/installation/),
+then run `tectonic -X build` in the `report` directory.
