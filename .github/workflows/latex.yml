@@ -1,0 +1,57 @@
+name: LaTeX Document CI
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "report/**"
+      - ".github/workflows/latex.yml"
+  pull_request:
+    branches: [main]
+    paths:
+      - "report/**"
+      - ".github/workflows/latex.yml"
+
+jobs:
+  build-latex:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./report
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Tectonic
+        uses: wtfjoke/setup-tectonic@v3
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build PDF with Tectonic
+        run: tectonic -X build --keep-logs
+
+      - name: Check if PDF was generated
+        run: |
+          if [ -f "build/default/default.pdf" ]; then
+            echo "PDF built successfully"
+            ls -lh build/default/default.pdf
+          else
+            echo "PDF not found in expected location"
+            find build -name "*.pdf" || echo "No PDF files found"
+            exit 1
+          fi
+
+      - name: Upload PDF artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: latex-document
+          path: report/build/default/default.pdf
+          retention-days: 30
+
+      - name: Upload build logs (on failure)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-logs
+          path: report/build/**/*.log
+          retention-days: 7
