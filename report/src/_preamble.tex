@@ -1,17 +1,25 @@
-\documentclass{article}
+\documentclass[11pt]{article}
 \usepackage{graphicx}
 \usepackage{soul}
-\usepackage{hyperref}
+\usepackage[hidelinks]{hyperref}
 \usepackage{longtable}
 \usepackage{array}
 \usepackage{booktabs}
+\usepackage{helvet}
+\usepackage[margin=1in]{geometry}
 
-\title{The Project Title}
+\usepackage{tocloft}
+\setlength{\cftbeforesecskip}{0pt}
+\setlength{\cftbeforesubsecskip}{0pt}
+\setlength{\cftbeforetoctitleskip}{0pt}
+\setlength{\cftaftertoctitleskip}{5pt}
+
+\title{Cascade Secure POS}
 \author{Calvin Tallent \and Owen Moore \and Giovanni Munoz}
 \date{Spring 2026}
 
 % \setlength{\parindent}{0pt}
-\setlength{\parskip}{1em}
+\setlength{\parskip}{0em}
 
 
 
@@ -21,3 +29,6 @@
 
 \maketitle
 \newpage
+
+\input{index.tex}
+\input{_postamble.tex}
