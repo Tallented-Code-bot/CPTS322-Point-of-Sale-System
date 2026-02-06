@@ -1,0 +1,17 @@
+# act configuration file for running GitHub Actions locally
+# See: https://github.com/nektos/act
+
+# Use a more complete Ubuntu image that includes common build tools
+-P ubuntu-latest=catthehacker/ubuntu:act-latest
+
+# Load secrets from .secrets file (create this file with your GITHUB_TOKEN)
+--secret-file .secrets
+
+# Store artifacts in a local directory
+--artifact-server-path ./build/act-artifacts/
+
+# Use the GitHub API URL (helps with some actions)
+--env GITHUB_API_URL=https://api.github.com
+
+# Set a default branch name
+--defaultbranch main
