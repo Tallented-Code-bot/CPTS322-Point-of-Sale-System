@@ -16,7 +16,7 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  build-and-test:
+  build-and-test-backend:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -68,3 +68,20 @@ jobs:
 
       - name: Build release
         run: cargo build --release
+
+      - name: Upload release binary
+        uses: actions/upload-artifact@v4
+        with:
+          name: backend-binary
+          path: backend/target/release/backend
+          retention-days: 30
+
+      - name: Upload build logs (on failure)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: backend-build-logs
+          path: |
+            backend/target/**/*.log
+            backend/target/**/output
+          retention-days: 7
