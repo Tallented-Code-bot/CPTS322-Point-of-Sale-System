@@ -181,27 +181,175 @@ He has experience in a variety of programming languages, including Python, Java,
 
 Include the following:
 
-\subsection{Project Stakeholders}
-
-List your stakeholders, summarize their needs.
 
 \subsection{Use Cases}
 
 The major use cases of this software is to facilitate retail transactions at the
-point of sale. With integration with store databases and cash registers, the product
-should be a near drop-in replacement for any existing point of sale system.
+point of sale. This requires secure interation with a backend database, requires
+of the frontend to support multiple input methods such as touch, pointer, and keyboard.
+Since the end goal of this project is to be a near drop-in replacement for any 
+existing point of sale system, we intend on using standard communication protocals
+between every component of the system. We also intend on implementing a form
+of administration privilages, that can be accessed by passcode on any
+frontend machine.
 
-\input{test.tex}
+%\input{test.uml}
+\begin{center}
+  \includegraphics[width=150mm]{User Diag.png}\par
 
+
+  \textbf{User Login}\\
+  \begin{tabular}{| c | c |} \hline
+    Pre-condition & Backend/frontend online and connected \\ \hline
+    Post-condition & User is logged in, given appropriate permissions,\\ & and is able to create a transaction \\ \hline
+    Basic Path & User types in username, password, presses enter/sign-in button \\ \hline
+    Alternate Path &  \\ \hline
+    Related Requirements & Management user mode, Add items to "checkout \\ \hline
+  \end{tabular}
+
+  \vspace{2em}
+
+  \textbf{Management user mode}\\
+  \begin{tabular}{| c | c |}  \hline
+    Pre-condition & User enters the username and password associated with\\
+     & an account with elevated permissions \\ \hline
+    Post-condition & Logged in user is able to acces options associated with\\
+     & managers such as the ability to create a void cash transaction \\ \hline
+    Basic Path & User enters username and password of elevated account in previous step \\ \hline
+    Alternate Path & \\ \hline
+    Related Requirements & \\ \hline
+  \end{tabular}
+
+  \newpage
+  \vspace{2em}
+
+  \textbf{Add items to checkout}\\
+  \begin{tabular}{| c | c |} \hline
+    Pre-condition & Valid user is logged in \\ \hline
+    Post-condition & All items are added to the checkout list, and transaction \\
+    & is ready to progress into payment stage \\ \hline
+    Basic Path & Items are added by entering an associated UPC code into the system. \\
+    & Quantity is also a parameter. This is done either through the\\
+    &  use of a barcode scanner or manual entry. \\ \hline
+    Alternate Path & Stage can be bypassed with manager permissions\\
+    &  in order to create a void transaction. \\ \hline
+    Related Requirements & Payment Mode \\ \hline
+  \end{tabular}
+
+  \vspace{2em}
+
+  \textbf{Payment Mode}\\
+  \begin{tabular}{| c | c |} \hline
+    Pre-condition & All desired items added to checkout \\ \hline
+    Post-condition & Desired payment method is selected OR, payment\\
+    &  stage is canceled, and state returns to item add stage. \\ \hline
+    Basic Path & User selects either a cash or a card transaction \\ \hline
+    Alternate Path & This stage can be bypassed if manager desires to create void transaction, as\\
+    & the payment option is implied \\ \hline
+    Related Requirements & Add items to "checkout", card, cash \\ \hline
+  \end{tabular}
+
+  \vspace{2em}
+  
+  \textbf{Card}\\
+  \begin{tabular}{| c | c |}\hline
+    Pre-condition & Card payment is selected in previous stage \\ \hline
+    Post-condition & Payment process is handed off to card reader \\ \hline
+    Basic Path & Control is handed over to card reader terminal until that\\
+    & has reached its accepting state and control is turned back over to POS machine \\ \hline
+    Alternate Path & \\ \hline
+    Related Requirements & Payment finished, items removed from database \\ \hline
+  \end{tabular}
+
+  \vspace{2em}
+
+  \textbf{Cash}\\
+  \begin{tabular}{| c | c |}\hline
+    Pre-condition & User selected to either create void transaction or User\\
+    & selected for cash payment. \\ \hline
+    Post-condition & Change is made and traded by user.\\ \hline
+    Basic Path & Register is opened, user makes appropriate change, state ends when register is closed. \\ \hline
+    Alternate Path & \\ \hline
+    Related Requirements & Payment finished, items removed from database \\ \hline
+  \end{tabular}
+
+  \vspace{2em}
+
+  \textbf{Payment finished, items removed from database}\\
+  \begin{tabular}{| c | c |} \hline
+    Pre-condition & Previous transaction is completed \\ \hline
+    Post-condition & Current total for a given item is updated, state is moved back\\
+    & to add items to checkout stage \\ \hline
+    Basic Path & Frontend sends valid recipt to backend, backend updates current\\
+    & item counts of each listed item \\ \hline
+    Alternate Path & \\ \hline
+    Related Requirements & Add items to checkout state. \\ \hline
+  \end{tabular}
+\end{center}
 
 \subsection{Functional Requirements}
 
-Include functional requirements
+\begin{enumerate}
+  \item \emph{Core Application Requirements}\par
+
+  \begin{center}
+    \textbf{Security}\\
+    \begin{tabular}{|c | c |}\hline
+      Description & The app must contain a system to verify users in a secure\\
+      & manner, and to process payments into the database without posing a security\\
+      & threat to the customer. \\ \hline
+      Source & Collaberatively decided properties of a point-of-sale system among\\
+      & the development team. \\ \hline
+      Priority & Priority 0: Core to functionality of application \\ \hline
+    \end{tabular}
+
+    \vspace{2em}
+
+    \textbf{Item Database}\\
+    \begin{tabular}{| c | c |}\hline
+      Description & The backend of the app must contain a reletively simple item\\
+      & database that keeps track of at least each item's UPC(universal product code),\\
+      & the price, and the quantity in stock. This database must be connected remotly\\
+      & to each instance of the frontend, with updates being sent both ways. \\ \hline
+      Source & Collaberatively decided properties of a point-of-sale system among\\
+      & the development team. \\ \hline
+      Priority & Priority 0: Core to functionality of application \\ \hline
+    \end{tabular}
+
+    \vspace{2em}
+
+    \textbf{Multi-headed frontend with privilage levels}\\
+    \begin{tabular}{| c | c |}\hline
+      Description & The frontend of the app must be able to have multiple instances\\
+      & running simultaniously, each sending updates to a central backend machine.\\
+      & This front end also must be able to make use of different privilage levels\\
+      & in order to support the level of employee organization that matches the\\
+      & environment this machine is designed to run in. \\ \hline
+      Source & Collaberatively decided properties of a point-of-sale system among\\
+      & the development team. \\ \hline
+      Priority & Priority 0: core to functionality of application \\ \hline
+    \end{tabular}
+  
+  
+  \end{center}
+\end{enumerate}
+
 
 \subsection{Non-Functional Requirements}
 
-Include non-functional requirements
-
+\textbf{Security}\\
+The ability for the system to be able to securely process transactions is highly\\
+important. Although the frontend will be a web-based implementation, the system\\
+deploying the frontend will remain offline, save for a secure connection to the backend\\
+which is what processes all the data.\\
+\textbf{Intuitivness}\\
+The goal is to create a User Interface that the user does not need to be told\\
+how to use. Labeled buttons and baking in support for multiple different common\\
+input standards is key to this operation.\\
+\textbf{Flexibility}\\
+Due to the web-based nature of the platform, the application should be able to be\\
+deployed on a wide variety of hardware, eliminating the need for expensive, proprietary\\
+point-of-sale machines.
 \subsection{Standards}
 
 We aim to be compliant with several standards:
