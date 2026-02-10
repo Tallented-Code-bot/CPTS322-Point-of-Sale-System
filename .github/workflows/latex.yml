@@ -22,6 +22,39 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: "17"
+
+      - name: Install PlantUML
+        run: |
+          wget https://github.com/plantuml/plantuml/releases/download/v1.2024.3/plantuml-1.2024.3.jar -O plantuml.jar
+          sudo mv plantuml.jar /usr/local/bin/plantuml.jar
+          echo '#!/bin/bash' | sudo tee /usr/local/bin/plantuml
+          echo 'java -jar /usr/local/bin/plantuml.jar "$@"' | sudo tee -a /usr/local/bin/plantuml
+          sudo chmod +x /usr/local/bin/plantuml
+
+      - name: Convert UML files to TeX
+        run: |
+          # Find all .uml and .puml files in src/ directory
+          find src/ -type f \( -name "*.uml" -o -name "*.puml" -o -name "*.plantuml" \) | while read umlfile; do
+            echo "Processing $umlfile..."
+            # Generate output filename (replace extension with .tex)
+            texfile="${umlfile%.*}.tex"
+            # Convert UML to LaTeX format using PlantUML
+            plantuml -tlatex:nopreamble "$umlfile"
+            if [ -f "$texfile" ]; then
+              echo "Successfully generated $texfile"
+            else
+              echo "Warning: Failed to generate $texfile"
+            fi
+          done
+          # List all generated .tex files
+          echo "Generated TeX files:"
+          find src/ -type f -name "*.tex"
+
       - name: Setup Tectonic
         uses: wtfjoke/setup-tectonic@v3
         with:

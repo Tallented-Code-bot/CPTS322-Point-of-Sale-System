@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { isAuthenticated, isLoading, error, user } from '$lib/stores/auth';
+	import { isAuthenticated, isLoading, error } from '$lib/stores/auth';
 	import LoginButton from '$lib/components/LoginButton.svelte';
 	import LogoutButton from '$lib/components/LogoutButton.svelte';
 	import Profile from '$lib/components/Profile.svelte';

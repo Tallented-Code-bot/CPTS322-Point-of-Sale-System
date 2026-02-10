@@ -1,0 +1,22 @@
+# act (GitHub Actions local runner) files
+.secrets
+build/
+/tmp/act-artifacts
+
+# act artifact directory
+act-artifacts/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Temporary files
+*.tmp
+*.log
