@@ -1,0 +1,270 @@
+<h1 style="color:white; padding:20px;">CASHIER ROUTE LOADED ✅</h1>
+
+<script lang="ts">
+	import {
+		addToCart,
+		cartItems,
+		subtotal,
+		tax,
+		total,
+		setQty,
+		removeItem,
+		clearCart,
+		buildCheckoutPayload
+	} from '$lib/stores/cart';
+	import { fetchProductByUPC, checkout } from '$lib/api/pos';
+	import { isAuthenticated, isLoading } from '$lib/stores/auth';
+
+	let upc = '';
+	let error = '';
+	let paid = 0;
+	let receiptMsg = '';
+	let isSubmitting = false;
+
+	async function scanAdd() {
+		error = '';
+		receiptMsg = '';
+
+		const trimmed = upc.trim();
+		if (!trimmed) return;
+
+		try {
+			const product = await fetchProductByUPC(trimmed);
+			addToCart(product, 1);
+			upc = '';
+		} catch (e) {
+			error = e instanceof Error ? e.message : 'Could not find product.';
+		}
+	}
+
+	async function completeSale() {
+		error = '';
+		receiptMsg = '';
+		isSubmitting = true;
+
+		try {
+			const payload = buildCheckoutPayload(paid);
+			if (payload.items.length === 0) throw new Error('Cart is empty.');
+			if (payload.change < 0) throw new Error('Not enough payment.');
+
+			const res = await checkout(payload);
+			receiptMsg = `Sale complete. Receipt: ${res.receiptId}`;
+			clearCart();
+			paid = 0;
+		} catch (e) {
+			error = e instanceof Error ? e.message : 'Checkout failed.';
+		} finally {
+			isSubmitting = false;
+		}
+	}
+</script>
+
+{#if $isLoading}
+	<p class="muted">Loading...</p>
+{:else if !$isAuthenticated}
+	<p class="muted">Please log in to access the cashier page.</p>
+{:else}
+	<div class="page">
+		<h1>Cashier Checkout</h1>
+
+		<div class="scanRow">
+			<input
+				placeholder="Scan or type UPC and press Enter"
+				bind:value={upc}
+				on:keydown={(e) => e.key === 'Enter' && scanAdd()}
+			/>
+			<button on:click={scanAdd}>Add</button>
+		</div>
+
+		{#if error}
+			<div class="error">{error}</div>
+		{/if}
+		{#if receiptMsg}
+			<div class="success">{receiptMsg}</div>
+		{/if}
+
+		<div class="layout">
+			<div class="cart">
+				<h2>Cart</h2>
+
+				{#if $cartItems.length === 0}
+					<p class="muted">No items yet.</p>
+				{:else}
+					<table>
+						<thead>
+							<tr>
+								<th>Item</th>
+								<th>UPC</th>
+								<th>Price</th>
+								<th>Qty</th>
+								<th>Line</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody>
+							{#each $cartItems as line (line.product.upc)}
+								<tr>
+									<td>{line.product.name}</td>
+									<td class="mono">{line.product.upc}</td>
+									<td>${line.product.price.toFixed(2)}</td>
+									<td>
+										<input
+											type="number"
+											min="0"
+											value={line.qty}
+											on:input={(e) =>
+												setQty(
+													line.product.upc,
+													Number((e.target as HTMLInputElement).value)
+												)}
+										/>
+									</td>
+									<td>${(line.product.price * line.qty).toFixed(2)}</td>
+									<td>
+										<button class="danger" on:click={() => removeItem(line.product.upc)}>
+											Remove
+										</button>
+									</td>
+								</tr>
+							{/each}
+						</tbody>
+					</table>
+
+					<button class="ghost" on:click={clearCart}>Clear Cart</button>
+				{/if}
+			</div>
+
+			<div class="summary">
+				<h2>Summary</h2>
+
+				<div class="row">
+					<span>Subtotal</span><strong>${$subtotal.toFixed(2)}</strong>
+				</div>
+				<div class="row">
+					<span>Tax</span><strong>${$tax.toFixed(2)}</strong>
+				</div>
+				<div class="row total">
+					<span>Total</span><strong>${$total.toFixed(2)}</strong>
+				</div>
+
+				<label class="pay">
+					<span>Paid</span>
+					<input type="number" min="0" step="0.01" bind:value={paid} />
+				</label>
+
+				<div class="row">
+					<span>Change</span>
+					<strong>${Math.max(0, paid - $total).toFixed(2)}</strong>
+				</div>
+
+				<button disabled={isSubmitting} on:click={completeSale}>
+					{isSubmitting ? 'Processing...' : 'Complete Sale'}
+				</button>
+			</div>
+		</div>
+	</div>
+{/if}
+
+<style>
+	.page {
+		max-width: 1100px;
+		margin: 2rem auto;
+		padding: 1rem;
+	}
+	.muted {
+		color: #a0aec0;
+	}
+	.mono {
+		font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
+			'Courier New', monospace;
+	}
+
+	.scanRow {
+		display: flex;
+		gap: 0.75rem;
+		margin: 1rem 0 1.25rem;
+	}
+	input {
+		padding: 0.8rem;
+		border-radius: 10px;
+		border: 1px solid #2d3748;
+		background: #111827;
+		color: #f7fafc;
+		width: 100%;
+	}
+	button {
+		padding: 0.8rem 1.1rem;
+		border-radius: 10px;
+		border: none;
+		cursor: pointer;
+		font-weight: 600;
+	}
+	.ghost {
+		background: transparent;
+		border: 1px solid #2d3748;
+		color: #f7fafc;
+		margin-top: 0.75rem;
+	}
+	.danger {
+		background: #e53e3e;
+		color: #111;
+	}
+
+	.error {
+		background: rgba(229, 62, 62, 0.15);
+		border: 1px solid rgba(229, 62, 62, 0.35);
+		padding: 0.75rem;
+		border-radius: 10px;
+		margin-bottom: 1rem;
+	}
+	.success {
+		background: rgba(72, 187, 120, 0.15);
+		border: 1px solid rgba(72, 187, 120, 0.35);
+		padding: 0.75rem;
+		border-radius: 10px;
+		margin-bottom: 1rem;
+	}
+
+	.layout {
+		display: grid;
+		grid-template-columns: 2fr 1fr;
+		gap: 1.25rem;
+		align-items: start;
+	}
+	.cart,
+	.summary {
+		background: #0b1220;
+		border: 1px solid #1f2937;
+		border-radius: 16px;
+		padding: 1rem;
+	}
+	table {
+		width: 100%;
+		border-collapse: collapse;
+	}
+	th,
+	td {
+		padding: 0.6rem;
+		border-bottom: 1px solid #1f2937;
+		text-align: left;
+	}
+	td input {
+		width: 80px;
+	}
+
+	.row {
+		display: flex;
+		justify-content: space-between;
+		margin: 0.5rem 0;
+	}
+	.total {
+		margin-top: 0.75rem;
+		padding-top: 0.75rem;
+		border-top: 1px solid #1f2937;
+	}
+	.pay {
+		display: grid;
+		gap: 0.25rem;
+		margin: 1rem 0;
+	}
+</style>
