@@ -187,7 +187,7 @@ Include the following:
 The major use cases of this software is to facilitate retail transactions at the
 point of sale. This requires secure interation with a backend database, requires
 of the frontend to support multiple input methods such as touch, pointer, and keyboard.
-Since the end goal of this project is to be a near drop-in replacement for any 
+Since the end goal of this project is to be a near drop-in replacement for any
 existing point of sale system, we intend on using standard communication protocals
 between every component of the system. We also intend on implementing a form
 of administration privilages, that can be accessed by passcode on any
@@ -250,7 +250,7 @@ frontend machine.
   \end{tabular}
 
   \vspace{2em}
-  
+
   \textbf{Card}\\
   \begin{tabular}{| c | c |}\hline
     Pre-condition & Card payment is selected in previous stage \\ \hline
@@ -329,8 +329,8 @@ frontend machine.
       & the development team. \\ \hline
       Priority & Priority 0: core to functionality of application \\ \hline
     \end{tabular}
-  
-  
+
+
   \end{center}
 \end{enumerate}
 
@@ -376,7 +376,7 @@ overview of the software design, it is fitting to restate the project goals.
   \item Create a secure backend, capable of frequently communicating with all frontend
   terminals over the air.
 \end{itemize}
- 
+
 
 \subsection{Architecture Design}
 
@@ -429,14 +429,53 @@ structures), and the database(s) created as part of the application.
 
 \subsection{User Interface Design}
 
-Provide a detailed description of user interface. The information in
-this section should be accompanied with proper images of your software's
-GUI.
+% Provide a detailed description of user interface. The information in
+% this section should be accompanied with proper images of your software's
+% GUI.
 
-The emphasis of this section should be on the design decisions of your
-GUI rather than the final design. You will explain your final GUI in
-detail in section VI (Description of Final Prototype). Please avoid
-redundancy as much as possible in these two sections.
+% The emphasis of this section should be on the design decisions of your
+% GUI rather than the final design. You will explain your final GUI in
+% detail in section VI (Description of Final Prototype). Please avoid
+% redundancy as much as possible in these two sections.
+
+
+The first screen the user will see is the login screen. Here the user can log in
+to his account; no other pages can be accessed until the user is logged in.
+
+Once the user is logged in, he is presented with the main screen. The main
+screen is the checkout screen, where items can be scanned in to be included in
+the transaction.
+
+At the top of the main screen is a info bar containing information, such as the
+time, logged in user, and other relevent information. At one end of the bar,
+there is a menu containing some options: log out, user profile, etc. If the
+logged in user has admin rights, there will also be an option to go to the admin
+settings page.
+
+The bulk of the main page shows the items that are to be purchased, including
+name, quantity and price. At the bottom of this view, there will be a line
+showing the total price and quantity.
+
+At the bottom of the main page there will be another menu, this time for typical
+actions that would occur during checkout. These include a check out button, a
+reset transaction button, a text box to enter product codes (one would normally
+use a barcode scanner to provide the input), a button to find a product by name,
+and anything else needed.
+
+When the ``check out'' button is pressed, the program enters the check out
+screen. Here a total will be displayed, complete with tax and any other charges.
+There will be buttons for the different payment methods: cash, check, or card.
+Pushing ``cash'' will open a popup which allows the user to enter the cash
+recieved, and tell how much change to give. Pressing ``check'' will open a
+similar popup to record the check details. Pressing ``card'' will open a similar
+menu, which will either allow you to enter the card details, or interface with a
+physical card reader.
+
+After one of these buttons is pressed and the transaction is complete, the
+program returns to the main screen.
+
+
+Images will come soon.
 
 \subsection{Constraints}
 
