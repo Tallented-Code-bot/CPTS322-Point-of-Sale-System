@@ -363,22 +363,61 @@ We aim to be compliant with several standards:
 
 \section{Software Design - Solution Approach}
 
-This section should describe the final design of your software system.
+% This section should describe the final design of your software system.
 
-Please review these sections and make the necessary updates to reveal
-the changes in your project design since your revision.
+% Please review these sections and make the necessary updates to reveal
+% the changes in your project design since your revision.
+
+As this section as a whole is designed to be a more comprehensive
+overview of the software design, it is fitting to restate the project goals.
+\begin{itemize}
+  \item Create an flexible, secure, web-based frontend, minimizing downtime
+  due to updates.
+  \item Create a secure backend, capable of frequently communicating with all frontend
+  terminals over the air.
+\end{itemize}
+ 
 
 \subsection{Architecture Design}
 
-Include Section II from your Solution Approach report here. Provide the
-block diagram of your architecture and give a brief description of it.
+% Include Section II from your Solution Approach report here. Provide the
+% block diagram of your architecture and give a brief description of it.
 
 \subsubsection{Overview}
 
-This section should describe the overall architecture of your software.
-The architecture provides the top level design view of a system and
-provides a basis for more detailed design work.
+% This section should describe the overall architecture of your software.
+% The architecture provides the top level design view of a system and
+% provides a basis for more detailed design work.
 
+The system that is created is one which accomodates the following functions:
+\begin{itemize}
+  \item  Inventory Management
+  \item  Payment Management
+  \item  Transaction Management
+\end{itemize}
+
+Following these requirements, the system will take on a Client-Server
+Archetecture, with the backend acting as a server, and the multiple
+POS terminals acting as its clients.\par
+This system has many benefits, including
+\begin{enumerate}
+  \item Safety. If multiple terminals all need to keep track of their
+  own databases, in seperate instances, it increases the difficulty and
+  risk of miscounting and other data errors. When numbers are centralizd,
+  and updated in a queue, or other safe data structure, this risk decreases significantly.
+  \item Flexibility. Any number of these terminals can be added, with no
+  downside.
+  \item Simplicity. A POS terminal does not need specilized hardware and software,
+  only a network connection, and a modern internet browser. Updates can also be handled
+  over the air, and updates to the software can be server-side.
+\end{enumerate}
+
+To describe an example of an implementation, you could have a server, say a desktop
+running mongoDB through rust, communicating with many terminals, which could be android or otherwise,
+a lightweight linux locked down into a browser environment, which holds the frontend app,
+programmed in Svelte script.
+
+This portion of the document will be updated with details further, as the project is built.
 \subsubsection{Subsystem Decomposition}
 
 This section explains how you decomposed your system into subsystems.
