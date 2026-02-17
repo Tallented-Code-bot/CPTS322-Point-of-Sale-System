@@ -187,7 +187,7 @@ Include the following:
 The major use cases of this software is to facilitate retail transactions at the
 point of sale. This requires secure interation with a backend database, requires
 of the frontend to support multiple input methods such as touch, pointer, and keyboard.
-Since the end goal of this project is to be a near drop-in replacement for any
+Since the end goal of this project is to be a near drop-in replacement for any 
 existing point of sale system, we intend on using standard communication protocals
 between every component of the system. We also intend on implementing a form
 of administration privilages, that can be accessed by passcode on any
@@ -250,7 +250,7 @@ frontend machine.
   \end{tabular}
 
   \vspace{2em}
-
+  
   \textbf{Card}\\
   \begin{tabular}{| c | c |}\hline
     Pre-condition & Card payment is selected in previous stage \\ \hline
@@ -329,8 +329,8 @@ frontend machine.
       & the development team. \\ \hline
       Priority & Priority 0: core to functionality of application \\ \hline
     \end{tabular}
-
-
+  
+  
   \end{center}
 \end{enumerate}
 
@@ -376,7 +376,7 @@ overview of the software design, it is fitting to restate the project goals.
   \item Create a secure backend, capable of frequently communicating with all frontend
   terminals over the air.
 \end{itemize}
-
+ 
 
 \subsection{Architecture Design}
 
@@ -420,24 +420,49 @@ programmed in Svelte script.
 This portion of the document will be updated with details further, as the project is built.
 \subsubsection{Subsystem Decomposition}
 
-This section explains how you decomposed your system into subsystems.
+%This section explains how you decomposed your system into subsystems.
+
+The major subsystems of the Client-Server approach are the user layer, application layer,
+and the data layer.\par
+
+The user layer encompases the user-interface and all mechanical systems that the user
+interacts with such as the physical cash register, or touch screen. This portion of the
+system is almost purly ornamental, but serves the important role of being the way in which
+the system is experienced. Our team is using Svelte script to create the user-interface, which
+is the only part of the user layer which is part of the app. Svelte can create complex
+user interfaces reletively quick and easily, which makes it ideal for usage.\par
+
+The application layer is the portion of the app that does the "thinking" so to speak.
+While exact data structures and implementations have not been finalized, the theory
+is to have a list of items which can be edited within the frontend, until that list
+is finalized and sent over the network to the database as a list of required updates to make.
+This process happens before payment in attempt to prevent miscounts.\par
+
+The data layer is contained almost entierly within the backend, it stores inventory
+along with UPC's (Universal Product Code(s)) and price for each item. This portion of the
+software will be done with MongoDB through rust.
 
 \subsection{Data design}
 
-Describe all data structures (including the internal and temporary data
-structures), and the database(s) created as part of the application.
+%Describe all data structures (including the internal and temporary data
+%structures), and the database(s) created as part of the application.
+
+While the exact data structures are not fully in place, the idea to use MongoDB
+to create a NoSQL path to mass data storage, that can be fed lists of items
+and edited without the potential for missed data.
+
+
 
 \subsection{User Interface Design}
 
-% Provide a detailed description of user interface. The information in
-% this section should be accompanied with proper images of your software's
-% GUI.
-
-% The emphasis of this section should be on the design decisions of your
-% GUI rather than the final design. You will explain your final GUI in
-% detail in section VI (Description of Final Prototype). Please avoid
-% redundancy as much as possible in these two sections.
-
+%Provide a detailed description of user interface. The information in
+%this section should be accompanied with proper images of your software's
+%GUI.
+%
+%The emphasis of this section should be on the design decisions of your
+%GUI rather than the final design. You will explain your final GUI in
+%detail in section VI (Description of Final Prototype). Please avoid
+%redundancy as much as possible in these two sections.
 
 The first screen the user will see is the login screen. Here the user can log in
 to his account; no other pages can be accessed until the user is logged in.
@@ -476,7 +501,6 @@ program returns to the main screen.
 
 
 Images will come soon.
-
 \subsection{Constraints}
 
 Software engineering design is a process of devising a system,

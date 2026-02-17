@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.1) (preloaded format=pdflatex 2026.2.7)  14 FEB 2026 23:25
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.1) (preloaded format=pdflatex 2026.2.7)  14 FEB 2026 23:59
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -654,17 +654,17 @@ Overfull \hbox (1.5971pt too wide) in paragraph at lines 322--332
  [][] 
  []
 
-[6] [7] [8]
-Overfull \hbox (23.99998pt too wide) in alignment at lines 522--529
+[6] [7] [8] [9]
+Overfull \hbox (23.99998pt too wide) in alignment at lines 585--592
  [] [] 
  []
 
 
-Overfull \hbox (47.99998pt too wide) in alignment at lines 536--544
+Overfull \hbox (47.99998pt too wide) in alignment at lines 599--607
  [] [] [] [] 
  []
 
-[9] [10] [11]) (_postamble.tex [12] (_preamble.aux)
+[10] [11] [12]) (_postamble.tex [13] (_preamble.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2026-01-19>
@@ -673,17 +673,17 @@ Package rerunfilecheck Info: File `_preamble.out' has not changed.
 (rerunfilecheck)             Checksum: 070C6659907178227D9EEDB49A74AE36;5840.
  ) ) 
 Here is how much of TeX's memory you used:
- 20931 strings out of 467866
- 390302 string characters out of 5418326
- 792952 words of memory out of 5000000
+ 20932 strings out of 467866
+ 390309 string characters out of 5418326
+ 795952 words of memory out of 5000000
  49412 multiletter control sequences out of 15000+600000
  634790 words of font info for 64 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  84i,6n,104p,472b,593s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\owenm\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1095.pk><C:/Users/owenm/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/owenm/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/owenm/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/owenm/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/owenm/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Users/owenm/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on _preamble.pdf (12 pages, 203835 bytes).
+Output written on _preamble.pdf (13 pages, 208684 bytes).
 PDF statistics:
- 309 PDF objects out of 1000 (max. 8388607)
- 62 named destinations out of 1000 (max. 500000)
+ 314 PDF objects out of 1000 (max. 8388607)
+ 63 named destinations out of 1000 (max. 500000)
  314 words of extra memory for PDF output out of 10000 (max. 10000000)
 
