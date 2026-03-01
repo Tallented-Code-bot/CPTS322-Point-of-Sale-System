@@ -16,18 +16,27 @@ export const isLoggedIn: Readable<boolean> = derived(
 
 export async function initializeAuth() {
 	if (!browser) return;
-
 	try {
+
+		isAuthenticated.set(false);
+		user.set({});
+		error.set(null);
+		isLoading.set(true);
+		
+		// Clear Auth0 localStorage tokens (kills previous session)
+		localStorage.removeItem('@@auth0spajs@@');
+
+
 		const client = await createAuth0Client({
 			domain: import.meta.env.VITE_AUTH0_DOMAIN,
 			clientId: import.meta.env.VITE_AUTH0_CLIENT_ID,
 			authorizationParams: {
 				redirect_uri: window.location.origin
 			},
-			useRefreshTokens: true,
-			cacheLocation: 'localstorage'
+			useRefreshTokens: false,
+			cacheLocation: 'memory' //this clears the tokens upon refresh, essentially it's a fast sign out, but also just makes sure the sign out happens
+			//in the first place.
 		});
-
 		auth0Client.set(client);
 
 		// Handle callback
@@ -35,7 +44,6 @@ export async function initializeAuth() {
 			await client.handleRedirectCallback();
 			window.history.replaceState({}, document.title, window.location.pathname);
 		}
-
 		// Check authentication status
 		const authenticated = await client.isAuthenticated();
 		isAuthenticated.set(authenticated);
@@ -62,8 +70,15 @@ export async function login() {
 }
 
 export async function logout() {
+
+	
 	const client = get(auth0Client);
+
+	
+
 	if (client) {
+		isAuthenticated.set(false);
+		user.set({});
 		client.logout({
 			logoutParams: {
 				returnTo: window.location.origin

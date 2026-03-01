@@ -1,5 +1,12 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import { login } from '$lib/stores/auth';
+	import { user, isAuthenticated, isLoading } from '$lib/stores/auth';
+
+ import { onMount } from 'svelte';
+
+  let hasNavigated = false;
+
 
 	async function handleLogin() {
 		await login();
