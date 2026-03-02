@@ -14,6 +14,7 @@
 	} from '$lib/stores/cart';
 	import { fetchProductByUPC, checkout } from '$lib/api/pos';
 	import { isAuthenticated, isLoading, isLoggedIn } from '$lib/stores/auth';
+	import BackButton from '$lib/components/BackButton.svelte';
 
 	console.log("auth" + $isAuthenticated)
 	console.log("load" + $isLoading)
@@ -71,6 +72,10 @@
 {#if $isLoggedIn}
 	<div class="page">
 		<h1>Cashier Checkout</h1>
+		<div class="topbar">
+			<BackButton/>
+		</div>
+		
 
 		<div class="scanRow">
 			<input
@@ -272,4 +277,17 @@
 		gap: 0.25rem;
 		margin: 1rem 0;
 	}
+	.topbar{
+      position:fixed;
+      display:flex;
+      z-index: 9999;
+      top: 0;       
+      right: 0;
+      height:10vh;
+      width:100%;
+      vertical-align: top;
+      align-items:center;
+      justify-content:flex-begin;
+      padding-right: 1rem;
+    }
 </style>
