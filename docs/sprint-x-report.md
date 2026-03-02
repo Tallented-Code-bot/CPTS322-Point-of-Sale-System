@@ -46,10 +46,12 @@ Here's what went well:
 * Given the real time spent working, a very good amount of progress was made.
 * We remain well-documented, with a solid idea of where we want the project to be throughout time.
 * Our team got off the ground early with meetings, allowing us to get a little bit of an organizational head start.
+##
 Here's what we'd like to improve:
 * Begin backend integration earlier in the sprint to avoid last minute debugging.
 * More consistant development overall to avoid finishing sprints as literal sprints, developing more as a marathon.
 * Better use of Github's project organization features such as issues and branches, as well as more team-oriented organization over discord.
+##
 Here are changes we plan to implement in the next sprint:
 * A more polished UI (Customized Login screen, cohesive design decisions throuout different elements of the UI).
 * More seperated interface states, specifically the 'home' page, with the intended purpose of being where items are added to a transaction, and the 'cashier' page where the costs and fees are calcuated.
