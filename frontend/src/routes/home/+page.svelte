@@ -52,6 +52,18 @@
           </div>
         </div>
         <div class="bottombar">
+          <div class="scanRow">
+            <input
+              placeholder="Scan or type UPC and press Enter"
+              
+              autocomplete="off"
+              autocapitalize="off"
+              spellcheck="false"
+            />
+          <!-- <button type="submit" disabled={isScanning}>
+            {isScanning ? 'Adding...' : 'Add'}
+          </button> -->
+        </div>
           <CheckoutButton />
         </div>
     {:else}
@@ -116,5 +128,14 @@
       vertical-align: top;
       justify-content:flex-start;
       padding-right: 1rem;
+    }
+    .scanRow{
+      position: fixed;
+      display:flex;
+      bottom: 0;
+      left: 0;
+      height: 10vh;
+      width: 100%;
+      padding-left: 1rem;
     }
 </style>
