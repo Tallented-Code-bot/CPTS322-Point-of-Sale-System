@@ -14,8 +14,8 @@
 	import { isAuthenticated, isLoading, isLoggedIn } from '$lib/stores/auth';
 	import BackButton from '$lib/components/BackButton.svelte';
 
-	console.log("auth" + $isAuthenticated)
-	console.log("load" + $isLoading)
+	console.log('auth' + $isAuthenticated);
+	console.log('load' + $isLoading);
 
 	let upc = '';
 	let error = '';
@@ -48,6 +48,7 @@
 			console.log('[cashier] scanAdd UPC:', trimmed);
 
 			const product = await fetchProductByUPC(trimmed);
+			console.log(product);
 
 			// Guard: ensure product looks valid for your cart store
 			if (!product || !product.upc || !product.name || typeof product.price !== 'number') {
@@ -98,9 +99,8 @@
 	<div class="page">
 		<h1>Cashier Checkout</h1>
 		<div class="topbar">
-			<BackButton/>
+			<BackButton />
 		</div>
-		
 
 		<div class="scanRow">
 			<input
@@ -110,7 +110,7 @@
 				autocapitalize="off"
 				spellcheck="false"
 			/>
-			<button type="submit" disabled={isScanning}>
+			<button on:click={scanAdd} disabled={isScanning}>
 				{isScanning ? 'Adding...' : 'Add'}
 			</button>
 		</div>
@@ -152,15 +152,16 @@
 											min="0"
 											value={line.qty}
 											on:input={(e) =>
-												setQty(
-													line.product.upc,
-													Number((e.target as HTMLInputElement).value)
-												)}
+												setQty(line.product.upc, Number((e.target as HTMLInputElement).value))}
 										/>
 									</td>
 									<td>${(line.product.price * line.qty).toFixed(2)}</td>
 									<td>
-										<button class="danger" type="button" on:click={() => removeItem(line.product.upc)}>
+										<button
+											class="danger"
+											type="button"
+											on:click={() => removeItem(line.product.upc)}
+										>
 											Remove
 										</button>
 									</td>
@@ -214,8 +215,9 @@
 		color: #a0aec0;
 	}
 	.mono {
-		font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
-			'Courier New', monospace;
+		font-family:
+			ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',
+			monospace;
 	}
 
 	.scanRow {
@@ -310,17 +312,17 @@
 		gap: 0.25rem;
 		margin: 1rem 0;
 	}
-	.topbar{
-      position:fixed;
-      display:flex;
-      z-index: 9999;
-      top: 0;       
-      right: 0;
-      height:10vh;
-      width:100%;
-      vertical-align: top;
-      align-items:center;
-      justify-content:flex-begin;
-      padding-right: 1rem;
-    }
+	.topbar {
+		position: fixed;
+		display: flex;
+		z-index: 9999;
+		top: 0;
+		right: 0;
+		height: 10vh;
+		width: 100%;
+		vertical-align: top;
+		align-items: center;
+		justify-content: flex-begin;
+		padding-right: 1rem;
+	}
 </style>
