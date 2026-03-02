@@ -1,4 +1,4 @@
-# Sprint x Report (1/12/26 - 3/1/2026)
+# Sprint 1 Report (1/12/26 - 3/1/2026)
 ## What's New (User Facing)
 * Implemented the Cashier Checkout user interface page
 * Implemented the Auth0 login library
