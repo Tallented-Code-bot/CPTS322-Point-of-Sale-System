@@ -16,14 +16,6 @@ Here are links to the issues that we completed in this sprint:
 * Cart and summary panel layout development
 * URL of issue 2
 * URL of issue n
-Reminders (Remove this section when you save the file):
-* Each issue should be assigned to a milestone
-* Each completed issue should be assigned to a pull request
-* Each completed pull request should include a link to a "Before and After" video
-* All team members who contributed to the issue should be assigned to it on
-GitHub
-* Each issue should be assigned story points using a label
-* Story points contribution of each team member should be indicated in a comment
 ## Incomplete Issues/User Stories
 Here are links to issues we worked on but did not complete in this sprint:
 * URL of issue 1 <<One sentence explanation of why issue was not completed>>
