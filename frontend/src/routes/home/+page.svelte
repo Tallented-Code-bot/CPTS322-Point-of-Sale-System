@@ -35,12 +35,13 @@
 <div class="testclass">
     {#if $isLoggedIn}
         <div class="listwindow">
-            {#each items as item, index}
+           <!--  {#each items as item, index}
                 <div class="border-b p-2 text-gray-900 dark:text-white dark:hover:bg-gray-800">
                 {index} / {items.length} - {item}
                 </div>
             {/each}
-            
+             -->
+            This feature is coming soon! For now, click to checkout in the bottom corner. Or, logout- to logout.
         </div>
         <div class="topbar">
           <LogoutButton />
