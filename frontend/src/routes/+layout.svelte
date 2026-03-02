@@ -1,7 +1,7 @@
 <script lang="ts">
+	import './layout.css';
 	import { onMount } from 'svelte';
 	import { initializeAuth } from '$lib/stores/auth';
-
 	import favicon from '$lib/assets/favicon.svg';
 
 	onMount(() => {
@@ -9,13 +9,8 @@
 	});
 </script>
 
-<svelte:head>
-	<link rel="icon" href={favicon} />
-</svelte:head>
-
-<main>
-	<slot />
-</main>
+<svelte:head><link rel="icon" href={favicon} /></svelte:head>
+<main><slot></slot></main>
 
 <style>
 	:global(body) {

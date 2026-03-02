@@ -1,12 +1,16 @@
 <script lang="ts">
-	import { isAuthenticated, isLoading, error } from '$lib/stores/auth';
+	import { isAuthenticated, isLoggedIn, isLoading, error } from '$lib/stores/auth';
 	import LoginButton from '$lib/components/LoginButton.svelte';
 	import LogoutButton from '$lib/components/LogoutButton.svelte';
 	import Profile from '$lib/components/Profile.svelte';
+	import { goto } from '$app/navigation'
+
+	$: console.log($isLoggedIn + " from /")
+
 </script>
 
 <svelte:head>
-	<title>Auth0 Svelte Sample</title>
+	<title>Cascade Secure POS</title>
 	<link
 		href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
 		rel="stylesheet"
@@ -31,9 +35,9 @@
 				alt="Auth0 Logo"
 				class="auth0-logo"
 			/>
-			<h1 class="main-title">Welcome to Sample0</h1>
+			<h1 class="main-title">Welcome to Cascade Secure POS</h1>
 
-			{#if $isAuthenticated}
+			{#if $isLoggedIn}
 				<div class="logged-in-section">
 					<div class="logged-in-message">✅ Successfully authenticated!</div>
 					<h2 class="profile-section-title">Your Profile</h2>
