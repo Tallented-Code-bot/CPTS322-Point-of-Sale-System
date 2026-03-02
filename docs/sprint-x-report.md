@@ -14,14 +14,18 @@ Owen worked on linking the various components and routes within Svelte and manag
 ## Completed Issues/User Stories
 Here are links to the issues that we completed in this sprint:
 * [Cart and summary panel layout development](https://github.com/Tallented-Code-bot/CPTS322-Point-of-Sale-System/issues/14)
-* [URL of issue 2](https://github.com/Tallented-Code-bot/CPTS322-Point-of-Sale-System/issues/12)
-* [URL of issue n](https://github.com/Tallented-Code-bot/CPTS322-Point-of-Sale-System/issues/11)
-* https://github.com/Tallented-Code-bot/CPTS322-Point-of-Sale-System/issues/10
+* [Implement User Login Functionality](https://github.com/Tallented-Code-bot/CPTS322-Point-of-Sale-System/issues/12)
+* [Create a Checkout Screen](https://github.com/Tallented-Code-bot/CPTS322-Point-of-Sale-System/issues/11)
+* [Display Transaction Totals and Breakdowns](https://github.com/Tallented-Code-bot/CPTS322-Point-of-Sale-System/issues/10)
+* [Create Endpoint to Store Products](https://github.com/Tallented-Code-bot/CPTS322-Point-of-Sale-System/issues/9)
+* [Set up a Database](https://github.com/Tallented-Code-bot/CPTS322-Point-of-Sale-System/issues/5)
+* [Develop Frontend User Interface (UI)](https://github.com/Tallented-Code-bot/CPTS322-Point-of-Sale-System/issues/6)
 ## Incomplete Issues/User Stories
 Here are links to issues we worked on but did not complete in this sprint:
-* URL of issue 1 <<One sentence explanation of why issue was not completed>>
-* URL of issue 2 <<One sentence explanation of why issue was not completed>>
-* URL of issue n <<One sentence explanation of why issue was not completed>>
+* [Create Endpoint to Store Transactions](https://github.com/Tallented-Code-bot/CPTS322-Point-of-Sale-System/issues/8) We did not get to this issue because the backend was a fairly late feature, due to frontend taking priority for a
+  majority of the development.
+* [Build Transactions List View](https://github.com/Tallented-Code-bot/CPTS322-Point-of-Sale-System/issues/13) We did not get to this issue due to it relying on the issue listed above, which was also not gotten to.
+* [Implement Backend API](https://github.com/Tallented-Code-bot/CPTS322-Point-of-Sale-System/issues/7) While this issue was certainly worked on, we did not get to finishing it due to to it containing "Create Endpoint to Store Transactions" as a sub-issue. 
 Examples of explanations (Remove this section when you save the file):
 * "We ran into a complication we did not anticipate (explain briefly)."
 * "We decided that the feature did not add sufficient value for us to work on it
