@@ -85,4 +85,19 @@
       justify-content:flex-end;
       padding-right: 1rem;
     }
+    .bottombar{
+      position:fixed;
+      display:flex;
+      z-index: 9999;
+      bottom: 0;       
+      right: 0;
+      height:10vh;
+      width:100%;
+      margin-top: auto;
+      vertical-align: bottom;
+      align-items:center;
+      justify-content:flex-end;
+      padding-right: 1rem;
+      background-color: 0xFF0000;
+    }
 </style>

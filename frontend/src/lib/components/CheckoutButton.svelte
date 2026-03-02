@@ -22,7 +22,8 @@ async function checkout(){
 		text-transform: uppercase;
 		letter-spacing: 0.08em;
 		outline: none;
-	}
+        background-color: rgb(145, 0, 0);
+    }
 
 	.button:focus {
 		box-shadow: 0 0 0 4px rgba(99, 179, 237, 0.5);
