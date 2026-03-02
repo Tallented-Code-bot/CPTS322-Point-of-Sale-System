@@ -31,7 +31,7 @@ Please review the following code files, which were actively developed during thi
 sprint, for quality:
 * [page.svelte for cashier route](https://github.com/Tallented-Code-bot/CPTS322-Point-of-Sale-System/blob/main/frontend/src/routes/cashier/%2Bpage.svelte)
 * [page.svelte for root route](https://github.com/Tallented-Code-bot/CPTS322-Point-of-Sale-System/blob/main/frontend/src/routes/%2Bpage.svelte)
-* [page.svelte for home route](https://github.com/Tallented-Code-bot/CPTS322-Point-of-Sale-System/blob/main/frontend/src/routes/home/%2Bpage.svelte))
+* [page.svelte for home route](https://github.com/Tallented-Code-bot/CPTS322-Point-of-Sale-System/blob/main/frontend/src/routes/home/%2Bpage.svelte)
 ## Retrospective Summary
 Here's what went well:
 * Given the real time spent working, a very good amount of progress was made.
