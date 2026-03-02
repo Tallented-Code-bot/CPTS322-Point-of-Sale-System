@@ -3,7 +3,6 @@
     import LogoutButton from '$lib/components/LogoutButton.svelte';
 	  import { goto } from '$app/navigation';
     import CheckoutButton from '$lib/components/CheckoutButton.svelte';
-    // import { BottomNav, BottomNavItem } from "flowbite-svelte";
 
 
     //this is just a random item generator from flowbyte svelte
@@ -90,6 +89,7 @@
       align-items:center;
       justify-content:flex-end;
       padding-right: 1rem;
+      pointer-events: auto
     }
     .bottombar{
       position:fixed;
@@ -109,11 +109,10 @@
       position:fixed;
       display:flex;
       flex-direction:column;
-      z-index: 9999;
       top: 0;       
-      right: 0;
+      left: 0;
       height:10vh;
-      width:100%;
+      width:50%; /*Change as needed */
       vertical-align: top;
       justify-content:flex-start;
       padding-right: 1rem;

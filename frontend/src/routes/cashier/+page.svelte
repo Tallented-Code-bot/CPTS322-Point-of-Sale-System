@@ -113,7 +113,7 @@
 			<button type="submit" disabled={isScanning}>
 				{isScanning ? 'Adding...' : 'Add'}
 			</button>
-		</form>
+		</div>
 
 		{#if error}
 			<div class="error">{error}</div>
