@@ -1,7 +1,8 @@
 <script lang="ts">
     import {isLoading, isLoggedIn, user} from '$lib/stores/auth';
     import LogoutButton from '$lib/components/LogoutButton.svelte';
-	import { goto } from '$app/navigation';
+	  import { goto } from '$app/navigation';
+    import CheckoutButton from '$lib/components/CheckoutButton.svelte';
     // import { BottomNav, BottomNavItem } from "flowbite-svelte";
 
 
@@ -46,7 +47,7 @@
           <LogoutButton />
         </div>
         <div class="bottombar">
-          
+          <CheckoutButton />
         </div>
     {:else}
         <div>

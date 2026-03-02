@@ -13,7 +13,10 @@
 		buildCheckoutPayload
 	} from '$lib/stores/cart';
 	import { fetchProductByUPC, checkout } from '$lib/api/pos';
-	import { isAuthenticated, isLoading } from '$lib/stores/auth';
+	import { isAuthenticated, isLoading, isLoggedIn } from '$lib/stores/auth';
+
+	console.log("auth" + $isAuthenticated)
+	console.log("load" + $isLoading)
 
 	let upc = '';
 	let error = '';
@@ -63,7 +66,9 @@
 	<p class="muted">Loading...</p>
 {:else if !$isAuthenticated}
 	<p class="muted">Please log in to access the cashier page.</p>
-{:else}
+{/if}
+
+{#if $isLoggedIn}
 	<div class="page">
 		<h1>Cashier Checkout</h1>
 

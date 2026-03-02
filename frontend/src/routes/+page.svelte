@@ -10,7 +10,7 @@
 </script>
 
 <svelte:head>
-	<title>Auth0 Svelte Sample</title>
+	<title>Cascade Secure POS</title>
 	<link
 		href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
 		rel="stylesheet"
@@ -35,7 +35,7 @@
 				alt="Auth0 Logo"
 				class="auth0-logo"
 			/>
-			<h1 class="main-title">Welcome to Sample0</h1>
+			<h1 class="main-title">Welcome to Cascade Secure POS</h1>
 
 			{#if $isLoggedIn}
 				<div class="logged-in-section">

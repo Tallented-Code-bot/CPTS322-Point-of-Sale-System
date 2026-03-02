@@ -24,7 +24,7 @@ export async function initializeAuth() {
 		isLoading.set(true);
 		
 		// Clear Auth0 localStorage tokens (kills previous session)
-		localStorage.removeItem('@@auth0spajs@@');
+		//localStorage.removeItem('@@auth0spajs@@');
 
 
 		const client = await createAuth0Client({
@@ -33,7 +33,7 @@ export async function initializeAuth() {
 			authorizationParams: {
 				redirect_uri: window.location.origin
 			},
-			useRefreshTokens: false,
+			useRefreshTokens: true,
 			cacheLocation: 'memory' //this clears the tokens upon refresh, essentially it's a fast sign out, but also just makes sure the sign out happens
 			//in the first place.
 		});
