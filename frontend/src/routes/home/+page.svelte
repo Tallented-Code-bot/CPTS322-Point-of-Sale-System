@@ -35,12 +35,13 @@
 <div class="testclass">
     {#if $isLoggedIn}
         <div class="listwindow">
-            {#each items as item, index}
+           <!--  {#each items as item, index}
                 <div class="border-b p-2 text-gray-900 dark:text-white dark:hover:bg-gray-800">
                 {index} / {items.length} - {item}
                 </div>
             {/each}
-            
+             -->
+            This feature is coming soon! For now, click to checkout in the bottom corner. Or, logout- to logout.
         </div>
         <div class="topbar">
           <LogoutButton />
@@ -52,6 +53,18 @@
           </div>
         </div>
         <div class="bottombar">
+          <div class="scanRow">
+            <input
+              placeholder="Scan or type UPC and press Enter"
+              
+              autocomplete="off"
+              autocapitalize="off"
+              spellcheck="false"
+            />
+          <!-- <button type="submit" disabled={isScanning}>
+            {isScanning ? 'Adding...' : 'Add'}
+          </button> -->
+        </div>
           <CheckoutButton />
         </div>
     {:else}
@@ -116,5 +129,14 @@
       vertical-align: top;
       justify-content:flex-start;
       padding-right: 1rem;
+    }
+    .scanRow{
+      position: fixed;
+      display:flex;
+      bottom: 0;
+      left: 0;
+      height: 10vh;
+      width: 100%;
+      padding-left: 1rem;
     }
 </style>
