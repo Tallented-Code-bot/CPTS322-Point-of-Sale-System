@@ -45,6 +45,12 @@
         </div>
         <div class="topbar">
           <LogoutButton />
+          <div class="deets">
+            {#if $user}
+            <span>User name: {$user.name}</span><br />
+            <span>User email: {$user.email}</span>
+            {/if}
+          </div>
         </div>
         <div class="bottombar">
           <CheckoutButton />
@@ -97,6 +103,19 @@
       vertical-align: bottom;
       align-items:center;
       justify-content:flex-end;
+      padding-right: 1rem;
+    }
+    .deets{
+      position:fixed;
+      display:flex;
+      flex-direction:column;
+      z-index: 9999;
+      top: 0;       
+      right: 0;
+      height:10vh;
+      width:100%;
+      vertical-align: top;
+      justify-content:flex-start;
       padding-right: 1rem;
     }
 </style>
