@@ -29,9 +29,9 @@ Here are links to issues we worked on but did not complete in this sprint:
 ## Code Files for Review
 Please review the following code files, which were actively developed during this
 sprint, for quality:
-* [page.svelte for cashier]([https://github.com/frontend/src/routes/cashier/+page.svelte](https://github.com/Tallented-Code-bot/CPTS322-Point-of-Sale-System/blob/main/frontend/src/routes/cashier/%2Bpage.svelte))
-* [main application's page.svelte]([https://github.com/your_repo/file_extension](https://github.com/Tallented-Code-bot/CPTS322-Point-of-Sale-System/blob/main/frontend/src/routes/%2Bpage.svelte))
-* [page.svelte for "home" page]([https://github.com/your_repo/file_extension](https://github.com/Tallented-Code-bot/CPTS322-Point-of-Sale-System/blob/main/frontend/src/routes/home/%2Bpage.svelte))
+* [https://github.com/frontend/src/routes/cashier/+page.svelte](https://github.com/Tallented-Code-bot/CPTS322-Point-of-Sale-System/blob/main/frontend/src/routes/cashier/%2Bpage.svelte)
+* [https://github.com/your_repo/file_extension](https://github.com/Tallented-Code-bot/CPTS322-Point-of-Sale-System/blob/main/frontend/src/routes/%2Bpage.svelte)
+* [https://github.com/your_repo/file_extension](https://github.com/Tallented-Code-bot/CPTS322-Point-of-Sale-System/blob/main/frontend/src/routes/home/%2Bpage.svelte))
 ## Retrospective Summary
 Here's what went well:
 * Given the real time spent working, a very good amount of progress was made.
