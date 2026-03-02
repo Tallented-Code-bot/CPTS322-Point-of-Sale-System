@@ -1,5 +1,3 @@
-<h1 style="color:white; padding:20px;">CASHIER ROUTE LOADED ✅</h1>
-
 <script lang="ts">
 	import {
 		addToCart,
@@ -13,13 +11,24 @@
 		buildCheckoutPayload
 	} from '$lib/stores/cart';
 	import { fetchProductByUPC, checkout } from '$lib/api/pos';
-	import { isAuthenticated, isLoading } from '$lib/stores/auth';
+	import { isLoading } from '$lib/stores/auth';
 
 	let upc = '';
 	let error = '';
 	let paid = 0;
 	let receiptMsg = '';
 	let isSubmitting = false;
+	let isScanning = false;
+
+	function getErrMsg(e: unknown) {
+		if (e instanceof Error) return e.message;
+		if (typeof e === 'string') return e;
+		try {
+			return JSON.stringify(e);
+		} catch {
+			return 'Unknown error.';
+		}
+	}
 
 	async function scanAdd() {
 		error = '';
@@ -28,12 +37,27 @@
 		const trimmed = upc.trim();
 		if (!trimmed) return;
 
+		isScanning = true;
+
 		try {
+			// Debug: confirm the handler fired
+			console.log('[cashier] scanAdd UPC:', trimmed);
+
 			const product = await fetchProductByUPC(trimmed);
+
+			// Guard: ensure product looks valid for your cart store
+			if (!product || !product.upc || !product.name || typeof product.price !== 'number') {
+				console.error('[cashier] Invalid product returned:', product);
+				throw new Error('Product data from API is missing fields (upc/name/price).');
+			}
+
 			addToCart(product, 1);
 			upc = '';
 		} catch (e) {
-			error = e instanceof Error ? e.message : 'Could not find product.';
+			console.error('[cashier] scanAdd failed:', e);
+			error = getErrMsg(e) || 'Could not find product.';
+		} finally {
+			isScanning = false;
 		}
 	}
 
@@ -52,7 +76,8 @@
 			clearCart();
 			paid = 0;
 		} catch (e) {
-			error = e instanceof Error ? e.message : 'Checkout failed.';
+			console.error('[cashier] checkout failed:', e);
+			error = getErrMsg(e) || 'Checkout failed.';
 		} finally {
 			isSubmitting = false;
 		}
@@ -61,20 +86,23 @@
 
 {#if $isLoading}
 	<p class="muted">Loading...</p>
-{:else if !$isAuthenticated}
-	<p class="muted">Please log in to access the cashier page.</p>
 {:else}
 	<div class="page">
 		<h1>Cashier Checkout</h1>
 
-		<div class="scanRow">
+		<!-- Use a form so Enter ALWAYS submits -->
+		<form class="scanRow" on:submit|preventDefault={scanAdd}>
 			<input
 				placeholder="Scan or type UPC and press Enter"
 				bind:value={upc}
-				on:keydown={(e) => e.key === 'Enter' && scanAdd()}
+				autocomplete="off"
+				autocapitalize="off"
+				spellcheck="false"
 			/>
-			<button on:click={scanAdd}>Add</button>
-		</div>
+			<button type="submit" disabled={isScanning}>
+				{isScanning ? 'Adding...' : 'Add'}
+			</button>
+		</form>
 
 		{#if error}
 			<div class="error">{error}</div>
@@ -121,7 +149,7 @@
 									</td>
 									<td>${(line.product.price * line.qty).toFixed(2)}</td>
 									<td>
-										<button class="danger" on:click={() => removeItem(line.product.upc)}>
+										<button class="danger" type="button" on:click={() => removeItem(line.product.upc)}>
 											Remove
 										</button>
 									</td>
@@ -130,7 +158,7 @@
 						</tbody>
 					</table>
 
-					<button class="ghost" on:click={clearCart}>Clear Cart</button>
+					<button class="ghost" type="button" on:click={clearCart}>Clear Cart</button>
 				{/if}
 			</div>
 
@@ -198,6 +226,10 @@
 		border: none;
 		cursor: pointer;
 		font-weight: 600;
+	}
+	button:disabled {
+		opacity: 0.65;
+		cursor: not-allowed;
 	}
 	.ghost {
 		background: transparent;
