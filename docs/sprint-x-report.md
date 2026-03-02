@@ -26,12 +26,6 @@ Here are links to issues we worked on but did not complete in this sprint:
   majority of the development.
 * [Build Transactions List View](https://github.com/Tallented-Code-bot/CPTS322-Point-of-Sale-System/issues/13) We did not get to this issue due to it relying on the issue listed above, which was also not gotten to.
 * [Implement Backend API](https://github.com/Tallented-Code-bot/CPTS322-Point-of-Sale-System/issues/7) While this issue was certainly worked on, we did not get to finishing it due to to it containing "Create Endpoint to Store Transactions" as a sub-issue. 
-Examples of explanations (Remove this section when you save the file):
-* "We ran into a complication we did not anticipate (explain briefly)."
-* "We decided that the feature did not add sufficient value for us to work on it
-in this sprint (explain briefly)."
-* "We could not reproduce the bug" (explain briefly).
-* "We did not get to this issue because..." (explain briefly)
 ## Code Files for Review
 Please review the following code files, which were actively developed during this
 sprint, for quality:
