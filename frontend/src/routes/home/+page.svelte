@@ -53,18 +53,18 @@
           </div>
         </div>
         <div class="bottombar">
-          <div class="scanRow">
+          <!-- <div class="scanRow">
             <input
               placeholder="Scan or type UPC and press Enter"
               
               autocomplete="off"
               autocapitalize="off"
               spellcheck="false"
-            />
+            /> -->
           <!-- <button type="submit" disabled={isScanning}>
             {isScanning ? 'Adding...' : 'Add'}
-          </button> -->
-        </div>
+          </button> 
+        </div> -->
           <CheckoutButton />
         </div>
     {:else}
@@ -136,7 +136,7 @@
       bottom: 0;
       left: 0;
       height: 10vh;
-      width: 100%;
+      width: 50%;
       padding-left: 1rem;
     }
 </style>
