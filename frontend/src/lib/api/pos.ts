@@ -11,7 +11,6 @@ async function handle<T>(res: Response): Promise<T> {
 }
 
 export async function fetchProductByUPC(upc: string): Promise<Product> {
-	alert('Fetching stuff');
 	const res = await fetch(`${BASE_URL}/products/${encodeURIComponent(upc)}`, {
 		method: 'GET',
 		credentials: 'include'
@@ -20,7 +19,7 @@ export async function fetchProductByUPC(upc: string): Promise<Product> {
 }
 
 export async function checkout(payload: unknown): Promise<{ receiptId: string }> {
-	const res = await fetch(`${BASE_URL}/api/checkout`, {
+	const res = await fetch(`${BASE_URL}/checkout`, {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
 		credentials: 'include',

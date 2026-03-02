@@ -20,11 +20,14 @@ pub async fn get_product_by_upc(
     db: &State<MongoRepo>,
     upc: UPC,
 ) -> Result<Json<Option<Product>>, Status> {
-    let product = db.get_product_by_upc(upc).await;
-    match product {
-        Ok(product) => Ok(Json(product)),
-        Err(_) => Err(Status::InternalServerError),
-    }
+    let product = db
+        .get_all_products()
+        .await
+        .map_err(|_| Status::InternalServerError)?
+        .into_iter()
+        .find(|x| x.upc.is_some() && x.upc.as_ref().unwrap().0 == upc.0);
+
+    Ok(Json(product))
 }
 
 #[get("/push")]
