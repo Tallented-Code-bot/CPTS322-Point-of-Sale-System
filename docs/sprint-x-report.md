@@ -13,9 +13,10 @@ Owen worked on linking the various components and routes within Svelte and manag
 * Transactions are not stored at this time.
 ## Completed Issues/User Stories
 Here are links to the issues that we completed in this sprint:
-* Cart and summary panel layout development
-* URL of issue 2
-* URL of issue n
+* [Cart and summary panel layout development](https://github.com/Tallented-Code-bot/CPTS322-Point-of-Sale-System/issues/14)
+* [URL of issue 2](https://github.com/Tallented-Code-bot/CPTS322-Point-of-Sale-System/issues/12)
+* [URL of issue n](https://github.com/Tallented-Code-bot/CPTS322-Point-of-Sale-System/issues/11)
+* https://github.com/Tallented-Code-bot/CPTS322-Point-of-Sale-System/issues/10
 ## Incomplete Issues/User Stories
 Here are links to issues we worked on but did not complete in this sprint:
 * URL of issue 1 <<One sentence explanation of why issue was not completed>>
