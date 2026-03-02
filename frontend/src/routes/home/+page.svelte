@@ -63,8 +63,8 @@
             /> -->
           <!-- <button type="submit" disabled={isScanning}>
             {isScanning ? 'Adding...' : 'Add'}
-          </button> -->
-        </div>
+          </button> 
+        </div> -->
           <CheckoutButton />
         </div>
     {:else}
