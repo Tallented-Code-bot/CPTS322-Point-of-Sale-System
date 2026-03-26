@@ -76,8 +76,8 @@
 			if (payload.items.length === 0) throw new Error('Cart is empty.');
 			if (payload.change < 0) throw new Error('Not enough payment.');
 
-			const res = await checkout(payload);
-			receiptMsg = `Sale complete. Receipt: ${res.receiptId}`;
+			//const res = await checkout(payload);
+			//receiptMsg = `Sale complete. Receipt: ${res.receiptId}`;
 			clearCart();
 			paid = 0;
 		} catch (e) {
