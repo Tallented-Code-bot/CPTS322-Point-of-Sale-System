@@ -3,45 +3,100 @@
     import LogoutButton from '$lib/components/LogoutButton.svelte';
 	  import { goto } from '$app/navigation';
     import CheckoutButton from '$lib/components/CheckoutButton.svelte';
+    import {
+		addToCart,
+		cartItems,
+		subtotal,
+		tax,
+		total,
+		setQty,
+		removeItem,
+		clearCart,
+		buildCheckoutPayload
+	} from '$lib/stores/cart';
+    import { fetchProductByUPC, checkout } from '$lib/api/pos';
 
 
-    //this is just a random item generator from flowbyte svelte
-    function getRandomLorem(minWords: number, maxWords: number) {
-    const lorem = "Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua".split(" ");
-    const wordCount = Math.floor(Math.random() * (maxWords - minWords + 1)) + minWords;
-    let result = [];
-    for (let i = 0; i < wordCount; i++) {
-      const word = lorem[Math.floor(Math.random() * lorem.length)];
-      result.push(word);
-    }
-    return result.join(" ");
-
-
-  }
-
-  const items = Array.from({ length: 5000 }, (_, i) => `Item ${i + 1}: ${getRandomLorem(10, 70)}`);
+    
 
   let width = window.innerWidth;
   let height = window.innerHeight;
 
-  console.log('items length', items.length);
-
   console.log($isLoggedIn + " from /home")
+
+  let upc = '';
+	let error = '';
+	let paid = 0;
+	let receiptMsg = '';
+	let isSubmitting = false;
+	let isScanning = false;
+
+  function getErrMsg(e: unknown) {
+		if (e instanceof Error) return e.message;
+		if (typeof e === 'string') return e;
+		try {
+			return JSON.stringify(e);
+		} catch {
+			return 'Unknown error.';
+		}
+	}
+
+  async function scanAdd() {
+		error = '';
+		receiptMsg = '';
+
+		const trimmed = upc.trim();
+		if (!trimmed) return;
+
+		isScanning = true;
+
+		try {
+			// Debug: confirm the handler fired
+			console.log('[cashier] scanAdd UPC:', trimmed);
+
+			const product = await fetchProductByUPC(trimmed);
+			console.log(product);
+
+			// Guard: ensure product looks valid for your cart store
+			if (!product || !product.upc || !product.name || typeof product.price !== 'number') {
+				console.error('[cashier] Invalid product returned:', product);
+				throw new Error('Product data from API is missing fields (upc/name/price).');
+			}
+
+			addToCart(product, 1);
+			upc = '';
+		} catch (e) {
+			console.error('[cashier] scanAdd failed:', e);
+			error = getErrMsg(e) || 'Could not find product.';
+		} finally {
+			isScanning = false;
+		}
+	}
 
  
 </script>
 
 
+
+
 <div class="testclass">
     {#if $isLoggedIn}
+        
         <div class="listwindow">
-           <!--  {#each items as item, index}
-                <div class="border-b p-2 text-gray-900 dark:text-white dark:hover:bg-gray-800">
-                {index} / {items.length} - {item}
-                </div>
-            {/each}
-             -->
-            This feature is coming soon! For now, click to checkout in the bottom corner. Or, logout- to logout.
+
+           <div class="scanRow">
+            <input
+              placeholder="Scan or type UPC and press Enter"
+              bind:value={upc}
+              autocomplete="off"
+              autocapitalize="off"
+              spellcheck="false"
+            />
+            <button on:click={scanAdd} disabled={isScanning}>
+              {isScanning ? 'Adding...' : 'Add'}
+            </button>
+          </div>
+
         </div>
         <div class="topbar">
           <LogoutButton />
@@ -130,13 +185,10 @@
       justify-content:flex-start;
       padding-right: 1rem;
     }
-    .scanRow{
-      position: fixed;
-      display:flex;
-      bottom: 0;
-      left: 0;
-      height: 10vh;
-      width: 50%;
-      padding-left: 1rem;
-    }
+    
+    .scanRow {
+		display: flex;
+		gap: 0.75rem;
+		margin: 1rem 0 1.25rem;
+	}
 </style>
