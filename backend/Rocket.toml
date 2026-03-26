@@ -16,7 +16,7 @@ port = 9001
 
 ## set only when compiled in release mode, i.e, `cargo build --release`
 [release]
-port = 9999
+port = 80
 ip_header = false
 
 [release.tls]
