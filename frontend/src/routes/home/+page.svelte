@@ -73,14 +73,23 @@
 		}
 	}
 
+  function handleKeydown(event: KeyboardEvent) {
+    if (event.key === 'Enter') {
+      scanAdd();
+    }
+  }
+
+
  
 </script>
 
 
-
+<svelte:window on:keydown={handleKeydown} />
 
 <div class="testclass">
+
     {#if $isLoggedIn}
+    
         
         <div class="listwindow">
 
@@ -95,6 +104,7 @@
             <button on:click={scanAdd} disabled={isScanning}>
               {isScanning ? 'Adding...' : 'Add'}
             </button>
+            
           </div>
 
           <div class="cart">
@@ -145,6 +155,10 @@
               </table>
 
               <button class="ghost" type="button" on:click={clearCart}>Clear Cart</button>
+            {/if}
+
+            {#if error}
+              <div class="error">{error}</div>
             {/if}
           </div>
 

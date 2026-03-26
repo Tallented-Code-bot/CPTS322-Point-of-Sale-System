@@ -1,7 +1,7 @@
 import { writable, derived, get } from 'svelte/store';
 
 export type Product = {
-	_id?: string;
+	_id?: string; //_id? means that it doesn't need an id (?), but if it does have one, it doesn't need it right away (_)
 	upc: string;
 	name: string;
 	price: number;
@@ -13,13 +13,13 @@ export type CartItem = {
 	qty: number;
 };
 
-const cart = writable<CartItem[]>([]);
+const cart = writable<CartItem[]>([]); //creates cart: a (currently empty) array of CartItem[]'s
 
-function round2(n: number) {
+function round2(n: number) { //simple function that rounds to 2 decimal places.
 	return Math.round(n * 100) / 100;
 }
 
-export const cartItems = { subscribe: cart.subscribe };
+export const cartItems = {subscribe: cart.subscribe};
 
 export const subtotal = derived(cart, ($cart) =>
 	round2($cart.reduce((sum, line) => sum + line.product.price * line.qty, 0))
