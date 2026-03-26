@@ -6,7 +6,7 @@ edition = "2021"
 [dependencies]
 dotenv = "0.15.0"
 mongodb = "3.5.1"
-rocket = { version = "0.5.1", features = ["json"] }
+rocket = { version = "0.5.1", features = ["json", "tls"] }
 serde = "1.0.228"
 tokio = "1.49.0"
 upc-a = {version = "0.1.0", features = ["serde"]}
