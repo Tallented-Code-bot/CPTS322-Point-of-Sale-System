@@ -14,34 +14,27 @@ use crate::api::{get_all_products, get_product_by_upc, push};
 use crate::repository::MongoRepo;
 
 // Serve static files (JS, CSS, images, etc.)
-#[get("/<file..>", rank = 2)]
+#[get("/<file..>", rank = 5)]
 async fn static_files(file: PathBuf) -> Option<NamedFile> {
     let path = Path::new(relative!("../frontend/build")).join(&file);
-
-    // Only serve if the file exists and is not a directory
-    if path.is_file() {
-        NamedFile::open(path).await.ok()
-    } else {
-        None
+    if path.is_dir() {
+        return NamedFile::open(path.join("index.html")).await.ok();
     }
+    NamedFile::open(path).await.ok()
 }
 
 // Fallback to index.html for SPA routing (lowest priority)
-#[get("/<_path..>", rank = 10)]
-async fn spa_fallback(_path: PathBuf) -> Result<NamedFile, Status> {
+#[get("/<_path..>", rank = 20)]
+async fn spa_fallback(_path: PathBuf) -> Option<NamedFile> {
     let index_path = Path::new(relative!("../frontend/build")).join("index.html");
-    NamedFile::open(index_path)
-        .await
-        .map_err(|_| Status::NotFound)
+    NamedFile::open(index_path).await.ok()
 }
 
 // Serve index.html for root route
 #[get("/", rank = 1)]
-async fn index() -> Result<NamedFile, Status> {
+async fn index() -> Option<NamedFile> {
     let index_path = Path::new(relative!("../frontend/build")).join("index.html");
-    NamedFile::open(index_path)
-        .await
-        .map_err(|_| Status::NotFound)
+    NamedFile::open(index_path).await.ok()
 }
 
 #[launch]
