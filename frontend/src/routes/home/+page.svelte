@@ -97,6 +97,58 @@
             </button>
           </div>
 
+          <div class="cart">
+            <h2>Cart</h2>
+
+            {#if $cartItems.length === 0}
+              <p class="muted">No items yet.</p>
+            {:else}
+              <table>
+                <thead>
+                  <tr>
+                    <th>Item</th>
+                    <th>UPC</th>
+                    <th>Price</th>
+                    <th>Qty</th>
+                    <th>Line</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {#each $cartItems as line (line.product.upc)}
+                    <tr>
+                      <td>{line.product.name}</td>
+                      <td class="mono">{line.product.upc}</td>
+                      <td>${line.product.price.toFixed(2)}</td>
+                      <td>
+                        <input
+                          type="number"
+                          min="0"
+                          value={line.qty}
+                          on:input={(e) =>
+                            setQty(line.product.upc, Number((e.target as HTMLInputElement).value))}
+                        />
+                      </td>
+                      <td>${(line.product.price * line.qty).toFixed(2)}</td>
+                      <td>
+                        <button
+                          class="danger"
+                          type="button"
+                          on:click={() => removeItem(line.product.upc)}
+                        >
+                          Remove
+                        </button>
+                      </td>
+                    </tr>
+                  {/each}
+                </tbody>
+              </table>
+
+              <button class="ghost" type="button" on:click={clearCart}>Clear Cart</button>
+            {/if}
+          </div>
+
+
         </div>
         <div class="topbar">
           <LogoutButton />
