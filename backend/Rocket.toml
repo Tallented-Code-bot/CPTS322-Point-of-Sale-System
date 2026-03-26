@@ -16,9 +16,5 @@ port = 9001
 
 ## set only when compiled in release mode, i.e, `cargo build --release`
 [release]
-port = 80
-ip_header = false
-
-[release.tls]
-certs = "certs/cert.pem"
-key = "certs/key.pem"
+port = 8000
+ip_header = "X-Real-IP"

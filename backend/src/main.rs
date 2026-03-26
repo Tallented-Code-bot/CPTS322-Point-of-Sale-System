@@ -7,6 +7,7 @@ mod repository;
 
 use rocket::fs::{relative, NamedFile};
 use rocket::http::Status;
+use rocket::shield::{Hsts, Shield};
 use std::path::{Path, PathBuf};
 
 use crate::api::{get_all_products, get_product_by_upc, push};
@@ -48,10 +49,10 @@ async fn rocket() -> _ {
     let db = MongoRepo::init().await;
 
     rocket::build()
+        .attach(Shield::default().disable::<Hsts>())
         .manage(db)
-        // Mount API routes here with rank 1 (they get priority)
-        // .mount("/api", routes![health_check])
-        // Mount static file serving and SPA fallback
+        // API routes mounted under /api to avoid collisions with static files
+        .mount("/api", routes![get_all_products, get_product_by_upc, push])
+        // Frontend and static files mounted at root
         .mount("/", routes![index, static_files, spa_fallback])
-        .mount("/", routes![get_all_products, get_product_by_upc, push])
 }
