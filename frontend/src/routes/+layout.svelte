@@ -3,6 +3,7 @@
 	import { onMount } from 'svelte';
 	import { initializeAuth } from '$lib/stores/auth';
 	import favicon from '$lib/assets/favicon.svg';
+	import background from '../../static/background.png';
 
 	onMount(() => {
 		initializeAuth();
@@ -10,7 +11,7 @@
 </script>
 
 <svelte:head><link rel="icon" href={favicon} /></svelte:head>
-<main><slot></slot></main>
+<main style="background-image: url('{background}')"><slot></slot></main>
 
 <style>
 	:global(body) {
@@ -30,7 +31,6 @@
 		box-sizing: border-box;
 		/* background: #097319;
 		background: linear-gradient(0deg,rgba(9, 115, 25, 1) 0%, rgba(0, 129, 194, 1) 53%); */
-		background-image: url("background.png");
 		background-size: 100%;
 		background-repeat: no-repeat;
 	}

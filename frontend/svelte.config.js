@@ -5,6 +5,9 @@ import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 const config = {
 	preprocess: [vitePreprocess()],
 	kit: {
+		files: {
+			assets: 'static'
+		},
 		adapter: adapter({
 			// default options are shown. On some platforms
 			// these options are set automatically — see below
