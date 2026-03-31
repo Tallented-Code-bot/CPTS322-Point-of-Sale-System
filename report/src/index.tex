@@ -179,28 +179,150 @@ He has experience in a variety of programming languages, including Python, Java,
 
 \section{Project Requirements Specification}
 
-Include the following:
-
-\subsection{Project Stakeholders}
-
-List your stakeholders, summarize their needs.
-
 \subsection{Use Cases}
 
 The major use cases of this software is to facilitate retail transactions at the
-point of sale. With integration with store databases and cash registers, the product
-should be a near drop-in replacement for any existing point of sale system.
+point of sale. This requires secure interaction with a backend database, and requires
+the frontend to have support for multiple input methods such as touch, pointer, and
+keyboard. Since the end goal of the project is to be a near drop-in replacement for
+any existing point of sale system, we intend on using standard communication protocals
+between every component of the system. We also intend on implementing a form of
+administration privlages, accessable by passcode on any frontend machine.
 
-\input{test.tex}
+\begin{center}
+\includegraphics[width=150mm]{User Diag.png}
+
+\textbf{User Login}
+\begin{tabular}{|c|c|}\hline
+Pre-condition & Backend/frontend online and connected \\ \hline
+Post-condition & User is logged in, given appropriate\\ & permissions,
+and is able to create a transaction \\ \hline
+Basic Path & User enters username, password, presses enter/sign-in button \\ \hline
+Related Requirements & Management user mode, Add items to ``checkout'' \\ \hline
+\end{tabular}\vspace{2em}
+
+\textbf{Management User Mode}
+\begin{tabular}{|c|c|}\hline
+  Pre-condition & user enters the username and password associated with\\
+  & an account with elevated permissions. \\ \hline
+  Post-condition & Logged-in user is able to access options associated with\\
+  & managers, such as the ability to create a void cash transaction \\ \hline
+  Basic Path & User enters username and password of elevated account in previous step \\ \hline
+  Alternate Path & \\ \hline
+  Related Requirements & \\ \hline
+\end{tabular}\vspace{2em}
+\newpage
+
+\textbf{Add Items to Checkout}
+\begin{tabular}{|c|c|}\hline
+Pre-condition & All desired items added to checkout \\ \hline
+Post-condition & All items are added to checkout list, and transaction\\
+& is ready to progress to payment stage \\ \hline
+Basic Path & Items are added by entering an associated UPC code into the system.\\
+& Quantity is also a parameter. This is done either through the\\
+&  use of a barcode scanner or manula entry. \\ \hline
+Alternate Path & Stage can be bypassed with manager permissions\\
+& in order to create a void transaction.\\ \hline
+Related Requirements & Payment Mode \\ \hline
+\end{tabular}\vspace{2em}
+
+\textbf{Payment Mode}
+\begin{tabular}{|c|c|}\hline
+Pre-condition & All desired items added to checkout \\ \hline
+Post-condition & Desired payment method is selected OR, payment\\
+& stage is canceled, and state retuns to item add stage.\\ \hline
+Basic Path & User selects either a cash or card transaction. \\ \hline
+Alternate Path & This stage can be bypassed if manager desires to create void transaction, as\\
+& as the payment option is implied. \\ \hline
+Related Requirements & Add items to ``checkout'', Card (state), Cash (state) \\ \hline
+\end{tabular}\vspace{2em}
+
+\textbf{Card}
+\begin{tabular}{|c|c|}\hline
+Pre-condition & Card payment is selected in previous stage.\\ \hline
+Post-condition & Payment process is handed off to card reader. \\ \hline
+Basic Path & Control is handed over to card reader terminal until said\\
+& terminal has reached its accepting state and control is turned back\\
+& over to the POS machine. \\ \hline
+Alternate path & User also has the option to pay with cash. \\ \hline
+Related Requirements & Payment finished, items removed from database. \\ \hline
+\end{tabular}\vspace{2em}
+
+\textbf{Cash}
+\begin{tabular}{|c|c|}\hline
+Pre-condition & User selected to either create void transaction or \\
+& user selected for cash payment. \\ \hline
+Post-condition & Change is made and traded by user. \\ \hline
+Basic Path & Register is opened, user makes appropriate change, state ends\\
+& when register is closed. \\ \hline
+Alternate Path & User also has the option to pay wity card. \\ \hline
+Related Requirments & Payment finished, items removed from database. \\ \hline 
+\end{tabular}\vspace{2em}
+
+\textbf{Payment finished, items removed from database}
+\begin{tabular}{|c|c|}\hline
+Pre-condition & Previous transaction is completed \\ \hline
+Post-condition & Current total for a given item is updated, stage is moved back \\
+& to add items to checkout stage. \\ \hline
+Basic Path & Frontend sends valid receipt to backend, backend updates current\\
+& item counts of each listed item. \\ \hline
+Alternate Path & \\ \hline
+Related Requirements & Add items to checkout state. \\ \hline
+\end{tabular}\vspace{2em}
+\end{center}
 
 
 \subsection{Functional Requirements}
 
-Include functional requirements
+1. Core Application Requirements
+
+\begin{center}
+\textbf{Security}\\
+\begin{tabular}{|c|c|}\hline
+Description & The app must contain a system to verity users in a secure \\
+& manner, and to process payments into the database without posing a security \\
+& threat to the customer. \\ \hline
+Source & Collaberatively decided properties of a point-of-sale system among \\
+& the development team. \\ \hline
+Priority & Priority 0: Core to the functionality of the application \\ \hline
+\end{tabular}\vspace{2em}
+
+\textbf{Item Database}\\
+\begin{tabular}{|c|c|}\hline
+Description & The backend of the app must contain a relatively simple item \\
+& database that keeps track of each item's UPC (universal product code),\\
+& the price, and the quantity in stock. This database must be connected remotely\\
+& to each instance of the frontend, with updates being sent both ways. \\ \hline
+Source & Collaberatively decided properties of a point-of-sale system among \\
+& the development team. \\ \hline
+Priority & Priority 0: Core to the functionality of the application \\ \hline
+
+\end{tabular}\vspace{2em}
+
+\textbf{Multi-headed frontend with privilage levels}\\
+\begin{tabular}{|c|c|}\hline
+  Description & The frontend of the app must be able to have multiple instances\\
+  & running simultaniously, each sending updates to a central backend machine.\\
+  & This frontend also must be able to make use of different privilage levels\\
+  & in order to support the level of employee organization native to the environment\\
+  & for which it will be deployed \\ \hline
+  Source & Collaberatively decided properties of a point-of-sale system among \\
+  & the development team. \\ \hline
+  Priority & Priority 0: Core to the functionality of the application \\ \hline
+\end{tabular}
+\end{center}
 
 \subsection{Non-Functional Requirements}
 
-Include non-functional requirements
+\textbf{Security}\\
+The ability for the system to be able to securely process transactions is highly
+important. Although the frontend will be a web-based implementation, 
+the system deploying the frontend will
+remain offline, save for a secure connection to the backend which is what processes all the data.\\
+\textbf{Intuitivness}\\
+The goal is to create a User Interface that the user does not need to be told
+how to use. Labeled buttons and baking in support for multiple different common
+input standards 
 
 \subsection{Standards}
 
@@ -275,46 +397,79 @@ Results}
 
 \subsection{Testing Overview}
 
-Include a summary of your test objectives and test plans.
+% Include a summary of your test objectives and test plans.
 
-Describe the overall approach to testing and provide the overall flow of
-the testing process. An example is provided in an Appendix.
+% Describe the overall approach to testing and provide the overall flow of
+% the testing process. An example is provided in an Appendix.
 
-Are you using Continuous Integration (CI) and/or Continuous Delivery
-(CD) in your testing? What tools are you using, what kinds of testing do
-they provide? Unit tests, integration, system, user interface,
-speed/non-functional requirement testing, user testing, etc.
+% Are you using Continuous Integration (CI) and/or Continuous Delivery
+% (CD) in your testing? What tools are you using, what kinds of testing do
+% they provide? Unit tests, integration, system, user interface,
+% speed/non-functional requirement testing, user testing, etc.
 
-In all of these major categories, include at least some material about
-your implementation, how it is currently executing, and/or what future
-work would be needed to ensure it happens for this project
+% In all of these major categories, include at least some material about
+% your implementation, how it is currently executing, and/or what future
+% work would be needed to ensure it happens for this project
+Due to the time constraints of the project, automated self testing tools will most
+likely not be developed, requiring manual testing for most components. One exception
+to this however, being the standards testing, for which many great automated tools are
+aleady written and freely accessable, which our team plans to make use of.
 
+\begin{center}
 \begin{itemize}
 \item
-  Unit testing
+  \textbf{Unit testing}\\
+\begin{tabular}{|p{1.9cm}|p{1.9cm}|p{1.9cm}|p{1.9cm}|p{1.9cm}|p{1.9cm}|}\hline
+Component & Front/Back-end & Description & Expected Result & Observed Result & Pass/Fail\\ \hline
+UPC entry & Frontend & Attempting to add an invalid UPC & Descriptive, unobsusive error with suggestions for fixing &  & \\ \hline
+
+\end{tabular}
+
 \item
-  Integration testing
+  \textbf{Integration testing}\\
+  \begin{tabular}{|p{1.9cm}|p{1.9cm}|p{1.9cm}|p{1.9cm}|p{1.9cm}|p{1.9cm}|}\hline
+  Component & Front/Back-end & Description & Expected Result & Observed Result & Pass/Fail\\ \hline
+  Database & Backend & Requesting details for an item contained in the database & Item details are able to be retrieved accuratly & & \\ \hline.
+  \end{tabular}
 \item
-  System testing
+  \textbf{System testing}
 \item
-  Functional testing
+  Functional testing\\
+  \begin{tabular}{|p{1.9cm}|p{1.9cm}|p{1.9cm}|p{1.9cm}|p{1.9cm}|p{1.9cm}|}\hline
+  Component & Front/Back-end & Description & Expected Result & Observed Result & Pass/Fail\\ \hline
+  Checkout Screen Immutability & Frontend & Provided item list is unable to be changed in any way, at the checkout screen & Due to the nature of backend storage, any visual edits via (F12) inspect or by other means will be purely visual & &  \\ \hline
+  \end{tabular}
 \item
-  Performance testing
+  Performance testing\\
+  \begin{tabular}{|p{1.9cm}|p{1.9cm}|p{1.9cm}|p{1.9cm}|p{1.9cm}|p{1.9cm}|}\hline
+  Component & Front/Back-end & Description & Expected Result & Observed Result & Pass/Fail\\ \hline
+  All Pages & Frontend & UI is readable and practical at aspect ratios down to 4:3 and screen sizes down to 7'' & Aspect ratios and screen sizes will not be an issue, and the app will remain easy to use & & \\ \hline
+  \end{tabular}
 \item
-  Standards and constraints testing
+  Standards and constraints testing\\
+  \begin{tabular}{|p{1.9cm}|p{1.9cm}|p{1.9cm}|p{1.9cm}|p{1.9cm}|p{1.9cm}|}\hline
+  Component & Front/Back-end & Description & Expected Result & Observed Result & Pass/Fail\\ \hline
+  All Pages & Frontend & W3C Accessability compliance & Website is able to pass WAVE automated W3C testing &  &  \\ \hline 
+  \end{tabular}
 \item
   User acceptance testing
 \end{itemize}
+\end{center}
 
 \subsection{\texorpdfstring{ Environment
 Requirements}{ Environment Requirements}}
 
-Specify both the necessary and desired properties of the test
-environment. The specification should contain the physical
-characteristics of the facilities, including the hardware, the
-communications and system software, the mode of usage (for example,
-stand-alone), and any other software or supplies needed to support the
-test. Identify special test tools needed.
+% Specify both the necessary and desired properties of the test
+% environment. The specification should contain the physical
+% characteristics of the facilities, including the hardware, the
+% communications and system software, the mode of usage (for example,
+% stand-alone), and any other software or supplies needed to support the
+% test. Identify special test tools needed.
+
+The primary condition of the testing, with exception to the automated testing which
+requires a hosted site, will be done offline. However, due to the nature of the program,
+both the backend and the frontend will be running for the testing. The testing will be done
+ in multiple browsers to ensuere compatability.
 
 \subsection{Test Results}
 
