@@ -5,8 +5,7 @@ mod api;
 mod models;
 mod repository;
 
-use rocket::fs::{relative, NamedFile};
-use rocket::http::Status;
+use rocket::fs::NamedFile;
 use rocket::shield::{Hsts, Shield};
 use std::path::{Path, PathBuf};
 
@@ -16,7 +15,7 @@ use crate::repository::MongoRepo;
 // Serve static files (JS, CSS, images, etc.)
 #[get("/<file..>", rank = 5)]
 async fn static_files(file: PathBuf) -> Option<NamedFile> {
-    let path = Path::new(relative!("../frontend/build")).join(&file);
+    let path = Path::new("../frontend/build").join(&file);
     if path.is_dir() {
         return NamedFile::open(path.join("index.html")).await.ok();
     }
@@ -26,14 +25,14 @@ async fn static_files(file: PathBuf) -> Option<NamedFile> {
 // Fallback to index.html for SPA routing (lowest priority)
 #[get("/<_path..>", rank = 20)]
 async fn spa_fallback(_path: PathBuf) -> Option<NamedFile> {
-    let index_path = Path::new(relative!("../frontend/build")).join("index.html");
+    let index_path = Path::new("../frontend/build").join("index.html");
     NamedFile::open(index_path).await.ok()
 }
 
 // Serve index.html for root route
 #[get("/", rank = 1)]
 async fn index() -> Option<NamedFile> {
-    let index_path = Path::new(relative!("../frontend/build")).join("index.html");
+    let index_path = Path::new("../frontend/build/").join("index.html");
     NamedFile::open(index_path).await.ok()
 }
 
