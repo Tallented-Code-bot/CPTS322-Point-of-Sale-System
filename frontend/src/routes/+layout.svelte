@@ -2,7 +2,7 @@
 	import './layout.css';
 	import { onMount } from 'svelte';
 	import { initializeAuth } from '$lib/stores/auth';
-	import favicon from '$lib/assets/favicon.svg';
+	import favicon from '$lib/assets/mountain.png';
 
 	onMount(() => {
 		initializeAuth();
