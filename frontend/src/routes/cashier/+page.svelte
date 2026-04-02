@@ -11,7 +11,6 @@
 		buildCheckoutPayload
 	} from '$lib/stores/cart';
 	import { fetchProductByUPC, checkout } from '$lib/api/pos';
-	import { isAuthenticated, isLoading, isLoggedIn } from '$lib/stores/auth';
 	import BackButton from '$lib/components/BackButton.svelte';
 
 	let upc = '';
@@ -53,9 +52,7 @@
 		if (!isNaN(num) && num >= 0) setQty(upc, num);
 	}
 
-	function confirmClear() {
-		showClearConfirm = true;
-	}
+	function confirmClear() { showClearConfirm = true; }
 
 	function doClear() {
 		clearCart();
@@ -85,273 +82,230 @@
 	$: shortfall = paid > 0 && paid < $total ? $total - paid : 0;
 </script>
 
-{#if $isLoading}
-	<div class="gate">
-		<div class="gate-spinner"></div>
-		<p>Authenticating…</p>
-	</div>
-{:else if !$isAuthenticated}
-	<div class="gate">
-		<div class="gate-icon">⚠</div>
-		<p>Please log in to access the cashier terminal.</p>
-	</div>
-{:else if $isLoggedIn}
-	<div class="pos">
+<div class="pos">
 
-		<!-- TOPBAR -->
-		<header class="topbar">
-			<div class="topbar-left">
+	<header class="topbar">
+		<div class="topbar-left">
+			<div class="back-wrap">
 				<BackButton />
 			</div>
-			<div class="topbar-center">
-				<span class="terminal-label">CASHIER TERMINAL</span>
-			</div>
-			<div class="topbar-right">
-				<span class="badge-operator">
-					<span class="badge-dot"></span>
-					Cashier
-				</span>
-			</div>
-		</header>
+		</div>
+		<div class="topbar-center">
+			<span class="terminal-label">CASHIER TERMINAL</span>
+		</div>
+		<div class="topbar-right">
+			<span class="badge-operator">
+				<span class="badge-dot"></span>
+				Cashier
+			</span>
+		</div>
+	</header>
 
-		<!-- MAIN -->
-		<main class="main">
+	<main class="main">
 
-			<!-- CART PANEL -->
-			<section class="panel cart-panel">
-				<div class="panel-title">
-					<span>CART</span>
-					{#if $cartItems.length > 0}
-						<span class="item-count">{$cartItems.length} item{$cartItems.length !== 1 ? 's' : ''}</span>
-					{/if}
-				</div>
-
-				<!-- SCAN ROW -->
-				<div class="scan-row">
-					<div class="scan-input-wrap">
-						<span class="scan-icon">⊡</span>
-						<input
-							class="scan-input"
-							placeholder="Scan or enter UPC…"
-							bind:value={upc}
-							autocomplete="off"
-							autocapitalize="off"
-							spellcheck="false"
-							on:keydown={(e) => e.key === 'Enter' && scanAdd()}
-						/>
-					</div>
-					<button class="btn btn-add" on:click={scanAdd} disabled={isScanning}>
-						{isScanning ? '…' : 'ADD'}
-					</button>
-				</div>
-
-				<!-- ALERTS -->
-				{#if error}
-					<div class="alert alert-error" role="alert">
-						<span class="alert-icon">✕</span> {error}
-					</div>
+		<section class="panel cart-panel">
+			<div class="panel-title">
+				<span>CART</span>
+				{#if $cartItems.length > 0}
+					<span class="item-count">{$cartItems.length} item{$cartItems.length !== 1 ? 's' : ''}</span>
 				{/if}
+			</div>
 
-				{#if receiptMsg}
-					<div class="alert alert-success" role="status">
-						<span class="alert-icon">✓</span> {receiptMsg}
+			<div class="scan-row">
+				<div class="scan-input-wrap">
+					<span class="scan-icon">⊡</span>
+					<input
+						class="scan-input"
+						placeholder="Scan or enter UPC…"
+						bind:value={upc}
+						autocomplete="off"
+						autocapitalize="off"
+						spellcheck="false"
+						on:keydown={(e) => e.key === 'Enter' && scanAdd()}
+					/>
+				</div>
+				<button class="btn btn-add" on:click={scanAdd} disabled={isScanning}>
+					{isScanning ? '…' : 'ADD'}
+				</button>
+			</div>
+
+			{#if error}
+				<div class="alert alert-error" role="alert">
+					<span class="alert-icon">✕</span> {error}
+				</div>
+			{/if}
+
+			{#if receiptMsg}
+				<div class="alert alert-success" role="status">
+					<span class="alert-icon">✓</span> {receiptMsg}
+				</div>
+			{/if}
+
+			<div class="table-wrap">
+				{#if $cartItems.length === 0}
+					<div class="empty-state">
+						<div class="empty-icon">▭</div>
+						<p>Cart is empty. Scan a barcode to begin.</p>
 					</div>
-				{/if}
-
-				<!-- TABLE -->
-				<div class="table-wrap">
-					{#if $cartItems.length === 0}
-						<div class="empty-state">
-							<div class="empty-icon">▭</div>
-							<p>Cart is empty. Scan a barcode to begin.</p>
-						</div>
-					{:else}
-						<table>
-							<thead>
-								<tr>
-									<th>Item</th>
-									<th>UPC</th>
-									<th class="num">Unit</th>
-									<th class="num">Qty</th>
-									<th class="num">Line</th>
-									<th></th>
+				{:else}
+					<table>
+						<thead>
+							<tr>
+								<th>Item</th>
+								<th>UPC</th>
+								<th class="num">Unit</th>
+								<th class="num">Qty</th>
+								<th class="num">Line</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody>
+							{#each $cartItems as line (line.product.upc)}
+								<tr class="cart-row">
+									<td class="name-cell">{line.product.name}</td>
+									<td class="mono upc-cell">{line.product.upc}</td>
+									<td class="num">${line.product.price.toFixed(2)}</td>
+									<td class="num qty-cell">
+										<input
+											class="qty-input"
+											type="number"
+											min="0"
+											value={line.qty}
+											on:change={(e) =>
+												handleQtyChange(
+													line.product.upc,
+													(e.target as HTMLInputElement).value
+												)}
+										/>
+									</td>
+									<td class="num line-total">
+										${(line.product.price * line.qty).toFixed(2)}
+									</td>
+									<td class="remove-cell">
+										<button
+											class="btn-remove"
+											type="button"
+											aria-label="Remove {line.product.name}"
+											on:click={() => removeItem(line.product.upc)}
+										>✕</button>
+									</td>
 								</tr>
-							</thead>
-							<tbody>
-								{#each $cartItems as line (line.product.upc)}
-									<tr class="cart-row">
-										<td class="name-cell">{line.product.name}</td>
-										<td class="mono upc-cell">{line.product.upc}</td>
-										<td class="num">${line.product.price.toFixed(2)}</td>
-										<td class="num qty-cell">
-											<input
-												class="qty-input"
-												type="number"
-												min="0"
-												value={line.qty}
-												on:change={(e) =>
-													handleQtyChange(
-														line.product.upc,
-														(e.target as HTMLInputElement).value
-													)}
-											/>
-										</td>
-										<td class="num line-total">
-											${(line.product.price * line.qty).toFixed(2)}
-										</td>
-										<td class="remove-cell">
-											<button
-												class="btn-remove"
-												type="button"
-												aria-label="Remove {line.product.name}"
-												on:click={() => removeItem(line.product.upc)}
-											>✕</button>
-										</td>
-									</tr>
-								{/each}
-							</tbody>
-						</table>
-					{/if}
-				</div>
-			</section>
-
-			<!-- SUMMARY PANEL -->
-			<aside class="panel summary-panel">
-				<div class="panel-title">SUMMARY</div>
-
-				<div class="summary-rows">
-					<div class="sum-row">
-						<span>Subtotal</span>
-						<span>${$subtotal.toFixed(2)}</span>
-					</div>
-					<div class="sum-row">
-						<span>Tax</span>
-						<span>${$tax.toFixed(2)}</span>
-					</div>
-					<div class="sum-row sum-total">
-						<span>TOTAL</span>
-						<strong>${$total.toFixed(2)}</strong>
-					</div>
-				</div>
-
-				<div class="divider"></div>
-
-				<div class="pay-section">
-					<label class="pay-label" for="paid-input">TENDERED</label>
-					<div class="pay-input-wrap">
-						<span class="currency-sign">$</span>
-						<input
-							id="paid-input"
-							class="pay-input"
-							type="number"
-							min="0"
-							step="0.01"
-							bind:value={paid}
-						/>
-					</div>
-
-					{#if shortfall > 0}
-						<p class="shortfall">Still need ${shortfall.toFixed(2)}</p>
-					{/if}
-
-					<div class="sum-row change-row" class:highlight={change > 0}>
-						<span>CHANGE</span>
-						<strong>${change.toFixed(2)}</strong>
-					</div>
-				</div>
-
-				<!-- CLEAR CONFIRM -->
-				{#if showClearConfirm}
-					<div class="confirm-box">
-						<p>Clear all items?</p>
-						<div class="confirm-actions">
-							<button class="btn btn-ghost" on:click={() => showClearConfirm = false}>Cancel</button>
-							<button class="btn btn-danger" on:click={doClear}>Clear</button>
-						</div>
-					</div>
+							{/each}
+						</tbody>
+					</table>
 				{/if}
-			</aside>
-		</main>
+			</div>
+		</section>
 
-		<!-- BOTTOM BAR -->
-		<footer class="bottombar">
-			<div class="bottombar-left">
-				<button class="btn btn-ghost" type="button" on:click={confirmClear}>
-					Clear Cart
-				</button>
+		<aside class="panel summary-panel">
+			<div class="panel-title">SUMMARY</div>
+
+			<div class="summary-rows">
+				<div class="sum-row">
+					<span>Subtotal</span>
+					<span>${$subtotal.toFixed(2)}</span>
+				</div>
+				<div class="sum-row">
+					<span>Tax</span>
+					<span>${$tax.toFixed(2)}</span>
+				</div>
+				<div class="sum-row sum-total">
+					<span>TOTAL</span>
+					<strong>${$total.toFixed(2)}</strong>
+				</div>
 			</div>
-			<div class="bottombar-right">
-				<button
-					class="btn btn-checkout"
-					disabled={isSubmitting || $cartItems.length === 0 || paid < $total}
-					on:click={completeSale}
-				>
-					{isSubmitting ? 'Processing…' : 'Complete Sale'}
-				</button>
+
+			<div class="divider"></div>
+
+			<div class="pay-section">
+				<label class="pay-label" for="paid-input">TENDERED</label>
+				<div class="pay-input-wrap">
+					<span class="currency-sign">$</span>
+					<input
+						id="paid-input"
+						class="pay-input"
+						type="number"
+						min="0"
+						step="0.01"
+						bind:value={paid}
+					/>
+				</div>
+
+				{#if shortfall > 0}
+					<p class="shortfall">Still need ${shortfall.toFixed(2)}</p>
+				{/if}
+
+				<div class="sum-row change-row" class:highlight={change > 0}>
+					<span>CHANGE</span>
+					<strong>${change.toFixed(2)}</strong>
+				</div>
 			</div>
-		</footer>
-	</div>
-{/if}
+
+			{#if showClearConfirm}
+				<div class="confirm-box">
+					<p>Clear all items?</p>
+					<div class="confirm-actions">
+						<button class="btn btn-ghost" on:click={() => showClearConfirm = false}>Cancel</button>
+						<button class="btn btn-danger" on:click={doClear}>Clear</button>
+					</div>
+				</div>
+			{/if}
+		</aside>
+	</main>
+
+	<footer class="bottombar">
+		<div class="bottombar-left">
+			<button class="btn btn-ghost" type="button" on:click={confirmClear}>Clear Cart</button>
+		</div>
+		<div class="bottombar-right">
+			<button
+				class="btn btn-checkout"
+				disabled={isSubmitting || $cartItems.length === 0 || paid < $total}
+				on:click={completeSale}
+			>
+				{isSubmitting ? 'Processing…' : 'Complete Sale'}
+			</button>
+		</div>
+	</footer>
+</div>
 
 <style>
-	/* ── TOKENS ─────────────────────────────────────────── */
 	:root {
-		--bg:       #0d1117;
-		--surface:  #161b22;
-		--border:   #21262d;
-		--border2:  #30363d;
-		--text:     #e6edf3;
-		--muted:    #8b949e;
-		--accent:   #f0b429;
-		--success:  #3fb950;
-		--danger:   #f85149;
-		--mono: 'JetBrains Mono', 'Fira Mono', 'Courier New', monospace;
-		--sans: 'DM Sans', 'Helvetica Neue', sans-serif;
+		--bg:      #0d1117;
+		--surface: #161b22;
+		--border:  #21262d;
+		--border2: #30363d;
+		--text:    #e6edf3;
+		--muted:   #8b949e;
+		--accent:  #f0b429;
+		--success: #3fb950;
+		--danger:  #f85149;
+		--mono:  'JetBrains Mono', 'Fira Mono', 'Courier New', monospace;
+		--sans:  'DM Sans', 'Helvetica Neue', sans-serif;
 		--label: 'Barlow Condensed', 'Arial Narrow', sans-serif;
 	}
 
 	:global(body) {
 		margin: 0;
+		padding: 0;
+		overflow: hidden;
 		background: var(--bg);
 		color: var(--text);
 		font-family: var(--sans);
 		-webkit-font-smoothing: antialiased;
 	}
 
-	/* ── GATE SCREENS ────────────────────────────────────── */
-	.gate {
-		height: 100vh;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		gap: 1rem;
-		color: var(--muted);
-		font-family: var(--label);
-		letter-spacing: 0.05em;
-	}
-
-	.gate-icon { font-size: 2rem; }
-
-	.gate-spinner {
-		width: 28px; height: 28px;
-		border: 2px solid var(--border2);
-		border-top-color: var(--accent);
-		border-radius: 50%;
-		animation: spin 0.8s linear infinite;
-	}
-
-	@keyframes spin { to { transform: rotate(360deg); } }
-
-	/* ── SHELL ───────────────────────────────────────────── */
+	/* Take over the full viewport, sit above any layout wrappers */
 	.pos {
-		height: 100vh;
+		position: fixed;
+		inset: 0;
+		z-index: 100;
 		display: grid;
 		grid-template-rows: 52px 1fr 60px;
 		background: var(--bg);
 	}
 
-	/* ── TOPBAR ──────────────────────────────────────────── */
+	/* ── TOPBAR ── */
 	.topbar {
 		display: grid;
 		grid-template-columns: 1fr auto 1fr;
@@ -361,9 +315,17 @@
 		background: var(--surface);
 	}
 
-	.topbar-left { display: flex; align-items: center; }
+	.topbar-left   { display: flex; align-items: center; }
 	.topbar-center { display: flex; justify-content: center; }
-	.topbar-right { display: flex; justify-content: flex-end; }
+	.topbar-right  { display: flex; justify-content: flex-end; }
+
+	/* Scale down whatever BackButton renders */
+	.back-wrap {
+		display: flex;
+		align-items: center;
+		transform: scale(0.72);
+		transform-origin: left center;
+	}
 
 	.terminal-label {
 		font-family: var(--label);
@@ -390,15 +352,14 @@
 		box-shadow: 0 0 6px var(--success);
 	}
 
-	/* ── MAIN ────────────────────────────────────────────── */
+	/* ── MAIN ── */
 	.main {
 		display: grid;
-		grid-template-columns: 1fr 280px;
-		gap: 0;
+		grid-template-columns: 1fr 300px;
 		overflow: hidden;
 	}
 
-	/* ── PANELS ──────────────────────────────────────────── */
+	/* ── PANELS ── */
 	.panel {
 		display: flex;
 		flex-direction: column;
@@ -406,13 +367,8 @@
 		padding: 1.1rem 1.25rem;
 	}
 
-	.cart-panel {
-		border-right: 1px solid var(--border);
-	}
-
-	.summary-panel {
-		background: var(--surface);
-	}
+	.cart-panel    { border-right: 1px solid var(--border); }
+	.summary-panel { background: var(--surface); }
 
 	.panel-title {
 		font-family: var(--label);
@@ -435,7 +391,7 @@
 		letter-spacing: 0.05em;
 	}
 
-	/* ── SCAN ROW ────────────────────────────────────────── */
+	/* ── SCAN ROW ── */
 	.scan-row {
 		display: flex;
 		gap: 0.6rem;
@@ -454,10 +410,7 @@
 		transition: border-color 0.15s;
 	}
 
-	.scan-input-wrap:focus-within {
-		border-color: var(--accent);
-	}
-
+	.scan-input-wrap:focus-within { border-color: var(--accent); }
 	.scan-icon { color: var(--muted); font-size: 1rem; }
 
 	.scan-input {
@@ -471,7 +424,7 @@
 		padding: 0.65rem 0;
 	}
 
-	/* ── ALERTS ──────────────────────────────────────────── */
+	/* ── ALERTS ── */
 	.alert {
 		display: flex;
 		align-items: center;
@@ -488,21 +441,14 @@
 		to   { opacity: 1; transform: translateY(0); }
 	}
 
-	.alert-error  { background: rgba(248,81,73,0.1); border: 1px solid rgba(248,81,73,0.3); color: #ffa198; }
-	.alert-success{ background: rgba(63,185,80,0.1); border: 1px solid rgba(63,185,80,0.3); color: #56d364; }
-	.alert-icon   { font-size: 0.8rem; flex-shrink: 0; }
+	.alert-error   { background: rgba(248,81,73,0.1);  border: 1px solid rgba(248,81,73,0.3);  color: #ffa198; }
+	.alert-success { background: rgba(63,185,80,0.1);  border: 1px solid rgba(63,185,80,0.3);  color: #56d364; }
+	.alert-icon    { font-size: 0.8rem; flex-shrink: 0; }
 
-	/* ── TABLE ───────────────────────────────────────────── */
-	.table-wrap {
-		flex: 1;
-		overflow: auto;
-	}
+	/* ── TABLE ── */
+	.table-wrap { flex: 1; overflow: auto; }
 
-	table {
-		width: 100%;
-		border-collapse: collapse;
-		font-size: 0.88rem;
-	}
+	table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
 
 	thead th {
 		font-family: var(--label);
@@ -524,17 +470,10 @@
 	}
 
 	.cart-row:last-child td { border-bottom: none; }
-
 	.cart-row:hover td { background: rgba(255,255,255,0.02); }
 
-	.name-cell { font-weight: 500; }
-
-	.upc-cell {
-		font-family: var(--mono);
-		font-size: 0.78rem;
-		color: var(--muted);
-	}
-
+	.name-cell  { font-weight: 500; }
+	.upc-cell   { font-family: var(--mono); font-size: 0.78rem; color: var(--muted); }
 	.line-total { font-weight: 600; }
 
 	.qty-input {
@@ -552,10 +491,9 @@
 	}
 
 	.qty-input:focus { border-color: var(--accent); }
-
 	.remove-cell { text-align: right; }
 
-	/* ── EMPTY STATE ─────────────────────────────────────── */
+	/* ── EMPTY STATE ── */
 	.empty-state {
 		display: flex;
 		flex-direction: column;
@@ -568,12 +506,9 @@
 		font-size: 0.88rem;
 	}
 
-	.empty-icon {
-		font-size: 2.5rem;
-		opacity: 0.3;
-	}
+	.empty-icon { font-size: 2.5rem; opacity: 0.3; }
 
-	/* ── BUTTONS ─────────────────────────────────────────── */
+	/* ── BUTTONS ── */
 	.btn {
 		font-family: var(--label);
 		font-size: 0.78rem;
@@ -586,31 +521,13 @@
 		transition: opacity 0.15s, transform 0.1s;
 	}
 
-	.btn:disabled {
-		opacity: 0.4;
-		cursor: not-allowed;
-	}
-
+	.btn:disabled { opacity: 0.4; cursor: not-allowed; }
 	.btn:not(:disabled):active { transform: scale(0.97); }
 
-	.btn-add {
-		background: var(--accent);
-		color: #0d1117;
-		min-width: 60px;
-	}
-
-	.btn-ghost {
-		background: transparent;
-		border: 1px solid var(--border2);
-		color: var(--muted);
-	}
-
+	.btn-add   { background: var(--accent); color: #0d1117; min-width: 60px; }
+	.btn-ghost { background: transparent; border: 1px solid var(--border2); color: var(--muted); }
 	.btn-ghost:hover:not(:disabled) { border-color: var(--text); color: var(--text); }
-
-	.btn-danger {
-		background: var(--danger);
-		color: #fff;
-	}
+	.btn-danger { background: var(--danger); color: #fff; }
 
 	.btn-checkout {
 		background: var(--text);
@@ -635,13 +552,8 @@
 
 	.btn-remove:hover { color: var(--danger); background: rgba(248,81,73,0.1); }
 
-	/* ── SUMMARY ─────────────────────────────────────────── */
-	.summary-rows {
-		display: flex;
-		flex-direction: column;
-		gap: 0.5rem;
-		margin-bottom: 0.75rem;
-	}
+	/* ── SUMMARY ── */
+	.summary-rows { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 0.75rem; }
 
 	.sum-row {
 		display: flex;
@@ -661,18 +573,10 @@
 		border-top: 1px solid var(--border);
 	}
 
-	.divider {
-		height: 1px;
-		background: var(--border);
-		margin: 0.85rem 0;
-	}
+	.divider { height: 1px; background: var(--border); margin: 0.85rem 0; }
 
-	/* ── PAY SECTION ─────────────────────────────────────── */
-	.pay-section {
-		display: flex;
-		flex-direction: column;
-		gap: 0.65rem;
-	}
+	/* ── PAY SECTION ── */
+	.pay-section { display: flex; flex-direction: column; gap: 0.65rem; }
 
 	.pay-label {
 		font-family: var(--label);
@@ -695,11 +599,7 @@
 
 	.pay-input-wrap:focus-within { border-color: var(--accent); }
 
-	.currency-sign {
-		color: var(--muted);
-		font-family: var(--mono);
-		font-size: 0.9rem;
-	}
+	.currency-sign { color: var(--muted); font-family: var(--mono); font-size: 0.9rem; }
 
 	.pay-input {
 		flex: 1;
@@ -712,13 +612,7 @@
 		padding: 0.65rem 0;
 	}
 
-	.shortfall {
-		font-size: 0.78rem;
-		color: var(--danger);
-		margin: 0;
-		font-family: var(--label);
-		letter-spacing: 0.05em;
-	}
+	.shortfall { font-size: 0.78rem; color: var(--danger); margin: 0; font-family: var(--label); letter-spacing: 0.05em; }
 
 	.change-row {
 		font-family: var(--label);
@@ -731,12 +625,9 @@
 		transition: background 0.2s, color 0.2s;
 	}
 
-	.change-row.highlight {
-		background: rgba(63,185,80,0.12);
-		color: var(--success);
-	}
+	.change-row.highlight { background: rgba(63,185,80,0.12); color: var(--success); }
 
-	/* ── CONFIRM BOX ─────────────────────────────────────── */
+	/* ── CONFIRM BOX ── */
 	.confirm-box {
 		margin-top: auto;
 		padding: 0.85rem;
@@ -746,18 +637,10 @@
 		animation: slideIn 0.2s ease;
 	}
 
-	.confirm-box p {
-		margin: 0 0 0.65rem;
-		font-size: 0.85rem;
-		color: var(--muted);
-	}
+	.confirm-box p { margin: 0 0 0.65rem; font-size: 0.85rem; color: var(--muted); }
+	.confirm-actions { display: flex; gap: 0.5rem; }
 
-	.confirm-actions {
-		display: flex;
-		gap: 0.5rem;
-	}
-
-	/* ── BOTTOM BAR ──────────────────────────────────────── */
+	/* ── BOTTOM BAR ── */
 	.bottombar {
 		display: flex;
 		justify-content: space-between;
@@ -767,16 +650,11 @@
 		background: var(--surface);
 	}
 
-	.bottombar-left, .bottombar-right {
-		display: flex;
-		align-items: center;
-		gap: 0.75rem;
-	}
+	.bottombar-left, .bottombar-right { display: flex; align-items: center; gap: 0.75rem; }
 
-	/* ── MONO UTIL ───────────────────────────────────────── */
 	.mono { font-family: var(--mono); }
 
-	/* ── RESPONSIVE ──────────────────────────────────────── */
+	/* ── RESPONSIVE ── */
 	@media (max-width: 860px) {
 		.main {
 			grid-template-columns: 1fr;
@@ -785,21 +663,7 @@
 		}
 
 		.cart-panel { border-right: none; border-bottom: 1px solid var(--border); }
-
-		.topbar {
-			grid-template-columns: auto 1fr auto;
-		}
-
-		.bottombar {
-			flex-direction: column;
-			gap: 0.6rem;
-			padding: 0.75rem 1.25rem;
-		}
-
-		.bottombar-left,
-		.bottombar-right {
-			width: 100%;
-			justify-content: center;
-		}
+		.bottombar { flex-direction: column; gap: 0.6rem; padding: 0.75rem 1.25rem; }
+		.bottombar-left, .bottombar-right { width: 100%; justify-content: center; }
 	}
 </style>
