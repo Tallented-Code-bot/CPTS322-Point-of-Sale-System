@@ -9,7 +9,10 @@ use rocket::fs::NamedFile;
 use rocket::shield::{Hsts, Shield};
 use std::path::{Path, PathBuf};
 
-use crate::api::{get_all_products, get_product_by_upc, push};
+use crate::api::{
+    create_transaction, get_all_products, get_all_transactions, get_product_by_upc,
+    get_transaction_by_id, push,
+};
 use crate::repository::MongoRepo;
 
 // Serve static files (JS, CSS, images, etc.)
@@ -44,7 +47,17 @@ async fn rocket() -> _ {
         .attach(Shield::default().disable::<Hsts>())
         .manage(db)
         // API routes mounted under /api to avoid collisions with static files
-        .mount("/api", routes![get_all_products, get_product_by_upc, push])
+        .mount(
+            "/api",
+            routes![
+                get_all_products,
+                get_product_by_upc,
+                push,
+                get_all_transactions,
+                get_transaction_by_id,
+                create_transaction
+            ],
+        )
         // Frontend and static files mounted at root
         .mount("/", routes![index, static_files, spa_fallback])
 }
