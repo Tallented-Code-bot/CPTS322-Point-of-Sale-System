@@ -1,0 +1,95 @@
+name: CI/CD Deployment
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # 1. Setup Rust for Backend
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Rust Cache
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: "backend -> target"
+
+      - name: Build Backend
+        run: |
+          cd backend
+          cargo build --release
+
+      # 2. Setup Node for Frontend
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - name: Setup pnpm cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Build Frontend
+        run: |
+          cd frontend
+          pnpm install
+          pnpm build
+
+      # 3. Deployment
+      - name: Install SSH Key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          known_hosts: 'placeholder' # We will update this in the next step
+
+      - name: Adding Known Hosts
+        run: ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
+
+      - name: Deploy to Server
+        env:
+          SERVER: ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}
+          BASE_DIR: "/root/CPTS322-Point-of-Sale-System"
+          SERVICE_NAME: "pos"
+          APP_NAME: "backend"
+        run: |
+          TIMESTAMP=$(date +%Y%m%d-%H%M%S)
+          RELEASE_DIR="$BASE_DIR/releases/$TIMESTAMP"
+          
+          echo "==> Creating remote release dir..."
+          ssh "$SERVER" "mkdir -p '$RELEASE_DIR'/"
+          
+          echo "==> Updating remote git repo..."
+          ssh "$SERVER" "cd $BASE_DIR && git pull"
+          
+          echo "==> Uploading backend binary..."
+          scp "backend/target/release/$APP_NAME" "$SERVER:$RELEASE_DIR/$APP_NAME"
+          
+          echo "==> Uploading frontend build..."
+          scp -r frontend/build/* "$SERVER:$BASE_DIR/frontend/build/"
+          
+          echo "==> Activating release and restarting"
+          ssh "$SERVER" "
+            ln -sfn '$RELEASE_DIR' '$BASE_DIR/current' &&
+            sudo systemctl restart '$SERVICE_NAME' &&
+            sudo systemctl --no-pager --full status '$SERVICE_NAME'
+          "

@@ -1,6 +1,6 @@
 import type { Product } from '$lib/stores/cart';
 
-const BASE_URL = 'http://localhost:5173';
+const BASE_URL = 'http://127.0.0.1:8000';
 
 async function handle<T>(res: Response): Promise<T> {
 	if (!res.ok) {
@@ -11,7 +11,7 @@ async function handle<T>(res: Response): Promise<T> {
 }
 
 export async function fetchProductByUPC(upc: string): Promise<Product> {
-	const res = await fetch(`${BASE_URL}/products/${encodeURIComponent(upc)}`, {
+	const res = await fetch(`${BASE_URL}/api/products/${encodeURIComponent(upc)}`, {
 		method: 'GET',
 		credentials: 'include'
 	});
