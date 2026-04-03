@@ -322,7 +322,11 @@ remain offline, save for a secure connection to the backend which is what proces
 \textbf{Intuitivness}\\
 The goal is to create a User Interface that the user does not need to be told
 how to use. Labeled buttons and baking in support for multiple different common
-input standards 
+input standards is the key to a deployable interface.\\
+\textbf{Flexibility}\\
+Due to the web-based nature of the platform, the application should be able to be
+deployed on a wide cariety of hardware, eliminating the need for expensive, proprietary
+point-of-sale machines.\\
 
 \subsection{Standards}
 
@@ -337,60 +341,122 @@ We aim to be compliant with several standards:
 
 \section{Software Design - Solution Approach}
 
-This section should describe the final design of your software system.
+To reitterate, the goals for this project are to\\
+\begin{itemize}
+\item Create a flexible, secure, web-based frontend, minimizing downtime due to updates and restarts.
+\item Create a secure backend, capable of frequently communicating with all frontend terminals over the air. 
+\end{itemize} 
 
-Please review these sections and make the necessary updates to reveal
-the changes in your project design since your revision.
 
 \subsection{Architecture Design}
 
-Include Section II from your Solution Approach report here. Provide the
-block diagram of your architecture and give a brief description of it.
+% Include Section II from your Solution Approach report here. Provide the
+% block diagram of your architecture and give a brief description of it.
 
 \subsubsection{Overview}
+The system that is created is one which accomodates the following functions:
+\begin{itemize}
+  \item Inventory Management
+  \item Payment Management
+  \item Transaction Management
+\end{itemize}
 
-This section should describe the overall architecture of your software.
-The architecture provides the top level design view of a system and
-provides a basis for more detailed design work.
+following these requirements, the system will take on a Client-Server Archetecture, with
+the backend acting as a server, and the multiple POS terminals acting as its clients.\par
+This approach has many benefits, such as...
+
+
+\begin{enumerate}
+\item Safety. If multiple terminals all need to keep track of their own databases, in
+seperate instances, it increases the difficulty and risk of miscounting and other data errors.
+When numbers are centralized and updated in a queue or other safe data structure, this
+risk decreases significantly.
+\item Flexibility. Any number of these terminals can be added with no downside.
+\item Simplicity. A POS terminal does not need specialized hardware and software, only a network
+connection, and a modern internet browser. Updates can also be handled over the air and updates 
+to the frontend can be serverside.
+\end{enumerate}
+
+To describe an example of the implementation, you could have a server, say a desktop running
+mongoDB through Rust, communicating with many terminals, which could be running android or some
+other lightweight linux, locked down into a browser environment, which holds the frontend app, 
+which is programmed in Svelte script.\par
+This portion of the document will be updated with further details as the project is built.
 
 \subsubsection{Subsystem Decomposition}
 
-This section explains how you decomposed your system into subsystems.
+The major subsystems of the Client-Server approach are the user layer, application layer,
+and the data layer.\par
+The user layer encompases the user-iinterface and all mechanical systems that the user interacts with
+such as the physical cash register or touch screen. This portion of the system is
+ornamental, but also serves the important role of being the way in which the system
+is experienced. Our team is using Svelte to create the user interface, which is the only part of the user layer 
+which is part of the app. Svelte can create complex user interface quickly and easily,
+which makdes it ideal for this usage case.\par
+Tha application layer is the portion of the app that does the ``thinking'' so to speak.
+While exact datastructures and implementations have not been finalized, the idea is to have
+a list of items which can be edited from within the frontend, until that list is finalized and sent
+over the network to the database as a list of required updates to make. This process
+happens before payment in attempt to prevent miscounts.\par
+The data layer is contained almost entierly within the backend. It stores inventory along with the
+UPCs (Universal Product Code) and the price for each item. This portion of the software will be done
+using MongoDB through Rust.
 
 \subsection{Data design}
 
-Describe all data structures (including the internal and temporary data
-structures), and the database(s) created as part of the application.
+While the exact data structures are not fully in place, the idea is to use MongoDB to create a NoSQL
+path to mass data storage, which can be fed lists of items and edited without the potential for missed data. 
 
 \subsection{User Interface Design}
 
-Provide a detailed description of user interface. The information in
-this section should be accompanied with proper images of your software's
-GUI.
+% Provide a detailed description of user interface. The information in
+% this section should be accompanied with proper images of your software's
+% GUI.
 
-The emphasis of this section should be on the design decisions of your
-GUI rather than the final design. You will explain your final GUI in
-detail in section VI (Description of Final Prototype). Please avoid
-redundancy as much as possible in these two sections.
+% The emphasis of this section should be on the design decisions of your
+% GUI rather than the final design. You will explain your final GUI in
+% detail in section VI (Description of Final Prototype). Please avoid
+% redundancy as much as possible in these two sections.
+
+The first screen the user will see is the login screen. Here the user can log in to their
+account; no other pages can be accessed until the user is logged in.\par
+Once the user is logged in, they are presented with the main screen. The main screen is the checkout
+screen, where items can be scanned in to be included in the transaction.\par
+At the top of the main screen is an info bar containing information, such as the time, logged-in
+user, and other relevant information. At one end of the bar, there is a menu containing some options (log out, 
+user profile, etc.). If the logged-in user has admin privilages, there will also be an option to
+go to the admin settings page.\par
+The bulk of the main page shows the items that are to be purchased including name, quantity,
+and price. At the bottom of this view, there will be a line showing the total price and quantity.\par
+At the bottom of the main page there will be another menu containing the typical actions that would
+accessed during checkout. These include a checkout button, a reset-transaction button, a textbox to manually enter
+product codes, a ``find product by name'' button, and anything else needed.\par
+When the ``checkout'' button is presseed, the program enters the checkout screen. Here, a total
+will be displayed, along with tax and other details. There will be buttons for the user to pick between cash or card.
+Pushing ``cash''s will prompt the user to enter the cash recieved, and display what
+change to give. Pressing ``check'' will turn control of the program to the card reader
+to process the payment, and wait until the payment has finished processing.\par
+After one of these buttons is pressed and the transaction is complete, the program will return to the
+main screen.
 
 \subsection{Constraints}
 
-Software engineering design is a process of devising a system,
-component, or process to meet desired needs and specifications within
-constraints. It is an iterative, creative, decision-making process in
-which the basic sciences, mathematics, and engineering sciences are
-applied to convert resources into solutions. Software engineering design
-involves identifying opportunities, developing requirements, performing
-analysis and synthesis, generating multiple solutions, evaluating
-solutions against requirements, considering risks, and making
-trade-offs, for the purpose of obtaining a high-quality solution under
-the given circumstances.
+% Software engineering design is a process of devising a system,
+% component, or process to meet desired needs and specifications within
+% constraints. It is an iterative, creative, decision-making process in
+% which the basic sciences, mathematics, and engineering sciences are
+% applied to convert resources into solutions. Software engineering design
+% involves identifying opportunities, developing requirements, performing
+% analysis and synthesis, generating multiple solutions, evaluating
+% solutions against requirements, considering risks, and making
+% trade-offs, for the purpose of obtaining a high-quality solution under
+% the given circumstances.
 
-Constraints vary by project. Examples of possible constraints include
-aesthetics, codes, constructability, cost, ergonomics, extensibility,
-functionality, interoperability, legal considerations, maintainability,
-manufacturability, marketability, policy, regulations, schedule,
-sustainability, or usability.
+% Constraints vary by project. Examples of possible constraints include
+% aesthetics, codes, constructability, cost, ergonomics, extensibility,
+% functionality, interoperability, legal considerations, maintainability,
+% manufacturability, marketability, policy, regulations, schedule,
+% sustainability, or usability.
 
 \section{Test Case Specifications and
 Results}
