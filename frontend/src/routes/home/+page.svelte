@@ -13,6 +13,7 @@
 	import { fetchProductByUPC, checkout } from '$lib/api/pos';
 	import BackButton from '$lib/components/BackButton.svelte';
   import CheckoutButton from '$lib/components/CheckoutButton.svelte';
+  import LogoutButton from '$lib/components/LogoutButton.svelte';
 
 	let upc = '';
 	let error = '';
@@ -88,7 +89,7 @@
 	<header class="topbar">
 		<div class="topbar-left">
 			<div class="back-wrap">
-				<BackButton />
+				<LogoutButton />
 			</div>
 		</div>
 		<div class="topbar-center">

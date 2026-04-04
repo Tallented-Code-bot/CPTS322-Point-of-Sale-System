@@ -112,7 +112,7 @@
 			</div>
 
 			<div class="scan-row">
-				<div class="scan-input-wrap">
+				<!-- <div class="scan-input-wrap">
 					<span class="scan-icon">⊡</span>
 					<input
 						class="scan-input"
@@ -123,10 +123,10 @@
 						spellcheck="false"
 						on:keydown={(e) => e.key === 'Enter' && scanAdd()}
 					/>
-				</div>
-				<button class="btn btn-add" on:click={scanAdd} disabled={isScanning}>
+				</div> -->
+				<!-- <button class="btn btn-add" on:click={scanAdd} disabled={isScanning}>
 					{isScanning ? '…' : 'ADD'}
-				</button>
+				</button> -->
 			</div>
 
 			{#if error}
