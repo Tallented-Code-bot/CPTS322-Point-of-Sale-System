@@ -91,13 +91,13 @@
 			</div>
 		</div>
 		<div class="topbar-center">
-			<span class="terminal-label">CASHIER TERMINAL</span>
+			<!-- <span class="terminal-label">CASHIER TERMINAL</span> -->
 		</div>
 		<div class="topbar-right">
-			<span class="badge-operator">
+			<!-- <span class="badge-operator">
 				<span class="badge-dot"></span>
 				Cashier
-			</span>
+			</span> -->
 		</div>
 	</header>
 
@@ -105,7 +105,7 @@
 
 		<section class="panel cart-panel">
 			<div class="panel-title">
-				<span>CART</span>
+				<!-- <span>CART</span> -->
 				{#if $cartItems.length > 0}
 					<span class="item-count">{$cartItems.length} item{$cartItems.length !== 1 ? 's' : ''}</span>
 				{/if}
@@ -301,8 +301,9 @@
 		inset: 0;
 		z-index: 100;
 		display: grid;
-		grid-template-rows: 52px 1fr 60px;
-		background: var(--bg);
+		grid-template-rows: clamp(48px, 8vh, 72px) 1fr clamp(50px, 8vh, 70px);
+		/* background: var(--bg); */
+		border-radius: 25px;
 	}
 
 	/* ── TOPBAR ── */
@@ -357,6 +358,8 @@
 		display: grid;
 		grid-template-columns: 1fr 300px;
 		overflow: hidden;
+		gap: 1rem;
+		padding: 1rem;
 	}
 
 	/* ── PANELS ── */
@@ -365,6 +368,8 @@
 		flex-direction: column;
 		overflow: hidden;
 		padding: 1.1rem 1.25rem;
+		border-radius: 25px;
+		background: var(--bg);
 	}
 
 	.cart-panel    { border-right: 1px solid var(--border); }
