@@ -1,7 +1,7 @@
 # CPTS322-Point-of-Sale-System
 
 A web-based point of sale system.
-Demo hosted at [calvintallent.site](calvintallent.site)
+Demo hosted at [https://calvintallent.site](https://calvintallent.site)
 
 ---
 
