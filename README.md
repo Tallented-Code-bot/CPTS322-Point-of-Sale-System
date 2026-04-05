@@ -1,6 +1,7 @@
 # CPTS322-Point-of-Sale-System
 
 A web-based point of sale system.
+Demo hosted at [calvintallent.site](calvintallent.site)
 
 ---
 
@@ -63,10 +64,11 @@ Once you set up a backend with the provided instructions, you can add items to y
 
 ### Known Problems
 
+
 ### Licence
 MIT License
 
-Copyright (c) 2026 Owen Moore, Calvin Tallent
+Copyright (c) 2026 Owen Moore, Calvin Tallent, Giovanni Munoz
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

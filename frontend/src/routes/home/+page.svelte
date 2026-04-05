@@ -219,7 +219,7 @@
 
 			<div class="divider"></div>
 
-			<div class="pay-section">
+			<!-- <div class="pay-section">
 				<label class="pay-label" for="paid-input">TENDERED</label>
 				<div class="pay-input-wrap">
 					<span class="currency-sign">$</span>
@@ -241,7 +241,7 @@
 					<span>CHANGE</span>
 					<strong>${change.toFixed(2)}</strong>
 				</div>
-			</div>
+			</div> -->
 
 			{#if showClearConfirm}
 				<div class="confirm-box">
