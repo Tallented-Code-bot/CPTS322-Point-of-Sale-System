@@ -23,6 +23,8 @@ Here are links to the issues that we completed in this sprint:
  * [Create Endpoint to Store Transactions](https://github.com/Tallented-Code-bot/CPTS322-Point-of-Sale-System/issues/8)
  * [Store transactions](https://github.com/Tallented-Code-bot/CPTS322-Point-of-Sale-System/issues/20)
 
+Showcase videos in Sprint Demos.md
+
  <!-- Reminders (Remove this section when you save the file):
   * Each issue should be assigned to a milestone
   * Each completed issue should be assigned to a pull request
