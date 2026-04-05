@@ -166,7 +166,7 @@
 									<td class="mono upc-cell">{line.product.upc}</td>
 									<td class="num">${line.product.price.toFixed(2)}</td>
 									<td class="num qty-cell">
-										<input
+										<!-- <input
 											class="qty-input"
 											type="number"
 											min="0"
@@ -176,7 +176,8 @@
 													line.product.upc,
 													(e.target as HTMLInputElement).value
 												)}
-										/>
+										/> -->
+										
 									</td>
 									<td class="num line-total">
 										${(line.product.price * line.qty).toFixed(2)}
