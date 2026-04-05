@@ -177,6 +177,7 @@
 													(e.target as HTMLInputElement).value
 												)}
 										/> -->
+										
 									</td>
 									<td class="num line-total">
 										${(line.product.price * line.qty).toFixed(2)}
