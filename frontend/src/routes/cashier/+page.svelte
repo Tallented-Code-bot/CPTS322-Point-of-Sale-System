@@ -178,14 +178,6 @@
 									<td class="num line-total">
 										${(line.product.price * line.qty).toFixed(2)}
 									</td>
-									<td class="remove-cell">
-										<button
-											class="btn-remove"
-											type="button"
-											aria-label="Remove {line.product.name}"
-											on:click={() => removeItem(line.product.upc)}
-										>✕</button>
-									</td>
 								</tr>
 							{/each}
 						</tbody>
