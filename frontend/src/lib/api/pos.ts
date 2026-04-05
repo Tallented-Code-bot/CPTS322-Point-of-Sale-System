@@ -1,6 +1,6 @@
 import type { Product } from '$lib/stores/cart';
 
-const BASE_URL = 'http://127.0.0.1:8000';
+const BASE_URL = 'https://calvintallent.site';
 
 async function handle<T>(res: Response): Promise<T> {
 	if (!res.ok) {
