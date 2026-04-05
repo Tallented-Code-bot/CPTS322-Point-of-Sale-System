@@ -11,6 +11,19 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Write backend env file
+        run: |
+          cat <<'EOF' > backend/.env
+          MONGO_URI=${{ secrets.MONGO_URI }}
+          EOF
+
+      - name: Write frontend env file
+        run: |
+          cat <<'EOF' > frontend/.env
+          VITE_AUTH0_DOMAIN=${{ secrets.VITE_AUTH0_DOMAIN }}
+          VITE_AUTH0_CLIENT_ID=${{ secrets.VITE_AUTH0_CLIENT_ID }}
+          EOF
+
       # 1. Setup Rust for Backend
       - name: Setup Rust
         uses: dtolnay/rust-toolchain@stable
