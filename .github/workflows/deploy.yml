@@ -22,6 +22,7 @@ jobs:
           cat <<'EOF' > frontend/.env
           VITE_AUTH0_DOMAIN=${{ secrets.VITE_AUTH0_DOMAIN }}
           VITE_AUTH0_CLIENT_ID=${{ secrets.VITE_AUTH0_CLIENT_ID }}
+          VITE_POS_API_BASE=https://calvintallent.site
           EOF
 
       # 1. Setup Rust for Backend

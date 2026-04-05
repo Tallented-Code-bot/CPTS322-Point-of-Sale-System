@@ -77,7 +77,7 @@ pub async fn create_transaction(
 
     let payload_total = (payload_total * 100.0).round() / 100.0;
     let provided_total = (data.total_price * 100.0).round() / 100.0;
-    if (payload_total - provided_total).abs() > 0.05 {
+    if provided_total + 0.05 < payload_total {
         return Err(Status::BadRequest);
     }
 
@@ -86,7 +86,7 @@ pub async fn create_transaction(
     let transaction = Transaction {
         id: None,
         items: transaction_items,
-        total_price: payload_total,
+        total_price: provided_total,
         timestamp,
     };
 
@@ -100,7 +100,7 @@ pub async fn create_transaction(
         receipt_id,
         timestamp,
         item_count,
-        total: payload_total,
+        total: provided_total,
     };
 
     Ok(Json(response))
