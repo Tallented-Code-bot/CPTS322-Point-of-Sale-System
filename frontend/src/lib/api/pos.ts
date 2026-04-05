@@ -1,6 +1,24 @@
 import type { Product } from '$lib/stores/cart';
 
-const BASE_URL = 'https://calvintallent.site';
+export type CheckoutItemPayload = {
+	upc: string;
+	qty: number;
+	unitPrice: number;
+};
+
+export type CheckoutPayload = {
+	items: CheckoutItemPayload[];
+	totalPrice: number;
+};
+
+export type CheckoutResponse = {
+	receiptId: string;
+	timestamp: string;
+	itemCount: number;
+	total: number;
+};
+
+const BASE_URL = import.meta.env.VITE_POS_API_BASE ?? '';
 
 async function handle<T>(res: Response): Promise<T> {
 	if (!res.ok) {
@@ -18,8 +36,8 @@ export async function fetchProductByUPC(upc: string): Promise<Product> {
 	return handle<Product>(res);
 }
 
-export async function checkout(payload: unknown): Promise<{ receiptId: string }> {
-	const res = await fetch(`${BASE_URL}/checkout`, {
+export async function checkout(payload: CheckoutPayload): Promise<CheckoutResponse> {
+	const res = await fetch(`${BASE_URL}/api/transactions`, {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
 		credentials: 'include',

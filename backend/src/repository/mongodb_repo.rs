@@ -109,24 +109,32 @@ impl MongoRepo {
         Ok(())
     }
 
-    pub async fn create_transaction(&self, transaction: Transaction) -> Result<(), Error> {
-        self.transaction_col
+    pub async fn create_transaction(&self, transaction: Transaction) -> Result<ObjectId, Error> {
+        let result = self
+            .transaction_col
             .insert_one(transaction)
             .await
             .map_err(|e| Error::DeserializationError {
                 message: e.to_string(),
             })?;
-        Ok(())
+
+        result
+            .inserted_id
+            .as_object_id()
+            .cloned()
+            .ok_or_else(|| Error::DeserializationError {
+                message: "Unable to extract inserted ObjectId".to_string(),
+            })
     }
 
     pub async fn get_all_transactions(&self) -> Result<Vec<Transaction>, Error> {
-        let mut cursor = self
-            .transaction_col
-            .find(doc! {})
-            .await
-            .map_err(|e| Error::DeserializationError {
-                message: e.to_string(),
-            })?;
+        let mut cursor =
+            self.transaction_col
+                .find(doc! {})
+                .await
+                .map_err(|e| Error::DeserializationError {
+                    message: e.to_string(),
+                })?;
 
         let mut transactions: Vec<Transaction> = Vec::new();
         while cursor
