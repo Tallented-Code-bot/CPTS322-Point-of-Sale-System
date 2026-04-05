@@ -1,6 +1,7 @@
 # CPTS322-Point-of-Sale-System
 
 A web-based point of sale system.
+Demo hosted at [calvintallent.site](calvintallent.site)
 
 ---
 
@@ -62,6 +63,7 @@ Currently, the website is deployable and functional in of itself, although it is
 Once you set up a backend with the provided instructions, you can add items to your cart and check them out.
 
 ### Known Problems
+
 
 ### Licence
 MIT License
