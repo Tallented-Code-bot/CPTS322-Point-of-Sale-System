@@ -166,17 +166,13 @@
 									<td class="mono upc-cell">{line.product.upc}</td>
 									<td class="num">${line.product.price.toFixed(2)}</td>
 									<td class="num qty-cell">
-										<!-- <input
+										<input
 											class="qty-input"
 											type="number"
 											min="0"
 											value={line.qty}
-											on:change={(e) =>
-												handleQtyChange(
-													line.product.upc,
-													(e.target as HTMLInputElement).value
-												)}
-										/> -->
+											disabled
+										/>
 										
 									</td>
 									<td class="num line-total">
