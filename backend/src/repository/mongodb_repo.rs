@@ -121,7 +121,6 @@ impl MongoRepo {
         result
             .inserted_id
             .as_object_id()
-            .cloned()
             .ok_or_else(|| Error::DeserializationError {
                 message: "Unable to extract inserted ObjectId".to_string(),
             })
