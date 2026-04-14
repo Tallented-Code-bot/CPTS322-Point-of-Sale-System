@@ -139,7 +139,11 @@
 
 			{#if receiptMsg}
 				<div class="alert alert-success" role="status">
-					<span class="alert-icon">✓</span> {receiptMsg}
+					<div class="alert-copy">
+						<span class="alert-icon">✓</span>
+						<span>{receiptMsg}</span>
+					</div>
+					<a class="alert-link" href="/home">Go Home</a>
 				</div>
 			{/if}
 
@@ -443,7 +447,39 @@
 	}
 
 	.alert-error   { background: rgba(248,81,73,0.1);  border: 1px solid rgba(248,81,73,0.3);  color: #ffa198; }
-	.alert-success { background: rgba(63,185,80,0.1);  border: 1px solid rgba(63,185,80,0.3);  color: #56d364; }
+	.alert-success {
+		background: rgba(63,185,80,0.1);
+		border: 1px solid rgba(63,185,80,0.3);
+		color: #56d364;
+		justify-content: space-between;
+		flex-wrap: wrap;
+		gap: 0.75rem;
+	}
+	.alert-copy {
+		display: flex;
+		align-items: center;
+		gap: 0.45rem;
+		flex: 1 1 auto;
+	}
+	.alert-link {
+		font-family: var(--label);
+		font-size: 0.72rem;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		text-decoration: none;
+		color: var(--accent);
+		border: 1px solid rgba(240, 180, 41, 0.5);
+		padding: 0.35rem 0.85rem;
+		border-radius: 999px;
+		transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+		flex: 0 0 auto;
+	}
+	.alert-link:hover,
+	.alert-link:focus-visible {
+		color: #0d1117;
+		background: var(--accent);
+		border-color: var(--accent);
+	}
 	.alert-icon    { font-size: 0.8rem; flex-shrink: 0; }
 
 	/* ── TABLE ── */
