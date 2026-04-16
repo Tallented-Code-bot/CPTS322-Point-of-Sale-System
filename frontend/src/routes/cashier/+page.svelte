@@ -12,7 +12,7 @@
 	} from '$lib/stores/cart';
 	import { fetchProductByUPC, checkout } from '$lib/api/pos';
 	import BackButton from '$lib/components/BackButton.svelte';
-
+ 
 	let upc = '';
 	let error = '';
 	let paid = 0;
@@ -20,13 +20,33 @@
 	let isSubmitting = false;
 	let isScanning = false;
 	let showClearConfirm = false;
-
+ 
+	const DENOMINATIONS = [100, 50, 20, 10, 5, 1, 0.25, 0.10, 0.05, 0.01];
+	const DENOM_LABELS: Record<number, string> = {
+		100: '$100', 50: '$50', 20: '$20', 10: '$10', 5: '$5',
+		1: '$1', 0.25: '25¢', 0.10: '10¢', 0.05: '5¢', 0.01: '1¢'
+	};
+ 
+	function calcDenominations(amount: number): { label: string; count: number }[] {
+		let remaining = Math.round(amount * 100);
+		const result: { label: string; count: number }[] = [];
+		for (const denom of DENOMINATIONS) {
+			const denomCents = Math.round(denom * 100);
+			const count = Math.floor(remaining / denomCents);
+			if (count > 0) {
+				result.push({ label: DENOM_LABELS[denom], count });
+				remaining -= count * denomCents;
+			}
+		}
+		return result;
+	}
+ 
 	function getErrMsg(e: unknown): string {
 		if (e instanceof Error) return e.message;
 		if (typeof e === 'string') return e;
 		try { return JSON.stringify(e); } catch { return 'Unknown error.'; }
 	}
-
+ 
 	async function scanAdd() {
 		error = '';
 		receiptMsg = '';
@@ -46,19 +66,19 @@
 			isScanning = false;
 		}
 	}
-
+ 
 	function handleQtyChange(upc: string, value: string) {
 		const num = Number(value);
 		if (!isNaN(num) && num >= 0) setQty(upc, num);
 	}
-
+ 
 	function confirmClear() { showClearConfirm = true; }
-
+ 
 	function doClear() {
 		clearCart();
 		showClearConfirm = false;
 	}
-
+ 
 	async function completeSale() {
 		error = '';
 		receiptMsg = '';
@@ -77,13 +97,14 @@
 			isSubmitting = false;
 		}
 	}
-
+ 
 	$: change = Math.max(0, paid - $total);
 	$: shortfall = paid > 0 && paid < $total ? $total - paid : 0;
+	$: denomBreakdown = change > 0 ? calcDenominations(change) : [];
 </script>
-
+ 
 <div class="pos">
-
+ 
 	<header class="topbar">
 		<div class="topbar-left">
 			<div class="back-wrap">
@@ -100,9 +121,9 @@
 			</span>
 		</div>
 	</header>
-
+ 
 	<main class="main">
-
+ 
 		<section class="panel cart-panel">
 			<div class="panel-title">
 				<span>CART</span>
@@ -110,7 +131,7 @@
 					<span class="item-count">{$cartItems.length} item{$cartItems.length !== 1 ? 's' : ''}</span>
 				{/if}
 			</div>
-
+ 
 			<div class="scan-row">
 				<div class="scan-input-wrap">
 					<span class="scan-icon">⊡</span>
@@ -128,19 +149,19 @@
 					{isScanning ? '…' : 'ADD'}
 				</button>
 			</div>
-
+ 
 			{#if error}
 				<div class="alert alert-error" role="alert">
 					<span class="alert-icon">✕</span> {error}
 				</div>
 			{/if}
-
+ 
 			{#if receiptMsg}
 				<div class="alert alert-success" role="status">
 					<span class="alert-icon">✓</span> {receiptMsg}
 				</div>
 			{/if}
-
+ 
 			<div class="table-wrap">
 				{#if $cartItems.length === 0}
 					<div class="empty-state">
@@ -196,10 +217,10 @@
 				{/if}
 			</div>
 		</section>
-
+ 
 		<aside class="panel summary-panel">
 			<div class="panel-title">SUMMARY</div>
-
+ 
 			<div class="summary-rows">
 				<div class="sum-row">
 					<span>Subtotal</span>
@@ -214,9 +235,9 @@
 					<strong>${$total.toFixed(2)}</strong>
 				</div>
 			</div>
-
+ 
 			<div class="divider"></div>
-
+ 
 			<div class="pay-section">
 				<label class="pay-label" for="paid-input">TENDERED</label>
 				<div class="pay-input-wrap">
@@ -230,17 +251,31 @@
 						bind:value={paid}
 					/>
 				</div>
-
+ 
 				{#if shortfall > 0}
 					<p class="shortfall">Still need ${shortfall.toFixed(2)}</p>
 				{/if}
-
+ 
 				<div class="sum-row change-row" class:highlight={change > 0}>
 					<span>CHANGE</span>
 					<strong>${change.toFixed(2)}</strong>
 				</div>
+ 
+				{#if denomBreakdown.length > 0}
+					<div class="denom-box">
+						<div class="denom-title">BREAKDOWN</div>
+						<div class="denom-grid">
+							{#each denomBreakdown as d}
+								<div class="denom-chip">
+									<span class="denom-label">{d.label}</span>
+									<span class="denom-count">×{d.count}</span>
+								</div>
+							{/each}
+						</div>
+					</div>
+				{/if}
 			</div>
-
+ 
 			{#if showClearConfirm}
 				<div class="confirm-box">
 					<p>Clear all items?</p>
@@ -252,7 +287,7 @@
 			{/if}
 		</aside>
 	</main>
-
+ 
 	<footer class="bottombar">
 		<div class="bottombar-left">
 			<button class="btn btn-ghost" type="button" on:click={confirmClear}>Clear Cart</button>
@@ -268,7 +303,7 @@
 		</div>
 	</footer>
 </div>
-
+ 
 <style>
 	:root {
 		--bg:      #0d1117;
@@ -284,7 +319,7 @@
 		--sans:  'DM Sans', 'Helvetica Neue', sans-serif;
 		--label: 'Barlow Condensed', 'Arial Narrow', sans-serif;
 	}
-
+ 
 	:global(body) {
 		margin: 0;
 		padding: 0;
@@ -294,8 +329,7 @@
 		font-family: var(--sans);
 		-webkit-font-smoothing: antialiased;
 	}
-
-	/* Take over the full viewport, sit above any layout wrappers */
+ 
 	.pos {
 		position: fixed;
 		inset: 0;
@@ -304,7 +338,7 @@
 		grid-template-rows: 52px 1fr 60px;
 		background: var(--bg);
 	}
-
+ 
 	/* ── TOPBAR ── */
 	.topbar {
 		display: grid;
@@ -314,19 +348,18 @@
 		border-bottom: 1px solid var(--border);
 		background: var(--surface);
 	}
-
+ 
 	.topbar-left   { display: flex; align-items: center; }
 	.topbar-center { display: flex; justify-content: center; }
 	.topbar-right  { display: flex; justify-content: flex-end; }
-
-	/* Scale down whatever BackButton renders */
+ 
 	.back-wrap {
 		display: flex;
 		align-items: center;
 		transform: scale(0.72);
 		transform-origin: left center;
 	}
-
+ 
 	.terminal-label {
 		font-family: var(--label);
 		font-size: 0.75rem;
@@ -334,7 +367,7 @@
 		color: var(--muted);
 		font-weight: 600;
 	}
-
+ 
 	.badge-operator {
 		display: flex;
 		align-items: center;
@@ -344,21 +377,21 @@
 		letter-spacing: 0.08em;
 		color: var(--muted);
 	}
-
+ 
 	.badge-dot {
 		width: 7px; height: 7px;
 		background: var(--success);
 		border-radius: 50%;
 		box-shadow: 0 0 6px var(--success);
 	}
-
+ 
 	/* ── MAIN ── */
 	.main {
 		display: grid;
 		grid-template-columns: 1fr 300px;
 		overflow: hidden;
 	}
-
+ 
 	/* ── PANELS ── */
 	.panel {
 		display: flex;
@@ -366,10 +399,10 @@
 		overflow: hidden;
 		padding: 1.1rem 1.25rem;
 	}
-
+ 
 	.cart-panel    { border-right: 1px solid var(--border); }
-	.summary-panel { background: var(--surface); }
-
+	.summary-panel { background: var(--surface); overflow-y: auto; }
+ 
 	.panel-title {
 		font-family: var(--label);
 		font-size: 0.7rem;
@@ -381,7 +414,7 @@
 		align-items: center;
 		gap: 0.75rem;
 	}
-
+ 
 	.item-count {
 		background: var(--border2);
 		color: var(--text);
@@ -390,14 +423,14 @@
 		border-radius: 99px;
 		letter-spacing: 0.05em;
 	}
-
+ 
 	/* ── SCAN ROW ── */
 	.scan-row {
 		display: flex;
 		gap: 0.6rem;
 		margin-bottom: 0.85rem;
 	}
-
+ 
 	.scan-input-wrap {
 		flex: 1;
 		display: flex;
@@ -409,10 +442,10 @@
 		gap: 0.5rem;
 		transition: border-color 0.15s;
 	}
-
+ 
 	.scan-input-wrap:focus-within { border-color: var(--accent); }
 	.scan-icon { color: var(--muted); font-size: 1rem; }
-
+ 
 	.scan-input {
 		flex: 1;
 		background: transparent;
@@ -423,7 +456,7 @@
 		font-size: 0.9rem;
 		padding: 0.65rem 0;
 	}
-
+ 
 	/* ── ALERTS ── */
 	.alert {
 		display: flex;
@@ -435,21 +468,21 @@
 		margin-bottom: 0.75rem;
 		animation: slideIn 0.2s ease;
 	}
-
+ 
 	@keyframes slideIn {
 		from { opacity: 0; transform: translateY(-4px); }
 		to   { opacity: 1; transform: translateY(0); }
 	}
-
+ 
 	.alert-error   { background: rgba(248,81,73,0.1);  border: 1px solid rgba(248,81,73,0.3);  color: #ffa198; }
 	.alert-success { background: rgba(63,185,80,0.1);  border: 1px solid rgba(63,185,80,0.3);  color: #56d364; }
 	.alert-icon    { font-size: 0.8rem; flex-shrink: 0; }
-
+ 
 	/* ── TABLE ── */
 	.table-wrap { flex: 1; overflow: auto; }
-
+ 
 	table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
-
+ 
 	thead th {
 		font-family: var(--label);
 		font-size: 0.65rem;
@@ -460,22 +493,22 @@
 		border-bottom: 1px solid var(--border);
 		text-align: left;
 	}
-
+ 
 	th.num, td.num { text-align: right; }
-
+ 
 	.cart-row td {
 		padding: 0.65rem 0.6rem;
 		border-bottom: 1px solid var(--border);
 		vertical-align: middle;
 	}
-
+ 
 	.cart-row:last-child td { border-bottom: none; }
 	.cart-row:hover td { background: rgba(255,255,255,0.02); }
-
+ 
 	.name-cell  { font-weight: 500; }
 	.upc-cell   { font-family: var(--mono); font-size: 0.78rem; color: var(--muted); }
 	.line-total { font-weight: 600; }
-
+ 
 	.qty-input {
 		width: 58px;
 		background: var(--bg);
@@ -489,10 +522,10 @@
 		outline: none;
 		transition: border-color 0.15s;
 	}
-
+ 
 	.qty-input:focus { border-color: var(--accent); }
 	.remove-cell { text-align: right; }
-
+ 
 	/* ── EMPTY STATE ── */
 	.empty-state {
 		display: flex;
@@ -505,9 +538,9 @@
 		text-align: center;
 		font-size: 0.88rem;
 	}
-
+ 
 	.empty-icon { font-size: 2.5rem; opacity: 0.3; }
-
+ 
 	/* ── BUTTONS ── */
 	.btn {
 		font-family: var(--label);
@@ -520,24 +553,24 @@
 		cursor: pointer;
 		transition: opacity 0.15s, transform 0.1s;
 	}
-
+ 
 	.btn:disabled { opacity: 0.4; cursor: not-allowed; }
 	.btn:not(:disabled):active { transform: scale(0.97); }
-
+ 
 	.btn-add   { background: var(--accent); color: #0d1117; min-width: 60px; }
 	.btn-ghost { background: transparent; border: 1px solid var(--border2); color: var(--muted); }
 	.btn-ghost:hover:not(:disabled) { border-color: var(--text); color: var(--text); }
 	.btn-danger { background: var(--danger); color: #fff; }
-
+ 
 	.btn-checkout {
 		background: var(--text);
 		color: var(--bg);
 		padding: 0.65rem 1.6rem;
 		font-size: 0.82rem;
 	}
-
+ 
 	.btn-checkout:not(:disabled):hover { background: var(--accent); }
-
+ 
 	.btn-remove {
 		background: transparent;
 		border: none;
@@ -549,21 +582,21 @@
 		line-height: 1;
 		transition: color 0.15s, background 0.15s;
 	}
-
+ 
 	.btn-remove:hover { color: var(--danger); background: rgba(248,81,73,0.1); }
-
+ 
 	/* ── SUMMARY ── */
 	.summary-rows { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 0.75rem; }
-
+ 
 	.sum-row {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
 		font-size: 0.88rem;
 	}
-
+ 
 	.sum-row span:first-child { color: var(--muted); }
-
+ 
 	.sum-total {
 		font-family: var(--label);
 		font-size: 1.05rem;
@@ -572,12 +605,12 @@
 		padding-top: 0.6rem;
 		border-top: 1px solid var(--border);
 	}
-
+ 
 	.divider { height: 1px; background: var(--border); margin: 0.85rem 0; }
-
+ 
 	/* ── PAY SECTION ── */
 	.pay-section { display: flex; flex-direction: column; gap: 0.65rem; }
-
+ 
 	.pay-label {
 		font-family: var(--label);
 		font-size: 0.65rem;
@@ -585,7 +618,7 @@
 		color: var(--muted);
 		font-weight: 700;
 	}
-
+ 
 	.pay-input-wrap {
 		display: flex;
 		align-items: center;
@@ -596,11 +629,11 @@
 		gap: 0.35rem;
 		transition: border-color 0.15s;
 	}
-
+ 
 	.pay-input-wrap:focus-within { border-color: var(--accent); }
-
+ 
 	.currency-sign { color: var(--muted); font-family: var(--mono); font-size: 0.9rem; }
-
+ 
 	.pay-input {
 		flex: 1;
 		background: transparent;
@@ -611,9 +644,9 @@
 		font-size: 1rem;
 		padding: 0.65rem 0;
 	}
-
+ 
 	.shortfall { font-size: 0.78rem; color: var(--danger); margin: 0; font-family: var(--label); letter-spacing: 0.05em; }
-
+ 
 	.change-row {
 		font-family: var(--label);
 		font-size: 0.95rem;
@@ -624,9 +657,55 @@
 		background: var(--border);
 		transition: background 0.2s, color 0.2s;
 	}
-
+ 
 	.change-row.highlight { background: rgba(63,185,80,0.12); color: var(--success); }
-
+ 
+	/* ── DENOMINATION BREAKDOWN ── */
+	.denom-box {
+		background: var(--bg);
+		border: 1px solid var(--border2);
+		border-radius: 8px;
+		padding: 0.7rem 0.75rem;
+		animation: slideIn 0.2s ease;
+	}
+ 
+	.denom-title {
+		font-family: var(--label);
+		font-size: 0.62rem;
+		letter-spacing: 0.2em;
+		color: var(--muted);
+		font-weight: 700;
+		margin-bottom: 0.5rem;
+	}
+ 
+	.denom-grid {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.35rem;
+	}
+ 
+	.denom-chip {
+		display: flex;
+		align-items: center;
+		gap: 0.25rem;
+		background: var(--border2);
+		border-radius: 5px;
+		padding: 0.2rem 0.5rem;
+	}
+ 
+	.denom-label {
+		font-family: var(--mono);
+		font-size: 0.78rem;
+		color: var(--success);
+		font-weight: 600;
+	}
+ 
+	.denom-count {
+		font-family: var(--mono);
+		font-size: 0.72rem;
+		color: var(--muted);
+	}
+ 
 	/* ── CONFIRM BOX ── */
 	.confirm-box {
 		margin-top: auto;
@@ -636,10 +715,10 @@
 		border-radius: 8px;
 		animation: slideIn 0.2s ease;
 	}
-
+ 
 	.confirm-box p { margin: 0 0 0.65rem; font-size: 0.85rem; color: var(--muted); }
 	.confirm-actions { display: flex; gap: 0.5rem; }
-
+ 
 	/* ── BOTTOM BAR ── */
 	.bottombar {
 		display: flex;
@@ -649,11 +728,11 @@
 		border-top: 1px solid var(--border);
 		background: var(--surface);
 	}
-
+ 
 	.bottombar-left, .bottombar-right { display: flex; align-items: center; gap: 0.75rem; }
-
+ 
 	.mono { font-family: var(--mono); }
-
+ 
 	/* ── RESPONSIVE ── */
 	@media (max-width: 860px) {
 		.main {
@@ -661,7 +740,7 @@
 			grid-template-rows: 1fr auto;
 			overflow: auto;
 		}
-
+ 
 		.cart-panel { border-right: none; border-bottom: 1px solid var(--border); }
 		.bottombar { flex-direction: column; gap: 0.6rem; padding: 0.75rem 1.25rem; }
 		.bottombar-left, .bottombar-right { width: 100%; justify-content: center; }
