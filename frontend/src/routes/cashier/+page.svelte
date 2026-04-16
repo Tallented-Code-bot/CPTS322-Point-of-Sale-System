@@ -12,6 +12,7 @@
 	} from '$lib/stores/cart';
 	import { fetchProductByUPC, checkout } from '$lib/api/pos';
 	import BackButton from '$lib/components/BackButton.svelte';
+	import backgroundPic from '$static/background.png';
 
 	let upc = '';
 	let error = '';

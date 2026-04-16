@@ -1,17 +1,20 @@
 import type { Product } from '$lib/stores/cart';
 
 export type CheckoutItemPayload = {
+	//A type that contains information for each item in a recipt
 	upc: string;
 	qty: number;
 	unitPrice: number;
 };
 
 export type CheckoutPayload = {
+	//A type that holds the data for a single recipt (excluding tax and all that)
 	items: CheckoutItemPayload[];
 	totalPrice: number;
 };
 
 export type CheckoutResponse = {
+	//A type that holds a lot of misc data to put on recipts  
 	receiptId: string;
 	timestamp: string;
 	itemCount: number;
@@ -19,6 +22,7 @@ export type CheckoutResponse = {
 };
 
 const BASE_URL = import.meta.env.VITE_POS_API_BASE ?? '';
+//
 
 async function handle<T>(res: Response): Promise<T> {
 	if (!res.ok) {
