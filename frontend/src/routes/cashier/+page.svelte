@@ -11,8 +11,8 @@
 		buildCheckoutPayload
 	} from '$lib/stores/cart';
 	import { fetchProductByUPC, checkout } from '$lib/api/pos';
+	import type { CheckoutResponse, CheckoutItemPayload, CheckoutPayload } from '$lib/api/pos';
 	import BackButton from '$lib/components/BackButton.svelte';
-	import backgroundPic from '$static/background.png';
 
 	let upc = '';
 	let error = '';
@@ -39,7 +39,8 @@
 			if (!product || !product.upc || !product.name || typeof product.price !== 'number') {
 				throw new Error('Product data is missing required fields.');
 			}
-			addToCart(product, 1);
+			addToCart(product, 1); //I think this ", 1)" might be unnessessary,
+			//since 1 is hard coded in the addToCart fct anyway.
 			upc = '';
 		} catch (e) {
 			error = getErrMsg(e) || 'Could not find product.';
@@ -58,6 +59,21 @@
 	function doClear() {
 		clearCart();
 		showClearConfirm = false;
+	}
+
+	async function formatRecipt(payload: CheckoutPayload){
+		for(var item in payload.items){
+			var text = document.getElementById("textData").value;
+            var blob = new Blob([text], { type: 'text/plain' });
+            var link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'myTextFile.txt';
+            link.click();
+		}
+	}
+
+	async function printRecipt(){
+
 	}
 
 	async function completeSale() {

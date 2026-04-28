@@ -45,6 +45,11 @@ export function addToCart(product: Product, qty = 1) {
 			return copy;
 		}
 		return [...items, { product, qty }];
+		//"spread" syntax. ...items is able to return every item in items
+		//items is a cart item.
+		//If I understnad it correct, to add an item to our cart array, we
+		//have to delete it and copy it again. not sure why.
+		//This is all in the .update method which I believe is from Svelte.
 	});
 }
 

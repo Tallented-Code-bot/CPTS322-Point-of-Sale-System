@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.1) (preloaded format=pdflatex 2026.2.7)  3 APR 2026 13:14
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.1) (preloaded format=pdflatex 2026.2.7)  18 APR 2026 23:38
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -614,7 +614,7 @@ Package hyperref Info: Link coloring OFF on input line 30.
 \openout5 = `_preamble.toc'.
 
  [2]
-<User Diag.png, id=205, 723.70375pt x 482.80376pt>
+<User Diag.png, id=195, 723.70375pt x 482.80376pt>
 File: User Diag.png Graphic file (type png)
 <use User Diag.png>
 Package pdftex.def Info: User Diag.png  used on input line 193.
@@ -640,385 +640,673 @@ Underfull \hbox (badness 10000) in paragraph at lines 344--345
  []
 
 [7] [8]
-Overfull \hbox (1.29834pt too wide) in paragraph at lines 489--489
+Overfull \hbox (1.29834pt too wide) in paragraph at lines 496--496
 []|\OT1/cmr/m/n/10.95 Component| 
  []
 
 
-Overfull \hbox (4.67458pt too wide) in paragraph at lines 489--489
+Overfull \hbox (4.67458pt too wide) in paragraph at lines 496--496
 []|\OT1/cmr/m/n/10.95 Front/Back-
  []
 
 
-Overfull \hbox (0.62918pt too wide) in paragraph at lines 489--489
+Overfull \hbox (0.62918pt too wide) in paragraph at lines 496--496
 []|\OT1/cmr/m/n/10.95 Description| 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 489--489
+Underfull \hbox (badness 10000) in paragraph at lines 496--496
 []|\OT1/cmr/m/n/10.95 Expected
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 489--489
+Underfull \hbox (badness 10000) in paragraph at lines 496--496
 []|\OT1/cmr/m/n/10.95 Observed
  []
 
 
-Overfull \hbox (1.29836pt too wide) in paragraph at lines 490--490
+Overfull \hbox (1.29836pt too wide) in paragraph at lines 497--497
 []|\OT1/cmr/m/n/10.95 Attempting
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 490--490
+Underfull \hbox (badness 10000) in paragraph at lines 497--497
 \OT1/cmr/m/n/10.95 in-valid
  []
 
 
-Overfull \hbox (2.45418pt too wide) in paragraph at lines 490--490
+Overfull \hbox (2.45418pt too wide) in paragraph at lines 497--497
 []|\OT1/cmr/m/n/10.95 Descriptive,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 490--490
+Underfull \hbox (badness 10000) in paragraph at lines 497--497
 \OT1/cmr/m/n/10.95 un-ob-su-sive
  []
 
 
-Underfull \hbox (badness 3386) in paragraph at lines 490--490
+Underfull \hbox (badness 3386) in paragraph at lines 497--497
 \OT1/cmr/m/n/10.95 er-ror with
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 490--490
+Underfull \hbox (badness 10000) in paragraph at lines 497--497
 \OT1/cmr/m/n/10.95 sug-ges-tions
  []
 
 
-Overfull \hbox (1.29834pt too wide) in paragraph at lines 497--497
+Underfull \hbox (badness 2205) in paragraph at lines 497--497
+[]|\OT1/cmr/m/n/10.95 Error pro-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 497--497
+\OT1/cmr/m/n/10.95 vided is
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 497--497
+\OT1/cmr/m/n/10.95 ex-tremely
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 497--497
+\OT1/cmr/m/n/10.95 long and
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 497--497
+\OT1/cmr/m/n/10.95 un-help-ful
+ []
+
+
+Overfull \hbox (1.29834pt too wide) in paragraph at lines 504--504
 []|\OT1/cmr/m/n/10.95 Component| 
  []
 
 
-Overfull \hbox (4.67458pt too wide) in paragraph at lines 497--497
+Overfull \hbox (4.67458pt too wide) in paragraph at lines 504--504
 []|\OT1/cmr/m/n/10.95 Front/Back-
  []
 
 
-Overfull \hbox (0.62918pt too wide) in paragraph at lines 497--497
+Overfull \hbox (0.62918pt too wide) in paragraph at lines 504--504
 []|\OT1/cmr/m/n/10.95 Description| 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 497--497
+Underfull \hbox (badness 10000) in paragraph at lines 504--504
 []|\OT1/cmr/m/n/10.95 Expected
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 497--497
+Underfull \hbox (badness 10000) in paragraph at lines 504--504
 []|\OT1/cmr/m/n/10.95 Observed
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 498--498
+Underfull \hbox (badness 10000) in paragraph at lines 505--505
 []|\OT1/cmr/m/n/10.95 Requesting
  []
 
 
-Underfull \hbox (badness 3942) in paragraph at lines 498--498
+Underfull \hbox (badness 3942) in paragraph at lines 505--505
 \OT1/cmr/m/n/10.95 de-tails for
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 498--498
+Underfull \hbox (badness 10000) in paragraph at lines 505--505
 \OT1/cmr/m/n/10.95 an item
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 498--498
+Underfull \hbox (badness 10000) in paragraph at lines 505--505
 \OT1/cmr/m/n/10.95 con-tained
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 498--498
+Underfull \hbox (badness 10000) in paragraph at lines 505--505
 \OT1/cmr/m/n/10.95 in the
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 498--498
+Underfull \hbox (badness 10000) in paragraph at lines 505--505
 []|\OT1/cmr/m/n/10.95 Item de-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 498--498
+Underfull \hbox (badness 10000) in paragraph at lines 505--505
 \OT1/cmr/m/n/10.95 tails are
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 498--498
+Underfull \hbox (badness 10000) in paragraph at lines 505--505
 \OT1/cmr/m/n/10.95 re-trieved
  []
 
 
-Overfull \hbox (1.29834pt too wide) in paragraph at lines 505--505
+Underfull \hbox (badness 10000) in paragraph at lines 505--505
+[]|\OT1/cmr/m/n/10.95 Upon en-
+ []
+
+
+Underfull \hbox (badness 6094) in paragraph at lines 505--505
+\OT1/cmr/m/n/10.95 ter-ing the
+ []
+
+
+Underfull \hbox (badness 1917) in paragraph at lines 505--505
+\OT1/cmr/m/n/10.95 ID for an
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 505--505
+\OT1/cmr/m/n/10.95 ex-ist-ing
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 505--505
+\OT1/cmr/m/n/10.95 item, all
+ []
+
+
+Underfull \hbox (badness 1694) in paragraph at lines 505--505
+\OT1/cmr/m/n/10.95 de-tails are
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 505--505
+\OT1/cmr/m/n/10.95 fetched
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 505--505
+\OT1/cmr/m/n/10.95 and dis-
+ []
+
+
+Overfull \hbox (1.29834pt too wide) in paragraph at lines 512--512
 []|\OT1/cmr/m/n/10.95 Component| 
  []
 
 
-Overfull \hbox (4.67458pt too wide) in paragraph at lines 505--505
+Overfull \hbox (4.67458pt too wide) in paragraph at lines 512--512
 []|\OT1/cmr/m/n/10.95 Front/Back-
  []
 
 
-Overfull \hbox (0.62918pt too wide) in paragraph at lines 505--505
+Overfull \hbox (0.62918pt too wide) in paragraph at lines 512--512
 []|\OT1/cmr/m/n/10.95 Description| 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 505--505
+Underfull \hbox (badness 10000) in paragraph at lines 512--512
 []|\OT1/cmr/m/n/10.95 Expected
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 505--505
+Underfull \hbox (badness 10000) in paragraph at lines 512--512
 []|\OT1/cmr/m/n/10.95 Observed
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 506--506
+Underfull \hbox (badness 10000) in paragraph at lines 513--513
 []|\OT1/cmr/m/n/10.95 Checkout
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 506--506
+Underfull \hbox (badness 10000) in paragraph at lines 513--513
 []|\OT1/cmr/m/n/10.95 Provided
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 506--506
+Underfull \hbox (badness 10000) in paragraph at lines 513--513
 \OT1/cmr/m/n/10.95 un-able to
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 506--506
+Underfull \hbox (badness 10000) in paragraph at lines 513--513
 \OT1/cmr/m/n/10.95 in any
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 506--506
+Underfull \hbox (badness 10000) in paragraph at lines 513--513
 \OT1/cmr/m/n/10.95 check-out
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 506--506
+Underfull \hbox (badness 10000) in paragraph at lines 513--513
 \OT1/cmr/m/n/10.95 na-ture of
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 506--506
+Underfull \hbox (badness 10000) in paragraph at lines 513--513
 \OT1/cmr/m/n/10.95 back-end
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 506--506
+Underfull \hbox (badness 10000) in paragraph at lines 513--513
 \OT1/cmr/m/n/10.95 stor-age,
  []
 
 
-Underfull \hbox (badness 2941) in paragraph at lines 506--506
+Underfull \hbox (badness 2941) in paragraph at lines 513--513
 \OT1/cmr/m/n/10.95 any vi-sual
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 506--506
+Underfull \hbox (badness 10000) in paragraph at lines 513--513
 \OT1/cmr/m/n/10.95 ed-its via
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 506--506
+Underfull \hbox (badness 10000) in paragraph at lines 513--513
 \OT1/cmr/m/n/10.95 (F12) in-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 506--506
+Underfull \hbox (badness 10000) in paragraph at lines 513--513
 \OT1/cmr/m/n/10.95 spect or
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 506--506
+Underfull \hbox (badness 10000) in paragraph at lines 513--513
 \OT1/cmr/m/n/10.95 by other
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 506--506
+Underfull \hbox (badness 10000) in paragraph at lines 513--513
 \OT1/cmr/m/n/10.95 be purely
  []
 
 
-Overfull \hbox (1.29834pt too wide) in paragraph at lines 511--511
+Underfull \hbox (badness 10000) in paragraph at lines 513--513
+[]|\OT1/cmr/m/n/10.95 All items
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 513--513
+\OT1/cmr/m/n/10.95 dis-played
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 513--513
+\OT1/cmr/m/n/10.95 are uned-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 513--513
+\OT1/cmr/m/n/10.95 itable in
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 513--513
+\OT1/cmr/m/n/10.95 F12 in-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 513--513
+\OT1/cmr/m/n/10.95 spect, or
+ []
+
+[9]
+Overfull \hbox (1.29834pt too wide) in paragraph at lines 518--518
 []|\OT1/cmr/m/n/10.95 Component| 
  []
 
 
-Overfull \hbox (4.67458pt too wide) in paragraph at lines 511--511
+Overfull \hbox (4.67458pt too wide) in paragraph at lines 518--518
 []|\OT1/cmr/m/n/10.95 Front/Back-
  []
 
 
-Overfull \hbox (0.62918pt too wide) in paragraph at lines 511--511
+Overfull \hbox (0.62918pt too wide) in paragraph at lines 518--518
 []|\OT1/cmr/m/n/10.95 Description| 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 511--511
+Underfull \hbox (badness 10000) in paragraph at lines 518--518
 []|\OT1/cmr/m/n/10.95 Expected
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 511--511
+Underfull \hbox (badness 10000) in paragraph at lines 518--518
 []|\OT1/cmr/m/n/10.95 Observed
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 512--512
+Underfull \hbox (badness 10000) in paragraph at lines 519--519
 \OT1/cmr/m/n/10.95 able and
  []
 
 
-Underfull \hbox (badness 5217) in paragraph at lines 512--512
+Underfull \hbox (badness 5217) in paragraph at lines 519--519
 \OT1/cmr/m/n/10.95 as-pect ra-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 512--512
+Underfull \hbox (badness 10000) in paragraph at lines 519--519
 \OT1/cmr/m/n/10.95 tios down
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 512--512
+Underfull \hbox (badness 10000) in paragraph at lines 519--519
 []|\OT1/cmr/m/n/10.95 Aspect
  []
 
 
-Underfull \hbox (badness 3386) in paragraph at lines 512--512
+Underfull \hbox (badness 3386) in paragraph at lines 519--519
 \OT1/cmr/m/n/10.95 ra-tios and
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 512--512
+Underfull \hbox (badness 10000) in paragraph at lines 519--519
 \OT1/cmr/m/n/10.95 an is-sue,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 512--512
+Underfull \hbox (badness 10000) in paragraph at lines 519--519
 \OT1/cmr/m/n/10.95 and the
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 512--512
+Underfull \hbox (badness 10000) in paragraph at lines 519--519
 \OT1/cmr/m/n/10.95 app will
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 512--512
+Underfull \hbox (badness 10000) in paragraph at lines 519--519
 \OT1/cmr/m/n/10.95 re-main
  []
 
-[9]
-Overfull \hbox (1.29834pt too wide) in paragraph at lines 517--517
+
+Underfull \hbox (badness 10000) in paragraph at lines 519--519
+[]|\OT1/cmr/m/n/10.95 App is
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 519--519
+\OT1/cmr/m/n/10.95 flex-i-ble
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 519--519
+\OT1/cmr/m/n/10.95 down to
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 519--519
+\OT1/cmr/m/n/10.95 res-o-lu-tions
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 519--519
+\OT1/cmr/m/n/10.95 at small
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 519--519
+\OT1/cmr/m/n/10.95 screen
+ []
+
+
+Overfull \hbox (1.29834pt too wide) in paragraph at lines 524--524
 []|\OT1/cmr/m/n/10.95 Component| 
  []
 
 
-Overfull \hbox (4.67458pt too wide) in paragraph at lines 517--517
+Overfull \hbox (4.67458pt too wide) in paragraph at lines 524--524
 []|\OT1/cmr/m/n/10.95 Front/Back-
  []
 
 
-Overfull \hbox (0.62918pt too wide) in paragraph at lines 517--517
+Overfull \hbox (0.62918pt too wide) in paragraph at lines 524--524
 []|\OT1/cmr/m/n/10.95 Description| 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 517--517
+Underfull \hbox (badness 10000) in paragraph at lines 524--524
 []|\OT1/cmr/m/n/10.95 Expected
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 517--517
+Underfull \hbox (badness 10000) in paragraph at lines 524--524
 []|\OT1/cmr/m/n/10.95 Observed
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 518--518
+Underfull \hbox (badness 10000) in paragraph at lines 525--525
 []|\OT1/cmr/m/n/10.95 W3C Ac-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 518--518
+Underfull \hbox (badness 10000) in paragraph at lines 525--525
 \OT1/cmr/m/n/10.95 cess-abil-ity
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 518--518
+Underfull \hbox (badness 10000) in paragraph at lines 525--525
 []|\OT1/cmr/m/n/10.95 Website
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 518--518
+Underfull \hbox (badness 10000) in paragraph at lines 525--525
 \OT1/cmr/m/n/10.95 is able
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 518--518
+Underfull \hbox (badness 10000) in paragraph at lines 525--525
 \OT1/cmr/m/n/10.95 to pass
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 518--518
+Underfull \hbox (badness 10000) in paragraph at lines 525--525
 \OT1/cmr/m/n/10.95 WAVE
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 518--518
+Underfull \hbox (badness 10000) in paragraph at lines 525--525
 \OT1/cmr/m/n/10.95 au-to-mated
  []
 
 
-Underfull \hbox (badness 1424) in paragraph at lines 518--518
+Underfull \hbox (badness 1424) in paragraph at lines 525--525
 \OT1/cmr/m/n/10.95 W3C test-
  []
 
 
-Overfull \hbox (23.99998pt too wide) in alignment at lines 556--563
+Underfull \hbox (badness 6559) in paragraph at lines 525--525
+\OT1/cmr/m/n/10.95 is for an
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 525--525
+\OT1/cmr/m/n/10.95 un-de-scrip-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 525--525
+\OT1/cmr/m/n/10.95 tive page
+ []
+
+
+Underfull \hbox (badness 1077) in paragraph at lines 525--525
+\OT1/cmr/m/n/10.95 is of lit-tle
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 525--525
+\OT1/cmr/m/n/10.95 im-por-tance
+ []
+
+
+Underfull \hbox (badness 4505) in paragraph at lines 525--525
+\OT1/cmr/m/n/10.95 to a web
+ []
+
+
+Overfull \hbox (1.29834pt too wide) in paragraph at lines 530--530
+[]|\OT1/cmr/m/n/10.95 Component| 
+ []
+
+
+Overfull \hbox (4.67458pt too wide) in paragraph at lines 530--530
+[]|\OT1/cmr/m/n/10.95 Front/Back-
+ []
+
+
+Overfull \hbox (0.62918pt too wide) in paragraph at lines 530--530
+[]|\OT1/cmr/m/n/10.95 Description| 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 530--530
+[]|\OT1/cmr/m/n/10.95 Expected
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 530--530
+[]|\OT1/cmr/m/n/10.95 Observed
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 531--531
+[]|\OT1/cmr/m/n/10.95 Auth0
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 531--531
+\OT1/cmr/m/n/10.95 should be
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 531--531
+\OT1/cmr/m/n/10.95 ca-pa-ble
+ []
+
+
+Underfull \hbox (badness 6995) in paragraph at lines 531--531
+\OT1/cmr/m/n/10.95 of log-ging
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 531--531
+\OT1/cmr/m/n/10.95 in users
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 531--531
+\OT1/cmr/m/n/10.95 through
+ []
+
+
+Underfull \hbox (badness 3547) in paragraph at lines 531--531
+\OT1/cmr/m/n/10.95 both lo-cal
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 531--531
+\OT1/cmr/m/n/10.95 ac-counts
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 531--531
+\OT1/cmr/m/n/10.95 and "sign
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 531--531
+[]|\OT1/cmr/m/n/10.95 Behavior
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 531--531
+\OT1/cmr/m/n/10.95 works as
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 531--531
+\OT1/cmr/m/n/10.95 ex-pected,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 531--531
+\OT1/cmr/m/n/10.95 user info
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 531--531
+\OT1/cmr/m/n/10.95 is made
+ []
+
+[10]
+Overfull \hbox (23.99998pt too wide) in alignment at lines 567--578
  [] [] 
  []
 
-ignored: Infinite glue shrinkage found in box being split [10]
-Overfull \hbox (47.99998pt too wide) in alignment at lines 570--578
+
+Overfull \hbox (47.99998pt too wide) in alignment at lines 585--591
  [] [] [] [] 
  []
 
-[11] [12]) (_postamble.tex [13] (_preamble.aux)
+<login.jpg, id=235, 683.55376pt x 660.96938pt>
+File: login.jpg Graphic file (type jpg)
+<use login.jpg>
+Package pdftex.def Info: login.jpg  used on input line 633.
+(pdftex.def)             Requested size: 284.52756pt x 275.13428pt.
+[11]
+<additems.jpg, id=243, 1444.64719pt x 777.65532pt>
+File: additems.jpg Graphic file (type jpg)
+<use additems.jpg>
+Package pdftex.def Info: additems.jpg  used on input line 642.
+(pdftex.def)             Requested size: 341.43306pt x 183.79323pt.
+<itemAdded.jpg, id=244, 1444.64719pt x 780.66656pt>
+File: itemAdded.jpg Graphic file (type jpg)
+<use itemAdded.jpg>
+Package pdftex.def Info: itemAdded.jpg  used on input line 651.
+(pdftex.def)             Requested size: 341.43306pt x 184.50491pt.
+ [12 <./login.jpg> <./additems.jpg>]
+<checkout.jpg, id=249, 1442.38875pt x 779.16093pt>
+File: checkout.jpg Graphic file (type jpg)
+<use checkout.jpg>
+Package pdftex.def Info: checkout.jpg  used on input line 659.
+(pdftex.def)             Requested size: 341.43306pt x 184.4344pt.
+ [13 <./itemAdded.jpg> <./checkout.jpg>]
+<owen.jpg, id=255, 2168.1pt x 2890.8pt>
+File: owen.jpg Graphic file (type jpg)
+<use owen.jpg>
+Package pdftex.def Info: owen.jpg  used on input line 794.
+(pdftex.def)             Requested size: 42.67642pt x 56.90189pt.
+<calvin.png, id=256, 564.60938pt x 577.15625pt>
+File: calvin.png Graphic file (type png)
+<use calvin.png>
+Package pdftex.def Info: calvin.png  used on input line 794.
+(pdftex.def)             Requested size: 55.66302pt x 56.89998pt.
+<gio.jpg, id=257, 934.99312pt x 1111.15125pt>
+File: gio.jpg Graphic file (type jpg)
+<use gio.jpg>
+Package pdftex.def Info: gio.jpg  used on input line 794.
+(pdftex.def)             Requested size: 47.87947pt x 56.90024pt.
+ [14 <./owen.jpg> <./calvin.png> <./gio.jpg>]) (_postamble.tex [15] (_preamble.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2026-01-19>
  ***********
 Package rerunfilecheck Info: File `_preamble.out' has not changed.
-(rerunfilecheck)             Checksum: 070C6659907178227D9EEDB49A74AE36;5840.
+(rerunfilecheck)             Checksum: 53FE26201D28C10B176DBF9D2498F92E;5669.
  ) ) 
 Here is how much of TeX's memory you used:
- 20929 strings out of 467866
- 390290 string characters out of 5418326
- 795952 words of memory out of 5000000
- 49411 multiletter control sequences out of 15000+600000
+ 20970 strings out of 467866
+ 391000 string characters out of 5418326
+ 792016 words of memory out of 5000000
+ 49457 multiletter control sequences out of 15000+600000
  634444 words of font info for 63 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 84i,8n,104p,473b,582s stack positions out of 10000i,1000n,20000p,200000b,200000s
- <C:\Users\owenm\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1095.pk><C:/Users/owenm/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/owenm/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/owenm/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/owenm/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/owenm/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr17.pfb>
-Output written on _preamble.pdf (13 pages, 196677 bytes).
+ 84i,9n,104p,489b,582s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ <C:\Users\owenm\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1095.pk><C:/Users/owenm/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/owenm/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/owenm/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/owenm/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/owenm/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Users/owenm/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb>
+Output written on _preamble.pdf (15 pages, 4740372 bytes).
 PDF statistics:
- 308 PDF objects out of 1000 (max. 8388607)
- 62 named destinations out of 1000 (max. 500000)
- 314 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 314 PDF objects out of 1000 (max. 8388607)
+ 57 named destinations out of 1000 (max. 500000)
+ 333 words of extra memory for PDF output out of 10000 (max. 10000000)
 

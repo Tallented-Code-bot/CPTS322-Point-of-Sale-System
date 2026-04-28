@@ -279,7 +279,7 @@ Related Requirements & Add items to checkout state. \\ \hline
 \begin{center}
 \textbf{Security}\\
 \begin{tabular}{|c|c|}\hline
-Description & The app must contain a system to verity users in a secure \\
+Description & The app must contain a system to verify users in a secure \\
 & manner, and to process payments into the database without posing a security \\
 & threat to the customer. \\ \hline
 Source & Collaberatively decided properties of a point-of-sale system among \\
@@ -404,8 +404,11 @@ using MongoDB through Rust.
 
 \subsection{Data design}
 
-While the exact data structures are not fully in place, the idea is to use MongoDB to create a NoSQL
-path to mass data storage, which can be fed lists of items and edited without the potential for missed data. 
+% While the exact data structures are not fully in place, the idea is to use MongoDB to create a NoSQL
+% path to mass data storage, which can be fed lists of items and edited without the potential for missed data. 
+MongoDB is a NoSQL database used to store product IDs, accessed through a rust API.
+Once item data is requested from the API it is stored in a writable Svelte store for
+program access.
 
 \subsection{User Interface Design}
 
@@ -458,6 +461,10 @@ main screen.
 % manufacturability, marketability, policy, regulations, schedule,
 % sustainability, or usability.
 
+The main constraint of this product is portablilty, in the sense that the
+frontend must be seperate from the backend and easily deployable. This is
+what informed our group on the decision to make the program web-based.
+
 \section{Test Case Specifications and
 Results}
 
@@ -487,7 +494,7 @@ aleady written and freely accessable, which our team plans to make use of.
   \textbf{Unit testing}\\
 \begin{tabular}{|p{1.9cm}|p{1.9cm}|p{1.9cm}|p{1.9cm}|p{1.9cm}|p{1.9cm}|}\hline
 Component & Front/Back-end & Description & Expected Result & Observed Result & Pass/Fail\\ \hline
-UPC entry & Frontend & Attempting to add an invalid UPC & Descriptive, unobsusive error with suggestions for fixing &  & \\ \hline
+UPC entry & Frontend & Attempting to add an invalid UPC & Descriptive, unobsusive error with suggestions for fixing & Error provided is extremely long and unhelpful to the end user. & Fail \\ \hline
 
 \end{tabular}
 
@@ -495,7 +502,7 @@ UPC entry & Frontend & Attempting to add an invalid UPC & Descriptive, unobsusiv
   \textbf{Integration testing}\\
   \begin{tabular}{|p{1.9cm}|p{1.9cm}|p{1.9cm}|p{1.9cm}|p{1.9cm}|p{1.9cm}|}\hline
   Component & Front/Back-end & Description & Expected Result & Observed Result & Pass/Fail\\ \hline
-  Database & Backend & Requesting details for an item contained in the database & Item details are able to be retrieved accuratly & & \\ \hline.
+  Database & Backend & Requesting details for an item contained in the database & Item details are able to be retrieved accuratly & Upon entering the ID for an existing item, all details are fetched and displayed & Pass \\ \hline.
   \end{tabular}
 \item
   \textbf{System testing}
@@ -503,22 +510,26 @@ UPC entry & Frontend & Attempting to add an invalid UPC & Descriptive, unobsusiv
   Functional testing\\
   \begin{tabular}{|p{1.9cm}|p{1.9cm}|p{1.9cm}|p{1.9cm}|p{1.9cm}|p{1.9cm}|}\hline
   Component & Front/Back-end & Description & Expected Result & Observed Result & Pass/Fail\\ \hline
-  Checkout Screen Immutability & Frontend & Provided item list is unable to be changed in any way, at the checkout screen & Due to the nature of backend storage, any visual edits via (F12) inspect or by other means will be purely visual & &  \\ \hline
+  Checkout Screen Immutability & Frontend & Provided item list is unable to be changed in any way, at the checkout screen & Due to the nature of backend storage, any visual edits via (F12) inspect or by other means will be purely visual & All items displayed are uneditable in F12 inspect, or otherwise. & Pass \\ \hline
   \end{tabular}
 \item
   Performance testing\\
   \begin{tabular}{|p{1.9cm}|p{1.9cm}|p{1.9cm}|p{1.9cm}|p{1.9cm}|p{1.9cm}|}\hline
   Component & Front/Back-end & Description & Expected Result & Observed Result & Pass/Fail\\ \hline
-  All Pages & Frontend & UI is readable and practical at aspect ratios down to 4:3 and screen sizes down to 7'' & Aspect ratios and screen sizes will not be an issue, and the app will remain easy to use & & \\ \hline
+  All Pages & Frontend & UI is readable and practical at aspect ratios down to 4:3 and screen sizes down to 7'' & Aspect ratios and screen sizes will not be an issue, and the app will remain easy to use & App is flexible down to resolutions of 800x600, and text is big enough to be read at small screen sizes. & Pass \\ \hline
   \end{tabular}
 \item
   Standards and constraints testing\\
   \begin{tabular}{|p{1.9cm}|p{1.9cm}|p{1.9cm}|p{1.9cm}|p{1.9cm}|p{1.9cm}|}\hline
   Component & Front/Back-end & Description & Expected Result & Observed Result & Pass/Fail\\ \hline
-  All Pages & Frontend & W3C Accessability compliance & Website is able to pass WAVE automated W3C testing &  &  \\ \hline 
+  All Pages & Frontend & W3C Accessability compliance & Website is able to pass WAVE automated W3C testing & Only error is for an undescriptive page title, which is of little importance to a web utility.  & Pass  \\ \hline 
   \end{tabular}
 \item
-  User acceptance testing
+  User acceptance testing\\
+  \begin{tabular}{|p{1.9cm}|p{1.9cm}|p{1.9cm}|p{1.9cm}|p{1.9cm}|p{1.9cm}|}\hline
+  Component & Front/Back-end & Description & Expected Result & Observed Result & Pass/Fail\\ \hline
+  Logging in & None & Auth0 should be capable of logging in users through both local accounts and "sign in with". & Behavior works as expected, user info is made avalable. & Pass \\ \hline
+  \end{tabular}
 \end{itemize}
 \end{center}
 
@@ -537,239 +548,328 @@ requires a hosted site, will be done offline. However, due to the nature of the 
 both the backend and the frontend will be running for the testing. The testing will be done
  in multiple browsers to ensuere compatability.
 
-\subsection{Test Results}
+% \subsection{Test Results}
 
-Include your prototype test results from your ``Test Case Specifications
-and Results'' document as updated with your current project status.
+% Include your prototype test results from your ``Test Case Specifications
+% and Results'' document as updated with your current project status.
 
-\subsection{}
+%  \subsection{}
 
 \section{Projects and Tools used}
 
-Include a summary of the libraries, frameworks, and tools you used to
-implement your project. For example, you could have used some web
-frameworks, a database, a network message passing tool, graphics
-generation libraries, and various operating system platforms. Please
-list these out with a short one sentence note about what it was used to
-build/support in your project.
+% Include a summary of the libraries, frameworks, and tools you used to
+% implement your project. For example, you could have used some web
+% frameworks, a database, a network message passing tool, graphics
+% generation libraries, and various operating system platforms. Please
+% list these out with a short one sentence note about what it was used to
+% build/support in your project.
 
 \begin{longtable}{p{0.25\linewidth}p{0.75\linewidth}}
 \toprule
 Tool/library/framework & Quick note on what it was for \\
 \midrule
-Bootstrap & Generating layout and visual rendering on web interface \\
-RabbitMQ & Intercommunication between our modules \\
+Svelte & Web framework used to build all the GUI, and some app logic. \\
+MongoDB & NoSQL database used for storing product codes. \\
+Flowbyte Svelte & Used to provide some pre-build UI nodes, such as buttons. \\
+Auth-0 & Implements easy login-logout functionality. \\
+Git/Github & Source control \\
+
 \bottomrule
 \end{longtable}
 
-As a quick survey, let me know what languages you wrote some of the
-project in. This is anything you wrote yourself, not just used in
-libraries. This includes both programming languages and markup
-languages.
+% As a quick survey, let me know what languages you wrote some of the
+% project in. This is anything you wrote yourself, not just used in
+% libraries. This includes both programming languages and markup
+% languages.
 
 \begin{longtable}{p{0.25\linewidth}p{0.25\linewidth}p{0.25\linewidth}p{0.25\linewidth}}
 \toprule
 \multicolumn{4}{c}{Languages Used in Project} \\
 \midrule
-C & C++ & JavaScript & Erlang \\
-Java & Python & PERL & Go \\
-HTML5 & LaTeX & BASH shell & \\
+JavaScript/TypeScript & Rust & CSS & \LaTeX \\
 \bottomrule
 \end{longtable}
 
 \section{Description of Final
 Prototype}
 
-In this section provide a \textbf{\ul{detailed}} description of your
-final prototype.
+% In this section provide a \textbf{\ul{detailed}} description of your
+% final prototype.
 
-(If applicable) Include a brief user manual for your final software
-where you provide step by step instructions for using your system.
-Explain the major use case scenarios. You may include screenshots of the
-user interface.
+% (If applicable) Include a brief user manual for your final software
+% where you provide step by step instructions for using your system.
+% Explain the major use case scenarios. You may include screenshots of the
+% user interface.
 
-\ul{Describe your final prototype implementation. Please format this
-section according to what you think is the best way to describe your
-prototype. The following is just a suggestion.}
+% \ul{Describe your final prototype implementation. Please format this
+% section according to what you think is the best way to describe your
+% prototype. The following is just a suggestion.}
 
-I recommend to include plenty of images and pictures of the following
-where appropriate:
+% I recommend to include plenty of images and pictures of the following
+% where appropriate:
 
-- any diagrams/figures that visualize various features of your
-prototype;
+% - any diagrams/figures that visualize various features of your
+% prototype;
 
-- the screenshots of your user interfaces;
+% - the screenshots of your user interfaces;
 
-- the screenshots of your test programs;
+% - the screenshots of your test programs;
 
-- pictures of your team testing and debugging the devices, programs,
-etc.
+% - pictures of your team testing and debugging the devices, programs,
+% etc.
 
-A well-thought and clear diagram is better than long and descriptive
-text.
+% A well-thought and clear diagram is better than long and descriptive
+% text.
 
-If your document starts to be very long due to screenshots and diagrams,
-please put at least some of them into an appendix to this document.
+% If your document starts to be very long due to screenshots and diagrams,
+% please put at least some of them into an appendix to this document.
+
+The user interface flow for an average use case is as follows: 
+
+After being prompted to "Login", the user clicks the only button on the
+screen and is brought to Auth-0s login page.
+
+\begin{center}
+\includegraphics[width=100mm]{login.jpg}
+\end{center}
+
+Logging in using either an account with Auth-0 or continuing wigh Google will
+work, so the user is free to select whatever option they desire.\par
+
+After logging in, the user is brought to this screen:
+
+\begin{center}
+\includegraphics[width=120mm]{additems.jpg}
+\end{center}
+
+
+The uesr is able to scan an item listed in the database, where in our
+case, we can use a test item by typing in its ID manually, and clicking 
+``add''.
+
+\begin{center}
+\includegraphics[width=120mm]{itemAdded.jpg}
+\end{center}
+
+From here, the user is able to change the quantity of the item added,
+add more items, or continue to the checkout screen. We will choose to go to
+the checkout screen.
+
+\begin{center}
+\includegraphics[width=120mm]{checkout.jpg}
+\end{center}
+
+As you can see, we are no longer able to add items or change the quantity of
+items entered. To pay, we enter the amount of money given by the customer, in our
+case, a \$20 bill, and the user is told the amount of change needed to be given.
+If enough money has been added, the ``Complete Sale'' will become clickable, and
+the user is able to complete the transaction.
 
 \section{Social Responsibility and Broader Impacts}
 
-Social responsibility: identify informed judgements that you made for
-this project based on legal and ethical principles. Discuss if those
-judgements are in line with your responsibilities as a computing /
-software / cyber engineer. If not, what prompted you to make judgements
-that are contradictory to your professional responsibilities?
+% Social responsibility: identify informed judgements that you made for
+% this project based on legal and ethical principles. Discuss if those
+% judgements are in line with your responsibilities as a computing /
+% software / cyber engineer. If not, what prompted you to make judgements
+% that are contradictory to your professional responsibilities?
 
-Broader impacts: highlight how your work aligns with the WSU EECS's
-goals of benefiting society and broadening participation in STEM.
-Describe not only how your project addressed a real-world problem
-(briefly state the problem) but also emphasized accessibility,
-inclusivity, and/or educational outreach. If you engaged with local
-communities through user testing and feedback sessions, mention that. If
-you collaborated with multiple teams from various departments or groups,
-mention that. If you documented your project and released it freely to
-support open-source missions, mention that. If your project outcomes
-contribute to technological innovation and provide a foundation for
-future student-led research, community-based applications, mention that.
+% Broader impacts: highlight how your work aligns with the WSU EECS's
+% goals of benefiting society and broadening participation in STEM.
+% Describe not only how your project addressed a real-world problem
+% (briefly state the problem) but also emphasized accessibility,
+% inclusivity, and/or educational outreach. If you engaged with local
+% communities through user testing and feedback sessions, mention that. If
+% you collaborated with multiple teams from various departments or groups,
+% mention that. If you documented your project and released it freely to
+% support open-source missions, mention that. If your project outcomes
+% contribute to technological innovation and provide a foundation for
+% future student-led research, community-based applications, mention that.
+
+Legal considerations made in the development of this project include the choice
+to use the MIT licence. The entire project is also open-sourced on GitHub.\par
+
+This aligns with WSU EECS's goals of benefiting society and broadening participation
+in STEM by encouraging community driven development through the open-source approach
+to software release. In addition to this, our project addresses the real-world problem of a lack of accessible and easily
+deployable POS software.
 
 \section{Product Delivery Status}
 
-When was/will the project be delivered to your client? Was it
-demonstrated and who did you hand it off to?
+% When was/will the project be delivered to your client? Was it
+% demonstrated and who did you hand it off to?
 
-Also include project location information here. This is for both the
-instructor and your client as future reference. This should include:
+% Also include project location information here. This is for both the
+% instructor and your client as future reference. This should include:
 
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi})}
-\item
-  Source repositories
-\item
-  Equipment storage location - where did you leave any client or course
-  materials
-\item
-  Any other materials needed to rebuild your project from the ground up
-\end{enumerate}
+% \begin{enumerate}
+% \def\labelenumi{\arabic{enumi})}
+% \item
+%   Source repositories
+% \item
+%   Equipment storage location - where did you leave any client or course
+%   materials
+% \item
+%   Any other materials needed to rebuild your project from the ground up
+% \end{enumerate}
 
-Ensure that either here or in your detailed description you include any
-instructions or where the instructions are to install and setup your
-project so future users know where to start.
+% Ensure that either here or in your detailed description you include any
+% instructions or where the instructions are to install and setup your
+% project so future users know where to start.
+
+The current release and build instructions are maintained on the project's
+GitHub repository https://github.com/Tallented-Code-bot/CPTS322-Point-of-Sale-System
 
 \section{Conclusions and Future Work}
 
 \subsection{Limitations and
 Recommendations}
 
-Include a brief description of the limitations of your current prototype
-that you are aware of, and discuss possible solution approaches to
-overcome those limitations.
+% Include a brief description of the limitations of your current prototype
+% that you are aware of, and discuss possible solution approaches to
+% overcome those limitations.
 
-Please keep the discussion brief. 1 page text should be sufficient for
-this section.
+% Please keep the discussion brief. 1 page text should be sufficient for
+% this section.
 
-Note that there might be overlap between the Limitations and
-Recommendations section and the Future Work section. ``Future Work''
-should discuss the possible ways to extend the project, where as
-``Limitations and Recommendations'' should be more detailed and should
-discuss the problems and missing features in the final prototype and
-should describe the possible solution approaches.
+% Note that there might be overlap between the Limitations and
+% Recommendations section and the Future Work section. ``Future Work''
+% should discuss the possible ways to extend the project, where as
+% ``Limitations and Recommendations'' should be more detailed and should
+% discuss the problems and missing features in the final prototype and
+% should describe the possible solution approaches.
+
+Our team is aware of this section, however it is yet to be implemented.
 
 \subsection{Future Work}
 
-Include a conclusion and discuss the future work. Future work should
-include discussion on how to extend this project. For those of you who
-are self or EECS sponsored, discuss commercialization possibilities.
+% Include a conclusion and discuss the future work. Future work should
+% include discussion on how to extend this project. For those of you who
+% are self or EECS sponsored, discuss commercialization possibilities.
+
+Future work includes greater user customizability and integraded suppport for
+external devices such as recipt printers and barcode scanners.
 
 \section{Acknowledgements}
 
-Thank the people who have contributed to your project. Also thank to
-your sponsors.
+% Thank the people who have contributed to your project. Also thank to
+% your sponsors.
+
+Project contributers: Calvin Tallent, Owen Moore, Giovanni Munoz
 
 \section{Glossary}
 
-\begin{quote}
-Define technical terms, acronyms, and anything else the reader might
-need to look up as they go through your document
-\end{quote}
+% \begin{quote}
+% Define technical terms, acronyms, and anything else the reader might
+% need to look up as they go through your document
+% \end{quote}
+
+Our team is aware of this section, however it is yet to be implemented.
 
 \section{References}
 
-Cite all your references here. For the papers you cite give the authors,
-the title of the article, the journal name, journal volume number, date
-of publication and inclusive page numbers. Giving only the URL for the
-journal is not appropriate.
+% Cite all your references here. For the papers you cite give the authors,
+% the title of the article, the journal name, journal volume number, date
+% of publication and inclusive page numbers. Giving only the URL for the
+% journal is not appropriate.
 
-Use either Chicago, IEEE, or ACM style citations
+% Use either Chicago, IEEE, or ACM style citations
 
--\/- Note: you can find many articles on scholar.google.com, which
-includes a link for each article's citation in various formats.
+% -\/- Note: you can find many articles on scholar.google.com, which
+% includes a link for each article's citation in various formats.
 
-% \includegraphics[width=4.54688in,height=1.39175in]{media/image2.png}
+No cited works.
+
 
 \section{Appendix A -- Team
 Information}
 
-List your team members here and provide a team photo.
+% List your team members here and provide a team photo.
+
+
+\begin{longtable}{p{0.25\linewidth}p{0.25\linewidth}p{0.25\linewidth}p{0.25\linewidth}}
+\toprule
+\multicolumn{3}{c}{Team Members} \\
+\midrule
+Owen Moore & Calvin Tallent & Gio Munoz \\
+\includegraphics[width=2cm,height=2cm,keepaspectratio]{owen.jpg} & \includegraphics[width=2cm,height=2cm,keepaspectratio]{calvin.png} & \includegraphics[width=2cm,height=2cm,keepaspectratio]{gio.jpg} \\ 
+\bottomrule
+\end{longtable}
 
 \section{Appendix B - Example Testing Strategy
 Reporting}
 
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi})}
-\item
-  Identify the requirements being tested
-\item
-  Either link to available online test results and/or take screenshots
-  of the various system testing results
-\item
-  User testing can be demonstrated via survey results or quotes and a
-  discussion of the feedback received
-\end{enumerate}
+% \begin{enumerate}
+% \def\labelenumi{\arabic{enumi})}
+% \item
+%   Identify the requirements being tested
+% \item
+%   Either link to available online test results and/or take screenshots
+%   of the various system testing results
+% \item
+%   User testing can be demonstrated via survey results or quotes and a
+%   discussion of the feedback received
+% \end{enumerate}
+
+Our team is aware of this section, although it is yet to be implemented.
 
 \section{Appendix C - Project
 Management}
 
-Describe your team's weekly schedule, i.e.,
+% Describe your team's weekly schedule, i.e.,
 
-\begin{itemize}
-\item
-  weekly meetings with the instructor/ mentor
-\item
-  weekly meetings only with the team members
-\item
-  other meetings and project related team activities.
-\end{itemize}
+% \begin{itemize}
+% \item
+%   weekly meetings with the instructor/ mentor
+% \item
+%   weekly meetings only with the team members
+% \item
+%   other meetings and project related team activities.
+% \end{itemize}
 
-Explain the purpose of each of the above activities and describe the
-routine agenda for each.
+% Explain the purpose of each of the above activities and describe the
+% routine agenda for each.
 
-Please comment on which team activities/meetings were the most
-beneficial to your team.
+% Please comment on which team activities/meetings were the most
+% beneficial to your team.
 
-Please include any planning documents you may have used. Examples could
-include:
+% Please include any planning documents you may have used. Examples could
+% include:
 
-\begin{itemize}
-\item
-  Gantt charts
-\item
-  GitHub projects - Screenshots \& a figure description
-\item
-  GitHub issues - Screenshots \& a figure description
-\item
-  Notes on team tools used:
+% \begin{itemize}
+% \item
+%   Gantt charts
+% \item
+%   GitHub projects - Screenshots \& a figure description
+% \item
+%   GitHub issues - Screenshots \& a figure description
+% \item
+%   Notes on team tools used:
 
-  \begin{itemize}
-  \item
-    Email
-  \item
-    SMS/IM
-  \item
-    Slack
-  \item
-    appear.in or other video conference tools
-  \item
-    Trello
-  \item
-    etc.
-  \end{itemize}
-\end{itemize}
+%   \begin{itemize}
+%   \item
+%     Email
+%   \item
+%     SMS/IM
+%   \item
+%     Slack
+%   \item
+%     appear.in or other video conference tools
+%   \item
+%     Trello
+%   \item
+%     etc.
+%   \end{itemize}
+% \end{itemize}
+
+Our team generally had two weekly meetings. On Tuesdays meeting at 1:30pm to 3:00pm
+to discuss general plans catch each other up on progress and also serving as just a
+reserved time to work on the project. On Thursdays, we would meet with the professor
+for 15 minutes to discuss upcomming plans for the next week, and to stay informed on
+upcomming events in the class. Thursdays would also typically hold impromptu meetings
+1 hour to 45 minutes before the meeting with the professor to catch up, and to make
+sure all our work merges correctly.\par
+
+Group communication primarilly occured through discord, although these mainly served
+as reminders due to the extended meeting times. Occasionally GitHub would be utilized
+as a communication tool through push messages and times, although this mainly served
+to alert people if one person was actively working.
