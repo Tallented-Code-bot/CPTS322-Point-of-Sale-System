@@ -61,14 +61,16 @@
 		showClearConfirm = false;
 	}
 
-	async function formatRecipt(payload: CheckoutPayload){
-		for(var item in payload.items){
-			var text = document.getElementById("textData").value;
-            var blob = new Blob([text], { type: 'text/plain' });
-            var link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = 'myTextFile.txt';
-            link.click();
+	async function formatRecipt(payload: CheckoutPayload) {
+		for (const _item in payload.items) {
+			const el = document.getElementById('textData');
+			const text = el instanceof HTMLInputElement || el instanceof HTMLTextAreaElement ? el.value : '';
+
+			const blob = new Blob([text], { type: 'text/plain' });
+			const link = document.createElement('a');
+			link.href = URL.createObjectURL(blob);
+			link.download = 'myTextFile.txt';
+			link.click();
 		}
 	}
 
@@ -111,6 +113,7 @@
 			<!-- <span class="terminal-label">CASHIER TERMINAL</span> -->
 		</div>
 		<div class="topbar-right">
+			<a class="btn btn-ghost" href="/admin">ADMIN</a>
 			<!-- <span class="badge-operator">
 				<span class="badge-dot"></span>
 				Cashier
@@ -328,7 +331,7 @@
 
 	.topbar-left   { display: flex; align-items: center; }
 	.topbar-center { display: flex; justify-content: center; }
-	.topbar-right  { display: flex; justify-content: flex-end; }
+	.topbar-right  { display: flex; justify-content: flex-end; align-items: center; gap: 0.5rem; }
 
 	/* Scale down whatever BackButton renders */
 	.back-wrap {
