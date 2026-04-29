@@ -38,7 +38,7 @@ async function handle<T>(res: Response): Promise<T> {
 export async function fetchProductByUPC(upc: string): Promise<Product> {
 	const res = await fetch(`${BASE_URL}/api/products/${encodeURIComponent(upc)}`, {
 		method: 'GET',
-		credentials: 'include'
+		credentials: 'include',
 	});
 	return handle<Product>(res);
 }
