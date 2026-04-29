@@ -25,8 +25,7 @@ const BASE_URL = import.meta.env.VITE_POS_API_BASE ?? '';
 //VITE api? not sure what this does
 
 async function handle<T>(res: Response): Promise<T> {
-	// handler function test to see if "Response" is ok... not sure where it's
-	// even used
+	// handler function test to see if "Response" is ok
 	if (!res.ok) {
 		const text = await res.text().catch(() => '');
 		throw new Error(text || `Request failed (${res.status})`);
