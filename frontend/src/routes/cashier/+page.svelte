@@ -66,20 +66,22 @@
 	function doClear() {
 		clearCart();
 		showClearConfirm = false;
-	}
+        }
 
-	async function formatRecipt(payload: CheckoutPayload) {
-		for (var item in payload.items) {
-			var text = document.getElementById('textData').value;
-			var blob = new Blob([text], { type: 'text/plain' });
-			var link = document.createElement('a');
-			link.href = URL.createObjectURL(blob);
-			link.download = 'myTextFile.txt';
-			link.click();
+	async function formatReceipt(payload: CheckoutPayload) {
+                //ITEM NAMES SHOULD NOT BE LONGER THAN 32 CHARS
+                let receipt = "";
+		for (const item of payload.items) {
+                    var curItem = await fetchProductByUPC(item.upc.trim());
+                    receipt += curItem.name + " ".repeat(32 - curItem.name.length) + item.qty.toString() + " $" + curItem.price.toFixed(2) + "\n";
 		}
+                var blob = new Blob([receipt], { type: "text/plain" });
+                var link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = 'receipt.txt';
+                link.click();
 	}
 
-	async function printRecipt() {}
 
 	async function completeSale() {
 		error = '';
@@ -91,6 +93,9 @@
 			if (paid < $total) throw new Error('Payment amount is insufficient.');
 			const res = await checkout(payload);
                         receiptMsg = `Sale complete — Receipt #${res.receiptId}`;
+                        var temp = await fetchProductByUPC(payload.items[0].upc.trim())
+                        console.log(temp);
+                        formatReceipt(payload);
                         clearCart();
 			paid = 0;
 		} catch (e) {

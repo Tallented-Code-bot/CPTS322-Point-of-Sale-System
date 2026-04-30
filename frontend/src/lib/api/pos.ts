@@ -19,6 +19,7 @@ export type CheckoutResponse = {
 	timestamp: string;
 	itemCount: number;
 	total: number;
+        payload: string;
 };
 
 const BASE_URL = import.meta.env.VITE_POS_API_BASE ?? '';
