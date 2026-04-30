@@ -96,6 +96,7 @@
 			<!-- <span class="terminal-label">CASHIER TERMINAL</span> -->
 		</div>
 		<div class="topbar-right">
+			<a class="btn btn-ghost" href="/admin">ADMIN</a>
 			<!-- <span class="badge-operator">
 				<span class="badge-dot"></span>
 				Cashier
@@ -318,7 +319,7 @@
 
 	.topbar-left   { display: flex; align-items: center; }
 	.topbar-center { display: flex; justify-content: center; }
-	.topbar-right  { display: flex; justify-content: flex-end; }
+	.topbar-right  { display: flex; justify-content: flex-end; align-items: center; gap: 0.5rem; }
 
 	/* Scale down whatever BackButton renders */
 	.back-wrap {
