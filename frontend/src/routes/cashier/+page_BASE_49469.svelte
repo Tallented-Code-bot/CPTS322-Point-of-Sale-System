@@ -25,17 +25,12 @@
 	function getErrMsg(e: unknown): string {
 		if (e instanceof Error) return e.message;
 		if (typeof e === 'string') return e;
-		try {
-			return JSON.stringify(e);
-		} catch {
-			return 'Unknown error.';
-		}
+		try { return JSON.stringify(e); } catch { return 'Unknown error.'; }
 	}
 
 	async function scanAdd() {
 		error = '';
 		receiptMsg = '';
-
 		const trimmed = upc.trim();
 		if (!trimmed) return;
 		isScanning = true;
@@ -59,42 +54,27 @@
 		if (!isNaN(num) && num >= 0) setQty(upc, num);
 	}
 
-	function confirmClear() {
-		showClearConfirm = true;
-	}
+	function confirmClear() { showClearConfirm = true; }
 
 	function doClear() {
 		clearCart();
 		showClearConfirm = false;
-        }
-
-<<<<<<< HEAD
-	async function formatReceipt(payload: CheckoutPayload) {
-                //ITEM NAMES SHOULD NOT BE LONGER THAN 32 CHARS
-                let receipt = "";
-		for (const item of payload.items) {
-                    var curItem = await fetchProductByUPC(item.upc.trim());
-                    receipt += curItem.name + " ".repeat(32 - curItem.name.length) + item.qty.toString() + " $" + curItem.price.toFixed(2) + "\n";
-=======
-	async function formatRecipt(payload: CheckoutPayload) {
-		for (const _item in payload.items) {
-			const el = document.getElementById('textData');
-			const text = el instanceof HTMLInputElement || el instanceof HTMLTextAreaElement ? el.value : '';
-
-			const blob = new Blob([text], { type: 'text/plain' });
-			const link = document.createElement('a');
-			link.href = URL.createObjectURL(blob);
-			link.download = 'myTextFile.txt';
-			link.click();
->>>>>>> fb349577ea95b98d8553b961f84f2a734c826608
-		}
-                var blob = new Blob([receipt], { type: "text/plain" });
-                var link = document.createElement('a');
-                link.href = URL.createObjectURL(blob);
-                link.download = 'receipt.txt';
-                link.click();
 	}
 
+	async function formatRecipt(payload: CheckoutPayload){
+		for(var item in payload.items){
+			var text = document.getElementById("textData").value;
+            var blob = new Blob([text], { type: 'text/plain' });
+            var link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'myTextFile.txt';
+            link.click();
+		}
+	}
+
+	async function printRecipt(){
+
+	}
 
 	async function completeSale() {
 		error = '';
@@ -105,11 +85,8 @@
 			if (payload.items.length === 0) throw new Error('Cart is empty.');
 			if (paid < $total) throw new Error('Payment amount is insufficient.');
 			const res = await checkout(payload);
-                        receiptMsg = `Sale complete — Receipt #${res.receiptId}`;
-                        var temp = await fetchProductByUPC(payload.items[0].upc.trim())
-                        console.log(temp);
-                        formatReceipt(payload);
-                        clearCart();
+			receiptMsg = `Sale complete — Receipt #${res.receiptId}`;
+			clearCart();
 			paid = 0;
 		} catch (e) {
 			error = getErrMsg(e) || 'Checkout failed.';
@@ -123,6 +100,7 @@
 </script>
 
 <div class="pos">
+
 	<header class="topbar">
 		<div class="topbar-left">
 			<div class="back-wrap">
@@ -133,7 +111,6 @@
 			<!-- <span class="terminal-label">CASHIER TERMINAL</span> -->
 		</div>
 		<div class="topbar-right">
-			<a class="btn btn-ghost" href="/admin">ADMIN</a>
 			<!-- <span class="badge-operator">
 				<span class="badge-dot"></span>
 				Cashier
@@ -142,13 +119,12 @@
 	</header>
 
 	<main class="main">
+
 		<section class="panel cart-panel">
 			<div class="panel-title">
 				<!-- <span>CART</span> -->
 				{#if $cartItems.length > 0}
-					<span class="item-count"
-						>{$cartItems.length} item{$cartItems.length !== 1 ? 's' : ''}</span
-					>
+					<span class="item-count">{$cartItems.length} item{$cartItems.length !== 1 ? 's' : ''}</span>
 				{/if}
 			</div>
 
@@ -172,8 +148,7 @@
 
 			{#if error}
 				<div class="alert alert-error" role="alert">
-					<span class="alert-icon">✕</span>
-					{error}
+					<span class="alert-icon">✕</span> {error}
 				</div>
 			{/if}
 
@@ -212,7 +187,14 @@
 									<td class="mono upc-cell">{line.product.upc}</td>
 									<td class="num">${line.product.price.toFixed(2)}</td>
 									<td class="num qty-cell">
-										<input class="qty-input" type="number" min="0" value={line.qty} disabled />
+										<input
+											class="qty-input"
+											type="number"
+											min="0"
+											value={line.qty}
+											disabled
+										/>
+										
 									</td>
 									<td class="num line-total">
 										${(line.product.price * line.qty).toFixed(2)}
@@ -273,8 +255,7 @@
 				<div class="confirm-box">
 					<p>Clear all items?</p>
 					<div class="confirm-actions">
-						<button class="btn btn-ghost" on:click={() => (showClearConfirm = false)}>Cancel</button
-						>
+						<button class="btn btn-ghost" on:click={() => showClearConfirm = false}>Cancel</button>
 						<button class="btn btn-danger" on:click={doClear}>Clear</button>
 					</div>
 				</div>
@@ -300,17 +281,17 @@
 
 <style>
 	:root {
-		--bg: #0d1117;
+		--bg:      #0d1117;
 		--surface: #161b22;
-		--border: #21262d;
+		--border:  #21262d;
 		--border2: #30363d;
-		--text: #e6edf3;
-		--muted: #8b949e;
-		--accent: #f0b429;
+		--text:    #e6edf3;
+		--muted:   #8b949e;
+		--accent:  #f0b429;
 		--success: #3fb950;
-		--danger: #f85149;
-		--mono: 'JetBrains Mono', 'Fira Mono', 'Courier New', monospace;
-		--sans: 'DM Sans', 'Helvetica Neue', sans-serif;
+		--danger:  #f85149;
+		--mono:  'JetBrains Mono', 'Fira Mono', 'Courier New', monospace;
+		--sans:  'DM Sans', 'Helvetica Neue', sans-serif;
 		--label: 'Barlow Condensed', 'Arial Narrow', sans-serif;
 	}
 
@@ -345,24 +326,9 @@
 		background: var(--surface);
 	}
 
-<<<<<<< HEAD
-	.topbar-left {
-		display: flex;
-		align-items: center;
-	}
-	.topbar-center {
-		display: flex;
-		justify-content: center;
-	}
-	.topbar-right {
-		display: flex;
-		justify-content: flex-end;
-	}
-=======
 	.topbar-left   { display: flex; align-items: center; }
 	.topbar-center { display: flex; justify-content: center; }
-	.topbar-right  { display: flex; justify-content: flex-end; align-items: center; gap: 0.5rem; }
->>>>>>> fb349577ea95b98d8553b961f84f2a734c826608
+	.topbar-right  { display: flex; justify-content: flex-end; }
 
 	/* Scale down whatever BackButton renders */
 	.back-wrap {
@@ -391,8 +357,7 @@
 	}
 
 	.badge-dot {
-		width: 7px;
-		height: 7px;
+		width: 7px; height: 7px;
 		background: var(--success);
 		border-radius: 50%;
 		box-shadow: 0 0 6px var(--success);
@@ -417,12 +382,8 @@
 		background: var(--bg);
 	}
 
-	.cart-panel {
-		border-right: 1px solid var(--border);
-	}
-	.summary-panel {
-		background: var(--surface);
-	}
+	.cart-panel    { border-right: 1px solid var(--border); }
+	.summary-panel { background: var(--surface); }
 
 	.panel-title {
 		font-family: var(--label);
@@ -464,13 +425,8 @@
 		transition: border-color 0.15s;
 	}
 
-	.scan-input-wrap:focus-within {
-		border-color: var(--accent);
-	}
-	.scan-icon {
-		color: var(--muted);
-		font-size: 1rem;
-	}
+	.scan-input-wrap:focus-within { border-color: var(--accent); }
+	.scan-icon { color: var(--muted); font-size: 1rem; }
 
 	.scan-input {
 		flex: 1;
@@ -496,24 +452,14 @@
 	}
 
 	@keyframes slideIn {
-		from {
-			opacity: 0;
-			transform: translateY(-4px);
-		}
-		to {
-			opacity: 1;
-			transform: translateY(0);
-		}
+		from { opacity: 0; transform: translateY(-4px); }
+		to   { opacity: 1; transform: translateY(0); }
 	}
 
-	.alert-error {
-		background: rgba(248, 81, 73, 0.1);
-		border: 1px solid rgba(248, 81, 73, 0.3);
-		color: #ffa198;
-	}
+	.alert-error   { background: rgba(248,81,73,0.1);  border: 1px solid rgba(248,81,73,0.3);  color: #ffa198; }
 	.alert-success {
-		background: rgba(63, 185, 80, 0.1);
-		border: 1px solid rgba(63, 185, 80, 0.3);
+		background: rgba(63,185,80,0.1);
+		border: 1px solid rgba(63,185,80,0.3);
 		color: #56d364;
 		justify-content: space-between;
 		flex-wrap: wrap;
@@ -535,10 +481,7 @@
 		border: 1px solid rgba(240, 180, 41, 0.5);
 		padding: 0.35rem 0.85rem;
 		border-radius: 999px;
-		transition:
-			color 0.15s ease,
-			border-color 0.15s ease,
-			background 0.15s ease;
+		transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
 		flex: 0 0 auto;
 	}
 	.alert-link:hover,
@@ -547,22 +490,12 @@
 		background: var(--accent);
 		border-color: var(--accent);
 	}
-	.alert-icon {
-		font-size: 0.8rem;
-		flex-shrink: 0;
-	}
+	.alert-icon    { font-size: 0.8rem; flex-shrink: 0; }
 
 	/* ── TABLE ── */
-	.table-wrap {
-		flex: 1;
-		overflow: auto;
-	}
+	.table-wrap { flex: 1; overflow: auto; }
 
-	table {
-		width: 100%;
-		border-collapse: collapse;
-		font-size: 0.88rem;
-	}
+	table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
 
 	thead th {
 		font-family: var(--label);
@@ -575,10 +508,7 @@
 		text-align: left;
 	}
 
-	th.num,
-	td.num {
-		text-align: right;
-	}
+	th.num, td.num { text-align: right; }
 
 	.cart-row td {
 		padding: 0.65rem 0.6rem;
@@ -586,24 +516,12 @@
 		vertical-align: middle;
 	}
 
-	.cart-row:last-child td {
-		border-bottom: none;
-	}
-	.cart-row:hover td {
-		background: rgba(255, 255, 255, 0.02);
-	}
+	.cart-row:last-child td { border-bottom: none; }
+	.cart-row:hover td { background: rgba(255,255,255,0.02); }
 
-	.name-cell {
-		font-weight: 500;
-	}
-	.upc-cell {
-		font-family: var(--mono);
-		font-size: 0.78rem;
-		color: var(--muted);
-	}
-	.line-total {
-		font-weight: 600;
-	}
+	.name-cell  { font-weight: 500; }
+	.upc-cell   { font-family: var(--mono); font-size: 0.78rem; color: var(--muted); }
+	.line-total { font-weight: 600; }
 
 	.qty-input {
 		width: 58px;
@@ -619,12 +537,8 @@
 		transition: border-color 0.15s;
 	}
 
-	.qty-input:focus {
-		border-color: var(--accent);
-	}
-	.remove-cell {
-		text-align: right;
-	}
+	.qty-input:focus { border-color: var(--accent); }
+	.remove-cell { text-align: right; }
 
 	/* ── EMPTY STATE ── */
 	.empty-state {
@@ -639,10 +553,7 @@
 		font-size: 0.88rem;
 	}
 
-	.empty-icon {
-		font-size: 2.5rem;
-		opacity: 0.3;
-	}
+	.empty-icon { font-size: 2.5rem; opacity: 0.3; }
 
 	/* ── BUTTONS ── */
 	.btn {
@@ -654,37 +565,16 @@
 		border-radius: 7px;
 		border: none;
 		cursor: pointer;
-		transition:
-			opacity 0.15s,
-			transform 0.1s;
+		transition: opacity 0.15s, transform 0.1s;
 	}
 
-	.btn:disabled {
-		opacity: 0.4;
-		cursor: not-allowed;
-	}
-	.btn:not(:disabled):active {
-		transform: scale(0.97);
-	}
+	.btn:disabled { opacity: 0.4; cursor: not-allowed; }
+	.btn:not(:disabled):active { transform: scale(0.97); }
 
-	.btn-add {
-		background: var(--accent);
-		color: #0d1117;
-		min-width: 60px;
-	}
-	.btn-ghost {
-		background: transparent;
-		border: 1px solid var(--border2);
-		color: var(--muted);
-	}
-	.btn-ghost:hover:not(:disabled) {
-		border-color: var(--text);
-		color: var(--text);
-	}
-	.btn-danger {
-		background: var(--danger);
-		color: #fff;
-	}
+	.btn-add   { background: var(--accent); color: #0d1117; min-width: 60px; }
+	.btn-ghost { background: transparent; border: 1px solid var(--border2); color: var(--muted); }
+	.btn-ghost:hover:not(:disabled) { border-color: var(--text); color: var(--text); }
+	.btn-danger { background: var(--danger); color: #fff; }
 
 	.btn-checkout {
 		background: var(--text);
@@ -693,9 +583,7 @@
 		font-size: 0.82rem;
 	}
 
-	.btn-checkout:not(:disabled):hover {
-		background: var(--accent);
-	}
+	.btn-checkout:not(:disabled):hover { background: var(--accent); }
 
 	.btn-remove {
 		background: transparent;
@@ -706,23 +594,13 @@
 		padding: 0.25rem 0.4rem;
 		border-radius: 4px;
 		line-height: 1;
-		transition:
-			color 0.15s,
-			background 0.15s;
+		transition: color 0.15s, background 0.15s;
 	}
 
-	.btn-remove:hover {
-		color: var(--danger);
-		background: rgba(248, 81, 73, 0.1);
-	}
+	.btn-remove:hover { color: var(--danger); background: rgba(248,81,73,0.1); }
 
 	/* ── SUMMARY ── */
-	.summary-rows {
-		display: flex;
-		flex-direction: column;
-		gap: 0.5rem;
-		margin-bottom: 0.75rem;
-	}
+	.summary-rows { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 0.75rem; }
 
 	.sum-row {
 		display: flex;
@@ -731,9 +609,7 @@
 		font-size: 0.88rem;
 	}
 
-	.sum-row span:first-child {
-		color: var(--muted);
-	}
+	.sum-row span:first-child { color: var(--muted); }
 
 	.sum-total {
 		font-family: var(--label);
@@ -744,18 +620,10 @@
 		border-top: 1px solid var(--border);
 	}
 
-	.divider {
-		height: 1px;
-		background: var(--border);
-		margin: 0.85rem 0;
-	}
+	.divider { height: 1px; background: var(--border); margin: 0.85rem 0; }
 
 	/* ── PAY SECTION ── */
-	.pay-section {
-		display: flex;
-		flex-direction: column;
-		gap: 0.65rem;
-	}
+	.pay-section { display: flex; flex-direction: column; gap: 0.65rem; }
 
 	.pay-label {
 		font-family: var(--label);
@@ -776,15 +644,9 @@
 		transition: border-color 0.15s;
 	}
 
-	.pay-input-wrap:focus-within {
-		border-color: var(--accent);
-	}
+	.pay-input-wrap:focus-within { border-color: var(--accent); }
 
-	.currency-sign {
-		color: var(--muted);
-		font-family: var(--mono);
-		font-size: 0.9rem;
-	}
+	.currency-sign { color: var(--muted); font-family: var(--mono); font-size: 0.9rem; }
 
 	.pay-input {
 		flex: 1;
@@ -797,13 +659,7 @@
 		padding: 0.65rem 0;
 	}
 
-	.shortfall {
-		font-size: 0.78rem;
-		color: var(--danger);
-		margin: 0;
-		font-family: var(--label);
-		letter-spacing: 0.05em;
-	}
+	.shortfall { font-size: 0.78rem; color: var(--danger); margin: 0; font-family: var(--label); letter-spacing: 0.05em; }
 
 	.change-row {
 		font-family: var(--label);
@@ -813,15 +669,10 @@
 		padding: 0.6rem 0.75rem;
 		border-radius: 7px;
 		background: var(--border);
-		transition:
-			background 0.2s,
-			color 0.2s;
+		transition: background 0.2s, color 0.2s;
 	}
 
-	.change-row.highlight {
-		background: rgba(63, 185, 80, 0.12);
-		color: var(--success);
-	}
+	.change-row.highlight { background: rgba(63,185,80,0.12); color: var(--success); }
 
 	/* ── CONFIRM BOX ── */
 	.confirm-box {
@@ -833,15 +684,8 @@
 		animation: slideIn 0.2s ease;
 	}
 
-	.confirm-box p {
-		margin: 0 0 0.65rem;
-		font-size: 0.85rem;
-		color: var(--muted);
-	}
-	.confirm-actions {
-		display: flex;
-		gap: 0.5rem;
-	}
+	.confirm-box p { margin: 0 0 0.65rem; font-size: 0.85rem; color: var(--muted); }
+	.confirm-actions { display: flex; gap: 0.5rem; }
 
 	/* ── BOTTOM BAR ── */
 	.bottombar {
@@ -853,16 +697,9 @@
 		background: var(--surface);
 	}
 
-	.bottombar-left,
-	.bottombar-right {
-		display: flex;
-		align-items: center;
-		gap: 0.75rem;
-	}
+	.bottombar-left, .bottombar-right { display: flex; align-items: center; gap: 0.75rem; }
 
-	.mono {
-		font-family: var(--mono);
-	}
+	.mono { font-family: var(--mono); }
 
 	/* ── RESPONSIVE ── */
 	@media (max-width: 860px) {
@@ -872,19 +709,8 @@
 			overflow: auto;
 		}
 
-		.cart-panel {
-			border-right: none;
-			border-bottom: 1px solid var(--border);
-		}
-		.bottombar {
-			flex-direction: column;
-			gap: 0.6rem;
-			padding: 0.75rem 1.25rem;
-		}
-		.bottombar-left,
-		.bottombar-right {
-			width: 100%;
-			justify-content: center;
-		}
+		.cart-panel { border-right: none; border-bottom: 1px solid var(--border); }
+		.bottombar { flex-direction: column; gap: 0.6rem; padding: 0.75rem 1.25rem; }
+		.bottombar-left, .bottombar-right { width: 100%; justify-content: center; }
 	}
 </style>

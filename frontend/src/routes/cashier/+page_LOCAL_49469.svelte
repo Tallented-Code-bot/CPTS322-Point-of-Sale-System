@@ -68,25 +68,12 @@
 		showClearConfirm = false;
         }
 
-<<<<<<< HEAD
 	async function formatReceipt(payload: CheckoutPayload) {
                 //ITEM NAMES SHOULD NOT BE LONGER THAN 32 CHARS
                 let receipt = "";
 		for (const item of payload.items) {
                     var curItem = await fetchProductByUPC(item.upc.trim());
                     receipt += curItem.name + " ".repeat(32 - curItem.name.length) + item.qty.toString() + " $" + curItem.price.toFixed(2) + "\n";
-=======
-	async function formatRecipt(payload: CheckoutPayload) {
-		for (const _item in payload.items) {
-			const el = document.getElementById('textData');
-			const text = el instanceof HTMLInputElement || el instanceof HTMLTextAreaElement ? el.value : '';
-
-			const blob = new Blob([text], { type: 'text/plain' });
-			const link = document.createElement('a');
-			link.href = URL.createObjectURL(blob);
-			link.download = 'myTextFile.txt';
-			link.click();
->>>>>>> fb349577ea95b98d8553b961f84f2a734c826608
 		}
                 var blob = new Blob([receipt], { type: "text/plain" });
                 var link = document.createElement('a');
@@ -133,7 +120,6 @@
 			<!-- <span class="terminal-label">CASHIER TERMINAL</span> -->
 		</div>
 		<div class="topbar-right">
-			<a class="btn btn-ghost" href="/admin">ADMIN</a>
 			<!-- <span class="badge-operator">
 				<span class="badge-dot"></span>
 				Cashier
@@ -345,7 +331,6 @@
 		background: var(--surface);
 	}
 
-<<<<<<< HEAD
 	.topbar-left {
 		display: flex;
 		align-items: center;
@@ -358,11 +343,6 @@
 		display: flex;
 		justify-content: flex-end;
 	}
-=======
-	.topbar-left   { display: flex; align-items: center; }
-	.topbar-center { display: flex; justify-content: center; }
-	.topbar-right  { display: flex; justify-content: flex-end; align-items: center; gap: 0.5rem; }
->>>>>>> fb349577ea95b98d8553b961f84f2a734c826608
 
 	/* Scale down whatever BackButton renders */
 	.back-wrap {
