@@ -22,6 +22,13 @@ async function authedFetch(path: string, init: RequestInit = {}): Promise<Respon
 
 async function handle<T>(res: Response): Promise<T> {
 	if (!res.ok) {
+		const contentType = res.headers.get('content-type') ?? '';
+		if (contentType.includes('application/json')) {
+			const data = (await res.json().catch(() => null)) as unknown;
+			if (data && typeof data === 'object' && 'message' in data && typeof data.message === 'string') {
+				throw new Error(data.message);
+			}
+		}
 		const text = await res.text().catch(() => '');
 		throw new Error(text || `Request failed (${res.status})`);
 	}

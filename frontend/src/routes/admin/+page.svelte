@@ -395,7 +395,15 @@
 					aria-label="Close product dialog"
 					onclick={closeProductModal}
 					onkeydown={(e) => {
-						if (e.key === 'Escape' || e.key === 'Enter' || e.key === ' ') closeProductModal();
+						if (e.key === 'Escape') {
+							closeProductModal();
+							return;
+						}
+
+						if ((e.key === 'Enter' || e.key === ' ') && e.currentTarget === e.target) {
+							e.preventDefault();
+							closeProductModal();
+						}
 					}}
 				>
 					<div
@@ -528,7 +536,15 @@
 					aria-label="Close user dialog"
 					onclick={closeUserModal}
 					onkeydown={(e) => {
-						if (e.key === 'Escape' || e.key === 'Enter' || e.key === ' ') closeUserModal();
+						if (e.key === 'Escape') {
+							closeUserModal();
+							return;
+						}
+
+						if ((e.key === 'Enter' || e.key === ' ') && e.currentTarget === e.target) {
+							e.preventDefault();
+							closeUserModal();
+						}
 					}}
 				>
 					<div
