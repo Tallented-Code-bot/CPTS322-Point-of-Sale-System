@@ -66,35 +66,27 @@
 	function doClear() {
 		clearCart();
 		showClearConfirm = false;
-        }
-
-<<<<<<< HEAD
-	async function formatReceipt(payload: CheckoutPayload) {
-                //ITEM NAMES SHOULD NOT BE LONGER THAN 32 CHARS
-                let receipt = "";
-		for (const item of payload.items) {
-                    var curItem = await fetchProductByUPC(item.upc.trim());
-                    receipt += curItem.name + " ".repeat(32 - curItem.name.length) + item.qty.toString() + " $" + curItem.price.toFixed(2) + "\n";
-=======
-	async function formatRecipt(payload: CheckoutPayload) {
-		for (const _item in payload.items) {
-			const el = document.getElementById('textData');
-			const text = el instanceof HTMLInputElement || el instanceof HTMLTextAreaElement ? el.value : '';
-
-			const blob = new Blob([text], { type: 'text/plain' });
-			const link = document.createElement('a');
-			link.href = URL.createObjectURL(blob);
-			link.download = 'myTextFile.txt';
-			link.click();
->>>>>>> fb349577ea95b98d8553b961f84f2a734c826608
-		}
-                var blob = new Blob([receipt], { type: "text/plain" });
-                var link = document.createElement('a');
-                link.href = URL.createObjectURL(blob);
-                link.download = 'receipt.txt';
-                link.click();
 	}
 
+	async function formatReceipt(payload: CheckoutPayload) {
+		//ITEM NAMES SHOULD NOT BE LONGER THAN 32 CHARS
+		let receipt = '';
+		for (const item of payload.items) {
+			var curItem = await fetchProductByUPC(item.upc.trim());
+			receipt +=
+				curItem.name +
+				' '.repeat(32 - curItem.name.length) +
+				item.qty.toString() +
+				' $' +
+				curItem.price.toFixed(2) +
+				'\n';
+		}
+		var blob = new Blob([receipt], { type: 'text/plain' });
+		var link = document.createElement('a');
+		link.href = URL.createObjectURL(blob);
+		link.download = 'receipt.txt';
+		link.click();
+	}
 
 	async function completeSale() {
 		error = '';
@@ -105,11 +97,11 @@
 			if (payload.items.length === 0) throw new Error('Cart is empty.');
 			if (paid < $total) throw new Error('Payment amount is insufficient.');
 			const res = await checkout(payload);
-                        receiptMsg = `Sale complete — Receipt #${res.receiptId}`;
-                        var temp = await fetchProductByUPC(payload.items[0].upc.trim())
-                        console.log(temp);
-                        formatReceipt(payload);
-                        clearCart();
+			receiptMsg = `Sale complete — Receipt #${res.receiptId}`;
+			var temp = await fetchProductByUPC(payload.items[0].upc.trim());
+			console.log(temp);
+			formatReceipt(payload);
+			clearCart();
 			paid = 0;
 		} catch (e) {
 			error = getErrMsg(e) || 'Checkout failed.';
@@ -345,7 +337,6 @@
 		background: var(--surface);
 	}
 
-<<<<<<< HEAD
 	.topbar-left {
 		display: flex;
 		align-items: center;
@@ -358,11 +349,20 @@
 		display: flex;
 		justify-content: flex-end;
 	}
-=======
-	.topbar-left   { display: flex; align-items: center; }
-	.topbar-center { display: flex; justify-content: center; }
-	.topbar-right  { display: flex; justify-content: flex-end; align-items: center; gap: 0.5rem; }
->>>>>>> fb349577ea95b98d8553b961f84f2a734c826608
+	.topbar-left {
+		display: flex;
+		align-items: center;
+	}
+	.topbar-center {
+		display: flex;
+		justify-content: center;
+	}
+	.topbar-right {
+		display: flex;
+		justify-content: flex-end;
+		align-items: center;
+		gap: 0.5rem;
+	}
 
 	/* Scale down whatever BackButton renders */
 	.back-wrap {
