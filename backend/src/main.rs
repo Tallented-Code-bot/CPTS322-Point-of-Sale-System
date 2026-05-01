@@ -2,6 +2,7 @@
 extern crate rocket;
 
 mod api;
+mod auth;
 mod models;
 mod repository;
 
@@ -12,6 +13,9 @@ use std::path::{Path, PathBuf};
 use crate::api::{
     create_transaction, get_all_products, get_all_transactions, get_product_by_upc,
     get_transaction_by_id, push,
+    admin_create_product, admin_delete_product, admin_get_products, admin_patch_product,
+    admin_get_settings, admin_put_settings,
+    admin_create_staff_user, admin_get_staff_users, admin_patch_staff_user,
 };
 use crate::repository::MongoRepo;
 
@@ -55,7 +59,17 @@ async fn rocket() -> _ {
                 push,
                 get_all_transactions,
                 get_transaction_by_id,
-                create_transaction
+                create_transaction,
+                // Admin API
+                admin_get_products,
+                admin_create_product,
+                admin_patch_product,
+                admin_delete_product,
+                admin_get_staff_users,
+                admin_create_staff_user,
+                admin_patch_staff_user,
+                admin_get_settings,
+                admin_put_settings,
             ],
         )
         // Frontend and static files mounted at root

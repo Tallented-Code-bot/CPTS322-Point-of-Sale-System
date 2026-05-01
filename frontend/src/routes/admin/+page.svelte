@@ -3,32 +3,33 @@
 </svelte:head>
 
 <script lang="ts">
+	import {
+		createAdminProduct,
+		createAdminUser,
+		deleteAdminProduct,
+		getAdminProducts,
+		getAdminSettings,
+		getAdminUsers,
+		patchAdminProduct,
+		patchAdminUser,
+		putAdminSettings,
+		type AdminProduct,
+		type AdminStaffUser
+	} from '$lib/api/admin';
+	import { resolve } from '$app/paths';
+	import { onMount } from 'svelte';
+
 	type SectionKey = 'products' | 'users' | 'settings';
 
-	type Product = {
-		id: string;
-		upc: string;
-		name: string;
-		price: number;
-		qty: number;
-	};
-
-	type UserRow = {
-		id: string;
-		email: string;
-		role: 'Admin' | 'Manager' | 'Cashier';
-		status: 'Active' | 'Invited' | 'Suspended';
-	};
+	type Product = AdminProduct;
+	type UserRow = AdminStaffUser;
 
 	let activeSection = $state<SectionKey>('products');
+	let loading = $state(false);
+	let error = $state<string | null>(null);
 
 	let productSearch = $state('');
-	let products = $state<Product[]>([
-		{ id: 'p1', upc: '012345678905', name: 'House Blend Coffee (12oz)', price: 12.99, qty: 42 },
-		{ id: 'p2', upc: '049000006344', name: 'Sparkling Water - Lime', price: 1.49, qty: 180 },
-		{ id: 'p3', upc: '036000291452', name: 'Paper Towels - 6 Pack', price: 9.99, qty: 27 },
-		{ id: 'p4', upc: '041498264112', name: 'Pasta Sauce - Marinara', price: 3.79, qty: 63 }
-	]);
+	let products = $state<Product[]>([]);
 
 	const filteredProducts = $derived.by(() => {
 		const q = productSearch.trim().toLowerCase();
@@ -38,7 +39,7 @@
 				p.upc.toLowerCase().includes(q) ||
 				p.name.toLowerCase().includes(q) ||
 				String(p.price).includes(q) ||
-				String(p.qty).includes(q)
+				String(p.quantity).includes(q)
 			);
 		});
 	});
@@ -69,7 +70,7 @@
 		productForm.upc = p.upc;
 		productForm.name = p.name;
 		productForm.price = p.price.toFixed(2);
-		productForm.qty = String(p.qty);
+		productForm.qty = String(p.quantity);
 		productModalOpen = true;
 	}
 
@@ -78,12 +79,7 @@
 	}
 
 	let userSearch = $state('');
-	let users = $state<UserRow[]>([
-		{ id: 'u1', email: 'admin@pos.local', role: 'Admin', status: 'Active' },
-		{ id: 'u2', email: 'manager@pos.local', role: 'Manager', status: 'Active' },
-		{ id: 'u3', email: 'cashier1@pos.local', role: 'Cashier', status: 'Invited' },
-		{ id: 'u4', email: 'seasonal@pos.local', role: 'Cashier', status: 'Suspended' }
-	]);
+	let users = $state<UserRow[]>([]);
 
 	const filteredUsers = $derived.by(() => {
 		const q = userSearch.trim().toLowerCase();
@@ -94,6 +90,8 @@
 	});
 
 	let userModalOpen = $state(false);
+	let userModalMode = $state<'add' | 'edit'>('add');
+	let editingUserId = $state<string | null>(null);
 	let userForm = $state({
 		email: '',
 		role: 'Cashier' as UserRow['role'],
@@ -101,9 +99,20 @@
 	});
 
 	function openAddUser() {
+		userModalMode = 'add';
+		editingUserId = null;
 		userForm.email = '';
 		userForm.role = 'Cashier';
 		userForm.status = 'Invited';
+		userModalOpen = true;
+	}
+
+	function openEditUser(u: UserRow) {
+		userModalMode = 'edit';
+		editingUserId = u.id;
+		userForm.email = u.email;
+		userForm.role = u.role;
+		userForm.status = u.status;
 		userModalOpen = true;
 	}
 
@@ -112,6 +121,148 @@
 	}
 
 	let taxRate = $state('8.7');
+
+	function percentStringFromFraction(value: number): string {
+		const pct = value * 100;
+		if (!Number.isFinite(pct)) return '0';
+		const rounded = Math.round(pct * 100) / 100;
+		return String(rounded);
+	}
+
+	function fractionFromPercentString(value: string): number {
+		const parsed = Number.parseFloat(value);
+		if (!Number.isFinite(parsed)) return 0;
+		const fraction = parsed / 100;
+		return Math.min(1, Math.max(0, fraction));
+	}
+
+	async function refreshProducts() {
+		products = await getAdminProducts();
+	}
+
+	async function refreshUsers() {
+		users = await getAdminUsers();
+	}
+
+	async function refreshSettings() {
+		const next = await getAdminSettings();
+		taxRate = percentStringFromFraction(next.taxRate);
+	}
+
+	async function refreshAll() {
+		loading = true;
+		error = null;
+		try {
+			await Promise.all([refreshProducts(), refreshUsers(), refreshSettings()]);
+		} catch (e: unknown) {
+			error = e instanceof Error ? e.message : 'Failed to load admin data.';
+		} finally {
+			loading = false;
+		}
+	}
+
+	async function saveProduct() {
+		loading = true;
+		error = null;
+		try {
+			const price = Number.parseFloat(productForm.price);
+			const quantity = Number.parseInt(productForm.qty, 10);
+			if (!productForm.upc.trim() || !productForm.name.trim()) {
+				throw new Error('UPC and name are required.');
+			}
+			if (!Number.isFinite(price) || !Number.isFinite(quantity)) {
+				throw new Error('Price and quantity must be valid numbers.');
+			}
+
+			if (productModalMode === 'add') {
+				await createAdminProduct({
+					upc: productForm.upc.trim(),
+					name: productForm.name.trim(),
+					price,
+					quantity
+				});
+			} else {
+				if (!editingProductId) throw new Error('Missing product id.');
+				await patchAdminProduct(editingProductId, {
+					upc: productForm.upc.trim(),
+					name: productForm.name.trim(),
+					price,
+					quantity
+				});
+			}
+
+			await refreshProducts();
+			closeProductModal();
+		} catch (e: unknown) {
+			error = e instanceof Error ? e.message : 'Failed to save product.';
+		} finally {
+			loading = false;
+		}
+	}
+
+	async function removeProduct(id: string) {
+		loading = true;
+		error = null;
+		try {
+			await deleteAdminProduct(id);
+			await refreshProducts();
+		} catch (e: unknown) {
+			error = e instanceof Error ? e.message : 'Failed to remove product.';
+		} finally {
+			loading = false;
+		}
+	}
+
+	async function saveUser() {
+		loading = true;
+		error = null;
+		try {
+			if (!userForm.email.trim()) throw new Error('Email is required.');
+			if (userModalMode === 'add') {
+				await createAdminUser({ email: userForm.email.trim(), role: userForm.role });
+			} else {
+				if (!editingUserId) throw new Error('Missing user id.');
+				await patchAdminUser(editingUserId, { role: userForm.role, status: userForm.status });
+			}
+			await refreshUsers();
+			closeUserModal();
+		} catch (e: unknown) {
+			error = e instanceof Error ? e.message : 'Failed to save user.';
+		} finally {
+			loading = false;
+		}
+	}
+
+	async function disableUser(id: string) {
+		loading = true;
+		error = null;
+		try {
+			await patchAdminUser(id, { status: 'Suspended' });
+			await refreshUsers();
+		} catch (e: unknown) {
+			error = e instanceof Error ? e.message : 'Failed to disable user.';
+		} finally {
+			loading = false;
+		}
+	}
+
+	async function saveTaxRate() {
+		loading = true;
+		error = null;
+		try {
+			const nextRate = fractionFromPercentString(taxRate);
+			await putAdminSettings({ taxRate: nextRate });
+			await refreshSettings();
+		} catch (e: unknown) {
+			error = e instanceof Error ? e.message : 'Failed to save settings.';
+		} finally {
+			loading = false;
+		}
+	}
+
+	onMount(() => {
+		void refreshAll();
+	});
 
 	function formatMoney(value: number) {
 		return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(value);
@@ -159,16 +310,23 @@
 		</nav>
 
 		<div class="sidebarFooter">
-			<a class="subtleLink" href="/home">Back to Home</a>
+			<a class="subtleLink" href={resolve('/home')}>Back to Home</a>
 		</div>
 	</aside>
 
 	<main class="main">
+		{#if error}
+			<div class="alert" role="alert">{error}</div>
+		{/if}
+		{#if loading}
+			<div class="alert subtle" aria-live="polite">Loading…</div>
+		{/if}
+
 		{#if activeSection === 'products'}
 			<header class="sectionHeader">
 				<div>
 					<h1>Products</h1>
-					<p>Browse and manage your catalog. This is mock data only.</p>
+					<p>Browse and manage your catalog.</p>
 				</div>
 				<div class="headerActions">
 					<span class="pill">Inventory</span>
@@ -208,17 +366,17 @@
 										<div class="cellTitle">{p.name}</div>
 										<div class="cellSub">SKU: {p.id}</div>
 									</td>
-									<td class="num mono">{formatMoney(p.price)}</td>
-									<td class="num mono">{p.qty}</td>
-									<td class="actions">
-										<div class="rowActions">
-											<button type="button" class="btn" onclick={() => openEditProduct(p)}>Edit</button>
-											<button type="button" class="btn danger" onclick={() => {}}>
-												Remove
-											</button>
-										</div>
-									</td>
-								</tr>
+								<td class="num mono">{formatMoney(p.price)}</td>
+								<td class="num mono">{p.quantity}</td>
+								<td class="actions">
+									<div class="rowActions">
+										<button type="button" class="btn" onclick={() => openEditProduct(p)}>Edit</button>
+										<button type="button" class="btn danger" onclick={() => removeProduct(p.id)} disabled={loading}>
+											Remove
+										</button>
+									</div>
+								</td>
+							</tr>
 							{:else}
 								<tr>
 									<td colspan="5" class="empty">No matching products.</td>
@@ -291,7 +449,7 @@
 
 							<div class="modalFooter">
 								<button type="button" class="btn" onclick={closeProductModal}>Cancel</button>
-								<button type="button" class="btn primary" onclick={closeProductModal}>Save</button>
+								<button type="button" class="btn primary" onclick={saveProduct} disabled={loading}>Save</button>
 							</div>
 						</form>
 					</div>
@@ -301,7 +459,7 @@
 			<header class="sectionHeader">
 				<div>
 					<h1>Users</h1>
-					<p>Invite staff and manage access. Mock UI only (no Auth0 wiring).</p>
+					<p>Invite staff and manage access.</p>
 				</div>
 				<div class="headerActions">
 					<span class="pill">Roles</span>
@@ -338,15 +496,20 @@
 									<td>
 										<span class="status {u.status.toLowerCase()}">{u.status}</span>
 									</td>
-									<td class="actions">
-										<div class="rowActions">
-											<button type="button" class="btn" onclick={() => {}}>Edit</button>
-											<button type="button" class="btn danger" onclick={() => {}}>
-												Disable
-											</button>
-										</div>
-									</td>
-								</tr>
+								<td class="actions">
+									<div class="rowActions">
+										<button type="button" class="btn" onclick={() => openEditUser(u)}>Edit</button>
+										<button
+											type="button"
+											class="btn danger"
+											onclick={() => disableUser(u.id)}
+											disabled={loading || u.status === 'Suspended'}
+										>
+											Disable
+										</button>
+									</div>
+								</td>
+							</tr>
 							{:else}
 								<tr>
 									<td colspan="4" class="empty">No matching users.</td>
@@ -381,8 +544,10 @@
 					>
 						<div class="modalHeader">
 							<div>
-								<div class="modalTitle">Add User</div>
-								<div class="modalSub">Create an invite (mock UI).</div>
+								<div class="modalTitle">{userModalMode === 'add' ? 'Add User' : 'Edit User'}</div>
+								<div class="modalSub">
+									{userModalMode === 'add' ? 'Create an invite.' : `Editing ${editingUserId ?? ''}.`}
+								</div>
 							</div>
 							<button type="button" class="iconBtn" aria-label="Close" onclick={closeUserModal}>
 								×
@@ -392,7 +557,12 @@
 						<form class="form" onsubmit={(e) => e.preventDefault()}>
 							<label class="field">
 								<span>Email</span>
-								<input class="mono" placeholder="name@company.com" bind:value={userForm.email} />
+								<input
+									class="mono"
+									placeholder="name@company.com"
+									bind:value={userForm.email}
+									disabled={userModalMode === 'edit'}
+								/>
 							</label>
 							<div class="grid2">
 								<label class="field">
@@ -414,7 +584,7 @@
 							</div>
 							<div class="modalFooter">
 								<button type="button" class="btn" onclick={closeUserModal}>Cancel</button>
-								<button type="button" class="btn primary" onclick={closeUserModal}>Save</button>
+								<button type="button" class="btn primary" onclick={saveUser} disabled={loading}>Save</button>
 							</div>
 						</form>
 					</div>
@@ -424,7 +594,7 @@
 			<header class="sectionHeader">
 				<div>
 					<h1>Settings</h1>
-					<p>Configure system defaults. These controls are no-ops for now.</p>
+					<p>Configure system defaults.</p>
 				</div>
 				<div class="headerActions">
 					<span class="pill">Store</span>
@@ -448,7 +618,7 @@
 								<span class="affix">%</span>
 							</div>
 						</label>
-						<button type="button" class="btn primary" onclick={() => {}}>Save</button>
+						<button type="button" class="btn primary" onclick={saveTaxRate} disabled={loading}>Save</button>
 					</div>
 				</section>
 
@@ -817,6 +987,22 @@
 		text-align: center;
 		color: var(--muted);
 		padding: 1.2rem 0.95rem;
+	}
+
+	.alert {
+		margin: 0 0 1rem;
+		padding: 0.75rem 0.85rem;
+		border-radius: 14px;
+		border: 1px solid rgba(248, 81, 73, 0.28);
+		background: rgba(248, 81, 73, 0.08);
+		color: rgba(255, 255, 255, 0.9);
+		font-weight: 650;
+	}
+
+	.alert.subtle {
+		border-color: rgba(255, 255, 255, 0.12);
+		background: rgba(255, 255, 255, 0.04);
+		color: rgba(255, 255, 255, 0.82);
 	}
 
 	.mono {

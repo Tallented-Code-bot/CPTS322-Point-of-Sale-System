@@ -12,6 +12,8 @@ pub struct Product {
     pub name: Option<String>,
     pub price: Option<f32>,
     pub upc: Option<UPC>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub quantity: Option<u32>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]

@@ -23,3 +23,6 @@ Thumbs.db
 
 # Videos
 *.mp4
+
+deploy.sh
+AGENTS.md
