@@ -3,6 +3,7 @@
 	import { onMount } from 'svelte';
 	import { initializeAuth } from '$lib/stores/auth';
 	import favicon from '$lib/assets/mountain.png';
+        import background from '$lib/assets/background.png';
 
 	onMount(() => {
 		initializeAuth();
@@ -30,7 +31,7 @@
 		box-sizing: border-box;
 		/* background: #097319;
 		background: linear-gradient(0deg,rgba(9, 115, 25, 1) 0%, rgba(0, 129, 194, 1) 53%); */
-		background-image: url("background.png");
+		background-image: url("$lib/assets/background.png");
 		background-size: 100%;
 		background-repeat: no-repeat;
 	}
