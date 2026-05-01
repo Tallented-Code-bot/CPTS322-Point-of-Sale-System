@@ -65,17 +65,17 @@ export function removeItem(upc: string) {
 
 export function buildCheckoutPayload(paid: number) {
 	const items = get(cart);
-	const sub = get(subtotal);
-	const tx = get(tax);
 	const tot = get(total);
 	const change = round2(paid - tot);
 
 	return {
-		items: items.map((x) => ({ upc: String(x.product.upc), qty: x.qty, unitPrice: x.product.price })),
-		// subtotal: sub,
-		// tax: tx,
-		totalPrice: tot
-		// paid: round2(paid),
-		// change
+		items: items.map((x) => ({
+			upc: String(x.product.upc),
+			qty: x.qty,
+			unitPrice: x.product.price
+		})),
+		totalPrice: tot,
+		paid: round2(paid),
+		change
 	};
 }

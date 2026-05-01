@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
 	import {
 		addToCart,
 		cartItems,
@@ -113,7 +114,7 @@
 			<!-- <span class="terminal-label">CASHIER TERMINAL</span> -->
 		</div>
 		<div class="topbar-right">
-			<a class="btn btn-ghost" href="/admin">ADMIN</a>
+			<a class="btn btn-ghost" href={resolve('/admin')}>ADMIN</a>
 			<!-- <span class="badge-operator">
 				<span class="badge-dot"></span>
 				Cashier
@@ -161,7 +162,7 @@
 						<span class="alert-icon">✓</span>
 						<span>{receiptMsg}</span>
 					</div>
-					<a class="alert-link" href="/home">Go Home</a>
+					<a class="alert-link" href={resolve('/home')}>Go Home</a>
 				</div>
 			{/if}
 

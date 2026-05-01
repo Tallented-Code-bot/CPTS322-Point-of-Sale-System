@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
 	import { isAuthenticated, isLoggedIn, user } from '$lib/stores/auth';
 </script>
 
@@ -12,6 +13,6 @@
 	</div>
 {:else}
 	<div class="action-card">
-		Go to <a href="/">home</a>.
+		Go to <a href={resolve('/')}>home</a>.
 	</div>
 {/if}

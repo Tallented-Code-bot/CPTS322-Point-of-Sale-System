@@ -1,13 +1,13 @@
 <script lang="ts">
-import { goto } from '$app/navigation';
+	import { goto } from '$app/navigation';
+	import { resolve } from '$app/paths';
 
-async function Back(){
-    goto('./home');
-}
+	async function Back() {
+		await goto(resolve('/home'));
+	}
 </script>
 
-<button on:click={Back} class="button back"> Back </button>
-
+<button onclick={Back} class="button back">Back</button>
 
 <style>
 	.button {
@@ -18,9 +18,11 @@ async function Back(){
 		border-radius: 7px;
 		border: none;
 		cursor: pointer;
-		transition: opacity 0.15s, transform 0.1s;
-        background-color: rgb(145, 0, 0);
-    }
+		transition:
+			opacity 0.15s,
+			transform 0.1s;
+		background-color: rgb(145, 0, 0);
+	}
 
 	.button:focus {
 		box-shadow: 0 0 0 4px rgba(99, 179, 237, 0.5);

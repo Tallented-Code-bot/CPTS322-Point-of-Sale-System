@@ -1,7 +1,3 @@
-<svelte:head>
-	<title>Admin Dashboard</title>
-</svelte:head>
-
 <script lang="ts">
 	import {
 		createAdminProduct,
@@ -85,7 +81,11 @@
 		const q = userSearch.trim().toLowerCase();
 		if (!q) return users;
 		return users.filter((u) => {
-			return u.email.toLowerCase().includes(q) || u.role.toLowerCase().includes(q) || u.status.toLowerCase().includes(q);
+			return (
+				u.email.toLowerCase().includes(q) ||
+				u.role.toLowerCase().includes(q) ||
+				u.status.toLowerCase().includes(q)
+			);
 		});
 	});
 
@@ -269,6 +269,10 @@
 	}
 </script>
 
+<svelte:head>
+	<title>Admin Dashboard</title>
+</svelte:head>
+
 <div class="page">
 	<aside class="sidebar">
 		<div class="brand">
@@ -366,17 +370,24 @@
 										<div class="cellTitle">{p.name}</div>
 										<div class="cellSub">SKU: {p.id}</div>
 									</td>
-								<td class="num mono">{formatMoney(p.price)}</td>
-								<td class="num mono">{p.quantity}</td>
-								<td class="actions">
-									<div class="rowActions">
-										<button type="button" class="btn" onclick={() => openEditProduct(p)}>Edit</button>
-										<button type="button" class="btn danger" onclick={() => removeProduct(p.id)} disabled={loading}>
-											Remove
-										</button>
-									</div>
-								</td>
-							</tr>
+									<td class="num mono">{formatMoney(p.price)}</td>
+									<td class="num mono">{p.quantity}</td>
+									<td class="actions">
+										<div class="rowActions">
+											<button type="button" class="btn" onclick={() => openEditProduct(p)}
+												>Edit</button
+											>
+											<button
+												type="button"
+												class="btn danger"
+												onclick={() => removeProduct(p.id)}
+												disabled={loading}
+											>
+												Remove
+											</button>
+										</div>
+									</td>
+								</tr>
 							{:else}
 								<tr>
 									<td colspan="5" class="empty">No matching products.</td>
@@ -447,17 +458,29 @@
 							<div class="grid2">
 								<label class="field">
 									<span>Price</span>
-									<input inputmode="decimal" class="mono" placeholder="0.00" bind:value={productForm.price} />
+									<input
+										inputmode="decimal"
+										class="mono"
+										placeholder="0.00"
+										bind:value={productForm.price}
+									/>
 								</label>
 								<label class="field">
 									<span>Quantity</span>
-									<input inputmode="numeric" class="mono" placeholder="0" bind:value={productForm.qty} />
+									<input
+										inputmode="numeric"
+										class="mono"
+										placeholder="0"
+										bind:value={productForm.qty}
+									/>
 								</label>
 							</div>
 
 							<div class="modalFooter">
 								<button type="button" class="btn" onclick={closeProductModal}>Cancel</button>
-								<button type="button" class="btn primary" onclick={saveProduct} disabled={loading}>Save</button>
+								<button type="button" class="btn primary" onclick={saveProduct} disabled={loading}
+									>Save</button
+								>
 							</div>
 						</form>
 					</div>
@@ -479,7 +502,11 @@
 				<div class="toolbar">
 					<label class="search">
 						<span class="srOnly">Search users</span>
-						<input type="search" placeholder="Search by email, role, status…" bind:value={userSearch} />
+						<input
+							type="search"
+							placeholder="Search by email, role, status…"
+							bind:value={userSearch}
+						/>
 					</label>
 					<button type="button" class="btn primary" onclick={openAddUser}>Add User</button>
 				</div>
@@ -504,20 +531,21 @@
 									<td>
 										<span class="status {u.status.toLowerCase()}">{u.status}</span>
 									</td>
-								<td class="actions">
-									<div class="rowActions">
-										<button type="button" class="btn" onclick={() => openEditUser(u)}>Edit</button>
-										<button
-											type="button"
-											class="btn danger"
-											onclick={() => disableUser(u.id)}
-											disabled={loading || u.status === 'Suspended'}
-										>
-											Disable
-										</button>
-									</div>
-								</td>
-							</tr>
+									<td class="actions">
+										<div class="rowActions">
+											<button type="button" class="btn" onclick={() => openEditUser(u)}>Edit</button
+											>
+											<button
+												type="button"
+												class="btn danger"
+												onclick={() => disableUser(u.id)}
+												disabled={loading || u.status === 'Suspended'}
+											>
+												Disable
+											</button>
+										</div>
+									</td>
+								</tr>
 							{:else}
 								<tr>
 									<td colspan="4" class="empty">No matching users.</td>
@@ -562,7 +590,9 @@
 							<div>
 								<div class="modalTitle">{userModalMode === 'add' ? 'Add User' : 'Edit User'}</div>
 								<div class="modalSub">
-									{userModalMode === 'add' ? 'Create an invite.' : `Editing ${editingUserId ?? ''}.`}
+									{userModalMode === 'add'
+										? 'Create an invite.'
+										: `Editing ${editingUserId ?? ''}.`}
 								</div>
 							</div>
 							<button type="button" class="iconBtn" aria-label="Close" onclick={closeUserModal}>
@@ -600,7 +630,9 @@
 							</div>
 							<div class="modalFooter">
 								<button type="button" class="btn" onclick={closeUserModal}>Cancel</button>
-								<button type="button" class="btn primary" onclick={saveUser} disabled={loading}>Save</button>
+								<button type="button" class="btn primary" onclick={saveUser} disabled={loading}
+									>Save</button
+								>
 							</div>
 						</form>
 					</div>
@@ -634,7 +666,9 @@
 								<span class="affix">%</span>
 							</div>
 						</label>
-						<button type="button" class="btn primary" onclick={saveTaxRate} disabled={loading}>Save</button>
+						<button type="button" class="btn primary" onclick={saveTaxRate} disabled={loading}
+							>Save</button
+						>
 					</div>
 				</section>
 
@@ -676,7 +710,6 @@
 
 <style>
 	:root {
-		/* Match POS pages (home/cashier) */
 		--bg: #0d1117;
 		--surface: #161b22;
 		--border: #21262d;
@@ -689,14 +722,6 @@
 		--mono: 'JetBrains Mono', 'Fira Mono', 'Courier New', monospace;
 		--sans: 'DM Sans', 'Helvetica Neue', sans-serif;
 		--label: 'Barlow Condensed', 'Arial Narrow', sans-serif;
-
-		/* Admin-only helpers */
-		--panel: rgba(22, 27, 34, 0.82);
-		--panel2: rgba(22, 27, 34, 0.6);
-		--faint: rgba(230, 237, 243, 0.6);
-		--shadow: rgba(0, 0, 0, 0.6);
-		--accent2: #63b3ed;
-		--warning: #ffd166;
 	}
 
 	:global(body) {
@@ -717,6 +742,7 @@
 		grid-template-columns: 280px 1fr;
 		background: var(--bg);
 		color: var(--text);
+		font-family: var(--sans);
 		border-radius: 25px;
 		overflow: hidden;
 	}
@@ -727,8 +753,7 @@
 		padding: 1.1rem 1rem;
 		box-sizing: border-box;
 		border-right: 1px solid var(--border);
-		background: linear-gradient(180deg, rgba(22, 27, 34, 0.95), rgba(22, 27, 34, 0.75));
-		backdrop-filter: blur(10px);
+		background: var(--surface);
 		display: grid;
 		grid-template-rows: auto 1fr auto;
 		gap: 1.25rem;
@@ -748,9 +773,8 @@
 		place-items: center;
 		font-weight: 800;
 		letter-spacing: 0.04em;
-		color: rgba(13, 17, 23, 0.92);
-		background: linear-gradient(135deg, var(--accent), rgba(99, 179, 237, 0.95));
-		box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+		color: var(--bg);
+		background: var(--accent);
 	}
 
 	.appName {
@@ -779,8 +803,9 @@
 		border: 1px solid transparent;
 		background: transparent;
 		color: var(--muted);
-		font-weight: 650;
-		letter-spacing: 0.01em;
+		font-family: var(--label);
+		font-weight: 700;
+		letter-spacing: 0.12em;
 		cursor: pointer;
 		transition:
 			background 120ms ease,
@@ -796,9 +821,9 @@
 	}
 
 	.navItem.active {
-		background: linear-gradient(180deg, rgba(240, 180, 41, 0.18), rgba(240, 180, 41, 0.06));
-		border-color: rgba(240, 180, 41, 0.22);
-		color: rgba(255, 255, 255, 0.95);
+		background: rgba(255, 255, 255, 0.03);
+		border-color: rgba(240, 180, 41, 0.28);
+		color: var(--text);
 	}
 
 	.sidebarFooter {
@@ -863,11 +888,9 @@
 	}
 
 	.panel {
-		border-radius: 16px;
-		background: var(--panel);
+		border-radius: 25px;
+		background: var(--bg);
 		border: 1px solid var(--border);
-		box-shadow: 0 18px 60px var(--shadow);
-		backdrop-filter: blur(10px);
 	}
 
 	.toolbar {
@@ -876,7 +899,7 @@
 		justify-content: space-between;
 		gap: 0.75rem;
 		padding: 0.95rem;
-		border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+		border-bottom: 1px solid var(--border);
 	}
 
 	.search {
@@ -886,57 +909,63 @@
 
 	.search input {
 		width: 100%;
-		padding: 0.62rem 0.75rem;
-		border-radius: 12px;
-		border: 1px solid rgba(255, 255, 255, 0.1);
-		background: rgba(10, 13, 20, 0.55);
-		color: rgba(255, 255, 255, 0.92);
+		padding: 0.65rem 0.75rem;
+		border-radius: 8px;
+		border: 1px solid var(--border2);
+		background: var(--bg);
+		color: var(--text);
 		outline: none;
 		box-sizing: border-box;
 	}
 
 	.search input:focus {
-		border-color: rgba(240, 180, 41, 0.55);
-		box-shadow: 0 0 0 4px rgba(240, 180, 41, 0.15);
+		border-color: var(--accent);
 	}
 
 	.btn {
-		border-radius: 12px;
-		padding: 0.6rem 0.8rem;
-		border: 1px solid rgba(255, 255, 255, 0.12);
-		background: rgba(255, 255, 255, 0.04);
-		color: rgba(255, 255, 255, 0.88);
-		font-weight: 650;
+		font-family: var(--label);
+		font-size: 0.78rem;
+		letter-spacing: 0.12em;
+		font-weight: 700;
+		padding: 0.6rem 1rem;
+		border-radius: 7px;
+		border: 1px solid var(--border2);
+		background: transparent;
+		color: var(--muted);
 		cursor: pointer;
 		transition:
-			transform 120ms ease,
-			border-color 120ms ease,
-			background 120ms ease;
+			opacity 0.15s,
+			transform 0.1s,
+			border-color 0.15s,
+			color 0.15s;
 	}
 
-	.btn:hover {
-		transform: translateY(-1px);
-		border-color: rgba(255, 255, 255, 0.18);
-		background: rgba(255, 255, 255, 0.06);
+	.btn:disabled {
+		opacity: 0.4;
+		cursor: not-allowed;
 	}
-
-	.btn:active {
-		transform: translateY(0);
+	.btn:not(:disabled):active {
+		transform: scale(0.97);
+	}
+	.btn:hover:not(:disabled) {
+		border-color: var(--text);
+		color: var(--text);
 	}
 
 	.btn.primary {
-		border-color: rgba(240, 180, 41, 0.35);
-		background: linear-gradient(135deg, rgba(240, 180, 41, 0.22), rgba(240, 180, 41, 0.12));
-		color: rgba(255, 255, 255, 0.94);
+		background: var(--accent);
+		border-color: var(--accent);
+		color: var(--bg);
 	}
 
-	.btn.primary:hover {
-		border-color: rgba(240, 180, 41, 0.5);
+	.btn.primary:hover:not(:disabled) {
+		opacity: 0.95;
 	}
 
 	.btn.danger {
-		border-color: rgba(248, 81, 73, 0.35);
-		color: rgba(255, 255, 255, 0.9);
+		background: var(--danger);
+		border-color: var(--danger);
+		color: #fff;
 	}
 
 	.tableWrap {
@@ -952,24 +981,24 @@
 
 	.table thead th {
 		text-align: left;
-		font-size: 0.85rem;
-		letter-spacing: 0.02em;
-		text-transform: uppercase;
-		color: var(--faint);
-		padding: 0.85rem 0.95rem;
-		background: rgba(255, 255, 255, 0.02);
-		border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+		font-family: var(--label);
+		font-size: 0.65rem;
+		letter-spacing: 0.15em;
+		color: var(--muted);
+		font-weight: 700;
+		padding: 0.5rem 0.95rem;
+		border-bottom: 1px solid var(--border);
 	}
 
 	.table tbody td {
-		padding: 0.85rem 0.95rem;
-		border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-		color: rgba(255, 255, 255, 0.86);
+		padding: 0.65rem 0.95rem;
+		border-bottom: 1px solid var(--border);
+		color: var(--text);
 		vertical-align: middle;
 	}
 
 	.table tbody tr:hover td {
-		background: rgba(255, 255, 255, 0.03);
+		background: rgba(255, 255, 255, 0.02);
 	}
 
 	.table .num {
@@ -996,7 +1025,7 @@
 	.cellSub {
 		margin-top: 0.2rem;
 		font-size: 0.85rem;
-		color: var(--faint);
+		color: var(--muted);
 	}
 
 	.empty {
@@ -1008,17 +1037,17 @@
 	.alert {
 		margin: 0 0 1rem;
 		padding: 0.75rem 0.85rem;
-		border-radius: 14px;
-		border: 1px solid rgba(248, 81, 73, 0.28);
-		background: rgba(248, 81, 73, 0.08);
-		color: rgba(255, 255, 255, 0.9);
+		border-radius: 8px;
+		border: 1px solid rgba(248, 81, 73, 0.3);
+		background: rgba(248, 81, 73, 0.1);
+		color: #ffa198;
 		font-weight: 650;
 	}
 
 	.alert.subtle {
-		border-color: rgba(255, 255, 255, 0.12);
-		background: rgba(255, 255, 255, 0.04);
-		color: rgba(255, 255, 255, 0.82);
+		border-color: var(--border2);
+		background: var(--surface);
+		color: var(--muted);
 	}
 
 	.mono {
@@ -1073,7 +1102,7 @@
 	}
 
 	.status.suspended::before {
-		background: var(--warning);
+		background: var(--danger);
 	}
 
 	.modalOverlay {
@@ -1088,11 +1117,10 @@
 
 	.modal {
 		width: min(720px, 92vw);
-		border-radius: 18px;
-		border: 1px solid var(--border2);
-		background: linear-gradient(180deg, rgba(28, 34, 47, 0.92), rgba(17, 21, 31, 0.86));
+		border-radius: 25px;
+		border: 1px solid var(--border);
+		background: var(--surface);
 		box-shadow: 0 26px 90px rgba(0, 0, 0, 0.65);
-		backdrop-filter: blur(12px);
 		overflow: hidden;
 	}
 
@@ -1102,7 +1130,7 @@
 		justify-content: space-between;
 		gap: 1rem;
 		padding: 1rem 1rem 0.85rem;
-		border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+		border-bottom: 1px solid var(--border);
 	}
 
 	.modalTitle {
@@ -1121,17 +1149,18 @@
 	.iconBtn {
 		width: 40px;
 		height: 40px;
-		border-radius: 12px;
-		border: 1px solid rgba(255, 255, 255, 0.12);
-		background: rgba(255, 255, 255, 0.05);
-		color: rgba(255, 255, 255, 0.85);
+		border-radius: 8px;
+		border: 1px solid var(--border2);
+		background: transparent;
+		color: var(--muted);
 		font-size: 1.4rem;
 		line-height: 1;
 		cursor: pointer;
 	}
 
 	.iconBtn:hover {
-		background: rgba(255, 255, 255, 0.08);
+		border-color: var(--text);
+		color: var(--text);
 	}
 
 	.form {
@@ -1141,13 +1170,13 @@
 	.field {
 		display: grid;
 		gap: 0.35rem;
-		color: rgba(255, 255, 255, 0.88);
+		color: var(--text);
 		font-weight: 650;
 	}
 
 	.field span {
 		font-size: 0.9rem;
-		color: rgba(255, 255, 255, 0.8);
+		color: var(--muted);
 		font-weight: 650;
 	}
 
@@ -1155,18 +1184,17 @@
 	.field select {
 		width: 100%;
 		padding: 0.65rem 0.75rem;
-		border-radius: 12px;
-		border: 1px solid rgba(255, 255, 255, 0.12);
-		background: rgba(10, 13, 20, 0.55);
-		color: rgba(255, 255, 255, 0.92);
+		border-radius: 8px;
+		border: 1px solid var(--border2);
+		background: var(--bg);
+		color: var(--text);
 		outline: none;
 		box-sizing: border-box;
 	}
 
 	.field input:focus,
 	.field select:focus {
-		border-color: rgba(240, 180, 41, 0.55);
-		box-shadow: 0 0 0 4px rgba(240, 180, 41, 0.15);
+		border-color: var(--accent);
 	}
 
 	.grid2 {
@@ -1243,14 +1271,14 @@
 		align-items: center;
 		gap: 0.75rem;
 		padding: 0.75rem;
-		border-radius: 14px;
-		border: 1px solid rgba(255, 255, 255, 0.08);
-		background: rgba(255, 255, 255, 0.03);
+		border-radius: 8px;
+		border: 1px solid var(--border2);
+		background: var(--bg);
 	}
 
 	.settingKey {
 		font-weight: 750;
-		color: rgba(255, 255, 255, 0.9);
+		color: var(--text);
 	}
 
 	.settingSub {

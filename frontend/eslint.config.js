@@ -36,6 +36,11 @@ export default defineConfig(
 				parser: ts.parser,
 				svelteConfig
 			}
+		},
+
+		rules: {
+			// Work around a crash in @typescript-eslint/no-unused-vars when linting Svelte files.
+			'@typescript-eslint/no-unused-vars': 'off'
 		}
 	}
 );
