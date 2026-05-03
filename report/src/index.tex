@@ -181,8 +181,8 @@ He has experience in a variety of programming languages, including Python, Java,
 
 \subsection{Use Cases}
 
-The major use cases of this software is to facilitate retail transactions at the
-point of sale. This requires secure interaction with a backend database, and requires
+The major use case of this software is to facilitate retail transactions at the
+point of sale. This requires secure interaction with a backend database, and of 
 the frontend to have support for multiple input methods such as touch, pointer, and
 keyboard. Since the end goal of the project is to be a near drop-in replacement for
 any existing point of sale system, we intend on using standard communication protocals
@@ -248,8 +248,8 @@ Alternate path & User also has the option to pay with cash. \\ \hline
 Related Requirements & Payment finished, items removed from database. \\ \hline
 \end{tabular}\vspace{2em}
 
-\textbf{Cash}
-\begin{tabular}{|c|c|}\hline
+\textbf{Cash}\\
+\begin{tabular}{|c|c|} \hline
 Pre-condition & User selected to either create void transaction or \\
 & user selected for cash payment. \\ \hline
 Post-condition & Change is made and traded by user. \\ \hline
@@ -258,6 +258,7 @@ Basic Path & Register is opened, user makes appropriate change, state ends\\
 Alternate Path & User also has the option to pay wity card. \\ \hline
 Related Requirments & Payment finished, items removed from database. \\ \hline 
 \end{tabular}\vspace{2em}
+\newpage
 
 \textbf{Payment finished, items removed from database}
 \begin{tabular}{|c|c|}\hline
@@ -363,7 +364,7 @@ The system that is created is one which accomodates the following functions:
 
 following these requirements, the system will take on a Client-Server Archetecture, with
 the backend acting as a server, and the multiple POS terminals acting as its clients.\par
-This approach has many benefits, such as...
+This approach has many benefits, such as:
 
 
 \begin{enumerate}
@@ -425,15 +426,12 @@ The first screen the user will see is the login screen. Here the user can log in
 account; no other pages can be accessed until the user is logged in.\par
 Once the user is logged in, they are presented with the main screen. The main screen is the checkout
 screen, where items can be scanned in to be included in the transaction.\par
-At the top of the main screen is an info bar containing information, such as the time, logged-in
-user, and other relevant information. At one end of the bar, there is a menu containing some options (log out, 
-user profile, etc.). If the logged-in user has admin privilages, there will also be an option to
+At the top of the screen, there is a bar containing the log out button, and 
+if the logged-in user has admin privilages, there will also be an option to
 go to the admin settings page.\par
 The bulk of the main page shows the items that are to be purchased including name, quantity,
 and price. At the bottom of this view, there will be a line showing the total price and quantity.\par
-At the bottom of the main page there will be another menu containing the typical actions that would
-accessed during checkout. These include a checkout button, a reset-transaction button, a textbox to manually enter
-product codes, a ``find product by name'' button, and anything else needed.\par
+At the bottom of the main page there is a checkout button.
 When the ``checkout'' button is presseed, the program enters the checkout screen. Here, a total
 will be displayed, along with tax and other details. There will be buttons for the user to pick between cash or card.
 Pushing ``cash''s will prompt the user to enter the cash recieved, and display what
@@ -510,7 +508,7 @@ UPC entry & Frontend & Attempting to add an invalid UPC & Descriptive, unobsusiv
   Functional testing\\
   \begin{tabular}{|p{1.9cm}|p{1.9cm}|p{1.9cm}|p{1.9cm}|p{1.9cm}|p{1.9cm}|}\hline
   Component & Front/Back-end & Description & Expected Result & Observed Result & Pass/Fail\\ \hline
-  Checkout Screen Immutability & Frontend & Provided item list is unable to be changed in any way, at the checkout screen & Due to the nature of backend storage, any visual edits via (F12) inspect or by other means will be purely visual & All items displayed are uneditable in F12 inspect, or otherwise. & Pass \\ \hline
+  Authentification Bypass & Frontend & You cannot edit the URL of the website to navigate to pages you otherwise should not have access to. & This will not work because the app checks for authentication before it loads the page. & These systems work, and you must log in. & Pass \\ \hline
   \end{tabular}
 \item
   Performance testing\\
@@ -528,7 +526,7 @@ UPC entry & Frontend & Attempting to add an invalid UPC & Descriptive, unobsusiv
   User acceptance testing\\
   \begin{tabular}{|p{1.9cm}|p{1.9cm}|p{1.9cm}|p{1.9cm}|p{1.9cm}|p{1.9cm}|}\hline
   Component & Front/Back-end & Description & Expected Result & Observed Result & Pass/Fail\\ \hline
-  Logging in & None & Auth0 should be capable of logging in users through both local accounts and "sign in with". & Behavior works as expected, user info is made avalable. & Pass \\ \hline
+  Logging in & None & Auth0 should be capable of logging in users through both local accounts and "sign in with". & Behavior works as expected, user info is made avalable.& Both options do work, and the data is avaliable through MongoDB in the app to an admin level profile. & Pass \\ \hline
   \end{tabular}
 \end{itemize}
 \end{center}
@@ -573,6 +571,7 @@ MongoDB & NoSQL database used for storing product codes. \\
 Flowbyte Svelte & Used to provide some pre-build UI nodes, such as buttons. \\
 Auth-0 & Implements easy login-logout functionality. \\
 Git/Github & Source control \\
+VITE & Required for Sveltekit, also speeds up the site. \\
 
 \bottomrule
 \end{longtable}
@@ -582,6 +581,7 @@ Git/Github & Source control \\
 % libraries. This includes both programming languages and markup
 % languages.
 
+\begin{center}
 \begin{longtable}{p{0.25\linewidth}p{0.25\linewidth}p{0.25\linewidth}p{0.25\linewidth}}
 \toprule
 \multicolumn{4}{c}{Languages Used in Project} \\
@@ -589,6 +589,7 @@ Git/Github & Source control \\
 JavaScript/TypeScript & Rust & CSS & \LaTeX \\
 \bottomrule
 \end{longtable}
+\end{center}
 
 \section{Description of Final
 Prototype}
@@ -738,7 +739,13 @@ Recommendations}
 % discuss the problems and missing features in the final prototype and
 % should describe the possible solution approaches.
 
-Our team is aware of this section, however it is yet to be implemented.
+
+The biggest limitation of our software is that it is not able to process card transactions.
+As it is set up right now, the system will work fine for a cash only workflow, but an API to process
+cards is missing.\par
+Our system also lacks the nessecary interfaces and general programming to accept device peripherals
+one would expect to be able to hook up to a POS system, most notably, a barcode reader. As of right now,
+all barcodes must be implemented by hand, which is not ideal.
 
 \subsection{Future Work}
 
@@ -748,6 +755,10 @@ Our team is aware of this section, however it is yet to be implemented.
 
 Future work includes greater user customizability and integraded suppport for
 external devices such as recipt printers and barcode scanners.
+
+We had also planned from the beginning to be able to process card transactions, and
+although this was very close to happening, it was unfortunetly not able to be implemented
+due to time constraints.
 
 \section{Acknowledgements}
 
@@ -810,7 +821,24 @@ Reporting}
 %   discussion of the feedback received
 % \end{enumerate}
 
-Our team is aware of this section, although it is yet to be implemented.
+Unit Testing Output \par
+\includegraphics[width=\textwidth]{Unit Test.png} \par
+
+Integration Testing Output \par
+\includegraphics[width=\textwidth]{integrationTesting.png} \par
+
+Functional Testing (This is what happens when you try to just edit the URL) \par
+\includegraphics[width=\textwidth]{functionalTesting.png} \par
+
+Preformance Testing (approx. 800x600 window) \par 
+\includegraphics[width=\textwidth]{preformanceTesting.png} \par
+
+Standards and Constraints Testing \par
+https://wave.webaim.org/
+
+User Acceptance Testing (viewed through MongoDB) One of use uses the local login feature, one of us uses google sign-in\par 
+\includegraphics[width=\textwidth]{userAcceptance.png} \par
+
 
 \section{Appendix C - Project
 Management}
